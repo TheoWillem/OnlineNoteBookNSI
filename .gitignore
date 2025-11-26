@@ -1,0 +1,73 @@
+# Fichiers système
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Éditeurs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.settings/
+
+# Logs
+*.log
+logs/
+
+# Dépendances (si vous ajoutez Node.js)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Cache Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Environnements virtuels Python
+venv/
+env/
+ENV/
+.venv
+
+# Distribution
+dist/
+build/
+*.egg-info/
+
+# Sauvegardes
+*.bak
+*.backup
+*~
+
+# Fichiers temporaires
+tmp/
+temp/
+*.tmp
+
+# Fichiers de configuration locaux
+.env
+.env.local
+config.local.json
+
+# Cache des navigateurs
+.cache/
+
+# Fichiers de test
+test/
+tests/__pycache__/
+
+# Documentation générée
+docs/_build/
+
+# Système de contrôle de version
+.svn/
+.hg/
+
+# Fichiers spécifiques au projet (optionnel)
+# cours/brouillon.md
+# cours/old/
