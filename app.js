@@ -330,6 +330,22 @@ async function detectAndLoadPackages(code) {
                 await pyodide.loadPackage(pkg);
                 loadedPackages.add(pkg);
                 console.log(`✅ ${pkg} chargé`);
+                
+                // Si matplotlib est chargé, configurer le backend non-interactif
+                if (pkg === 'matplotlib') {
+                    await pyodide.runPythonAsync(`
+                        import matplotlib
+                        matplotlib.use('Agg')
+                        import matplotlib.pyplot as plt
+                        plt.ioff()
+                        
+                        # Supprimer les warnings matplotlib
+                        import warnings
+                        warnings.filterwarnings('ignore', message='.*non-GUI backend.*')
+                        warnings.filterwarnings('ignore', category=UserWarning, module='matplotlib')
+                    `);
+                    console.log('✅ Matplotlib configuré en mode non-interactif');
+                }
             } catch (error) {
                 console.warn(`⚠️ Package ${pkg} non disponible dans Pyodide, tentative via micropip...`);
                 try {
@@ -359,20 +375,29 @@ async function runPythonCode(editorId) {
     const code = editorData.editor.getValue();
     const outputElement = document.getElementById(`output-${editorId.replace('editor-', '')}`);
     
-    // Afficher la sortie
-    outputElement.classList.remove('hidden');
-    outputElement.innerHTML = '<div class="loading"></div> Exécution en cours...';
-    
     try {
         // Détecter et charger les packages nécessaires
         await detectAndLoadPackages(code);
         
-        // Réinitialiser les flux de sortie
+        // Réinitialiser les flux de sortie et configurer matplotlib
         await pyodide.runPythonAsync(`
             import sys
             import io
             sys.stdout = io.StringIO()
             sys.stderr = io.StringIO()
+            
+            # Désactiver le backend interactif matplotlib pour éviter l'affichage automatique
+            try:
+                import matplotlib
+                matplotlib.use('Agg')  # Backend non-interactif
+                import matplotlib.pyplot as plt
+                plt.ioff()  # Désactiver le mode interactif
+                
+                # Supprimer le warning "cannot show the figure"
+                import warnings
+                warnings.filterwarnings('ignore', message='.*non-GUI backend.*')
+            except:
+                pass
         `);
         
         // Exécuter le code
@@ -382,6 +407,31 @@ async function runPythonCode(editorId) {
         const stdout = await pyodide.runPythonAsync('sys.stdout.getvalue()');
         const stderr = await pyodide.runPythonAsync('sys.stderr.getvalue()');
         
+        // Vérifier s'il y a des figures matplotlib (si matplotlib est chargé)
+        let hasFigures = false;
+        if (loadedPackages.has('matplotlib')) {
+            try {
+                hasFigures = await pyodide.runPythonAsync(`
+                    import matplotlib.pyplot as plt
+                    bool(plt.get_fignums())
+                `);
+                
+                if (hasFigures) {
+                    console.log('🎨 Matplotlib détecté - Affichage dans la modal uniquement');
+                    // Afficher les graphiques dans la modal avec la sortie texte
+                    await showMatplotlibFigures(stdout, stderr);
+                    // MASQUER la zone de sortie complètement
+                    outputElement.classList.add('hidden');
+                    outputElement.innerHTML = '';
+                    console.log('✅ Zone de sortie cachée:', outputElement.classList.contains('hidden'));
+                    return; // Ne pas afficher la sortie texte à droite
+                }
+            } catch (e) {
+                console.warn('Matplotlib check failed:', e);
+            }
+        }
+        
+        // Si pas de graphique matplotlib, afficher la sortie normalement
         let output = '';
         
         if (stdout) {
@@ -392,40 +442,39 @@ async function runPythonCode(editorId) {
             output += `<span style="color: #ef4444;">${stderr}</span>`;
         }
         
-        // Vérifier s'il y a des figures matplotlib (si matplotlib est chargé)
-        if (loadedPackages.has('matplotlib')) {
-            try {
-                const hasFigures = await pyodide.runPythonAsync(`
-                    import matplotlib.pyplot as plt
-                    bool(plt.get_fignums())
-                `);
-                
-                if (hasFigures) {
-                    await showMatplotlibFigures();
-                    output += '\n<span style="color: #10b981;">✓ Graphique affiché dans une fenêtre séparée</span>';
-                }
-            } catch (e) {
-                console.warn('Matplotlib check failed:', e);
-            }
-        }
-        
         if (!output) {
             output = '<span class="code-output-empty">Code exécuté avec succès (aucune sortie)</span>';
         }
         
+        // Afficher la zone de sortie
+        outputElement.classList.remove('hidden');
         outputElement.innerHTML = output;
         
     } catch (error) {
         console.error('Erreur Python:', error);
+        outputElement.classList.remove('hidden');
         outputElement.innerHTML = `<span style="color: #ef4444;">❌ Erreur: ${error.message}</span>`;
     }
 }
 
-async function showMatplotlibFigures() {
+async function showMatplotlibFigures(stdout, stderr) {
     const modal = document.getElementById('outputModal');
     const modalBody = document.getElementById('modalBody');
     
-    modalBody.innerHTML = '<h2>📊 Graphique Matplotlib</h2><div id="matplotlib-container"></div>';
+    // Préparer le contenu avec sortie texte et graphiques
+    let textOutput = '';
+    if (stdout && stdout.trim()) {
+        textOutput += `<div style="background: #1e293b; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; font-family: 'Courier New', monospace; white-space: pre-wrap; color: #e2e8f0;">${stdout}</div>`;
+    }
+    if (stderr && stderr.trim()) {
+        textOutput += `<div style="background: #7f1d1d; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; font-family: 'Courier New', monospace; white-space: pre-wrap; color: #fca5a5;">${stderr}</div>`;
+    }
+    
+    modalBody.innerHTML = `
+        <h2>📊 Résultat de l'Exécution</h2>
+        ${textOutput}
+        <div id="matplotlib-container"></div>
+    `;
     
     try {
         // Convertir les figures matplotlib en base64
@@ -470,11 +519,29 @@ async function showMatplotlibFigures() {
         }
         
     } catch (error) {
-        console.error('Erreur matplotlib:', error);
+        console.error('❌ Erreur matplotlib:', error);
         modalBody.innerHTML = `
             <h2>❌ Erreur</h2>
             <p style="color: #ef4444;">Impossible d'afficher le graphique: ${error.message}</p>
         `;
+    }
+    
+    // Nettoyage matplotlib (en dehors du try/catch pour éviter les faux messages d'erreur)
+    try {
+        // Fermer toutes les figures matplotlib
+        await pyodide.runPythonAsync(`
+            import matplotlib.pyplot as plt
+            plt.close('all')
+        `);
+        
+        // Supprimer tous les éléments matplotlib qui auraient pu être créés dans le DOM
+        const matplotlibElements = document.querySelectorAll('[id^="matplotlib_"]');
+        matplotlibElements.forEach(el => {
+            console.log('🗑️ Suppression widget matplotlib:', el.id);
+            el.remove();
+        });
+    } catch (cleanupError) {
+        console.warn('⚠️ Erreur lors du nettoyage matplotlib (non critique):', cleanupError);
     }
     
     modal.classList.add('active');
