@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cours NSI - Notebook Interactif</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/monaco-editor@0.44.0/min/vs/editor/editor.main.css">
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="logo">
+            <h2>📚 Cours NSI</h2>
+        </div>
+        <div class="course-list" id="courseList">
+            <!-- La liste des cours sera chargée ici -->
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="toolbar">
+            <button id="toggleSidebar" class="btn btn-secondary">☰</button>
+            <h1 id="courseTitle">Bienvenue</h1>
+        </div>
+        
+        <div class="content-container">
+            <div id="courseContent" class="course-content">
+                <div class="info-box note">
+                    <strong>📖 Bienvenue sur la plateforme de cours NSI</strong>
+                    <p>Sélectionnez un cours dans le menu de gauche pour commencer.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal pour les graphiques et sorties -->
+        <div id="outputModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div id="modalBody"></div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.44.0/min/vs/loader.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

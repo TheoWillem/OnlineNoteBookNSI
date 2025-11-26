@@ -1,0 +1,93 @@
+
+   ____                            _   _  _____ _____ 
+  / ___|___  _   _ _ __ ___       | \ | |/ ____|_   _|
+ | |   / _ \| | | | '__/ __|      |  \| | (___   | |  
+ | |__| (_) | |_| | |  \__ \      | |\  |\___ \  | |  
+  \____\___/ \__,_|_|  |___/      |_| \_|____/  |_|  
+                                                      
+ ================================================================
+           📚 SITE WEB DE COURS NSI INTERACTIF 🐍
+ ================================================================
+
+Votre site de cours NSI est maintenant COMPLÈTEMENT configuré ! 🎉
+
+📦 CONTENU :
+   ✓ 6 cours complets en Python
+   ✓ Éditeur Monaco intégré
+   ✓ Exécution Python avec Pyodide
+   ✓ Support Matplotlib
+   ✓ Design responsive
+   ✓ Documentation complète
+
+🚀 POUR DÉMARRER :
+
+   1. Ouvrez un terminal dans ce dossier
+   
+   2. Lancez le serveur :
+      ./start.sh
+      
+      OU
+      
+      python3 -m http.server 8000
+   
+   3. Ouvrez votre navigateur sur :
+      http://localhost:8000/start.html
+
+📚 DOCUMENTATION :
+
+   • QUICKSTART.md        → Démarrage rapide
+   • README.md            → Guide complet
+   • RESUME.md            → Résumé du projet
+   • GUIDE_CSS.md         → Personnaliser les styles
+   • GUIDE_AJOUT_COURS.md → Ajouter des cours
+   • COMMANDES.md         → Commandes utiles
+   • TODO.md              → Améliorations futures
+   • INFOS.txt            → Toutes les infos
+
+📝 COURS DISPONIBLES :
+
+   1. 📌 Introduction à Python
+   2. 🔢 Variables et Types
+   3. 🔄 Structures de Contrôle
+   4. ⚡ Fonctions
+   5. 📊 Matplotlib & Visualisation
+   6. 🎮 Projets Pratiques
+
+✨ CARACTÉRISTIQUES :
+
+   ✓ Code Python exécutable dans le navigateur
+   ✓ Encadrés spéciaux (note, warning, attention...)
+   ✓ Sections déroulantes
+   ✓ CSS personnalisable
+   ✓ Aucune installation Python nécessaire
+   ✓ Fonctionne sur tous les appareils
+
+🎨 PERSONNALISATION :
+
+   → Couleurs : Éditez styles.css (variables CSS en haut)
+   → Cours : Ajoutez des fichiers .md dans cours/
+   → Thème : Consultez GUIDE_CSS.md pour des exemples
+
+🌐 PARTAGE :
+
+   → GitHub Pages : Gratuit et simple
+   → Netlify : Drag & drop
+   → Vercel : En une commande
+   
+   Voir README.md pour les instructions détaillées
+
+💡 BESOIN D'AIDE ?
+
+   → Consultez la documentation dans les fichiers .md
+   → Tous les exemples de code sont commentés
+   → Le template de cours (cours/TEMPLATE.md) vous guide
+
+================================================================
+
+Prêt à commencer l'enseignement de Python ? 🚀
+
+Lancez :  ./start.sh
+
+================================================================
+
+Créé avec ❤️ pour l'enseignement de la NSI

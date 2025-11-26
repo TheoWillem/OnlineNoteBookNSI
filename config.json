@@ -1,0 +1,51 @@
+{
+  "nom_du_site": "Cours NSI Interactif",
+  "description": "Plateforme de cours NSI avec notebook Python en ligne",
+  "version": "1.0.0",
+  "cours": [
+    {
+      "id": "introduction",
+      "titre": "📌 Introduction à Python",
+      "fichier": "introduction.md",
+      "niveau": "débutant",
+      "duree_estimee": "30 min"
+    },
+    {
+      "id": "variables",
+      "titre": "🔢 Variables et Types",
+      "fichier": "variables.md",
+      "niveau": "débutant",
+      "duree_estimee": "45 min"
+    },
+    {
+      "id": "structures",
+      "titre": "🔄 Structures de Contrôle",
+      "fichier": "structures.md",
+      "niveau": "intermédiaire",
+      "duree_estimee": "60 min"
+    },
+    {
+      "id": "fonctions",
+      "titre": "⚡ Fonctions",
+      "fichier": "fonctions.md",
+      "niveau": "intermédiaire",
+      "duree_estimee": "60 min"
+    },
+    {
+      "id": "matplotlib",
+      "titre": "📊 Matplotlib & Visualisation",
+      "fichier": "matplotlib.md",
+      "niveau": "avancé",
+      "duree_estimee": "75 min"
+    }
+  ],
+  "themes": {
+    "couleur_primaire": "#2563eb",
+    "couleur_secondaire": "#475569",
+    "couleur_accent": "#0ea5e9"
+  },
+  "bibliotheques_python": [
+    "numpy",
+    "matplotlib"
+  ]
+}

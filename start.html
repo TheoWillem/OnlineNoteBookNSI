@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide de Démarrage - Cours NSI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            max-width: 800px;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            color: #667eea;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+        
+        .feature-list {
+            margin: 2rem 0;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            transition: transform 0.2s;
+        }
+        
+        .feature:hover {
+            transform: translateX(5px);
+            background: #e9ecef;
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+            min-width: 50px;
+        }
+        
+        .feature-content h3 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-content p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .cta-button {
+            display: block;
+            width: 100%;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 2rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid #e9ecef;
+        }
+        
+        .tech-badge {
+            background: #667eea;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .feature-icon {
+                font-size: 1.5rem;
+                min-width: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Cours NSI Interactif</h1>
+        <p class="subtitle">Un notebook en ligne puissant pour apprendre Python</p>
+        
+        <div class="feature-list">
+            <div class="feature">
+                <div class="feature-icon">🐍</div>
+                <div class="feature-content">
+                    <h3>Exécution Python dans le Navigateur</h3>
+                    <p>Pyodide permet d'exécuter du code Python directement dans votre navigateur, sans installation ni serveur.</p>
+                </div>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon">💻</div>
+                <div class="feature-content">
+                    <h3>Éditeur de Code Professionnel</h3>
+                    <p>Monaco Editor (le même que VS Code) avec coloration syntaxique et autocomplétion.</p>
+                </div>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon">📊</div>
+                <div class="feature-content">
+                    <h3>Bibliothèques Scientifiques</h3>
+                    <p>Support de NumPy, Matplotlib et autres bibliothèques populaires pour l'analyse de données.</p>
+                </div>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon">📝</div>
+                <div class="feature-content">
+                    <h3>Cours en Markdown</h3>
+                    <p>Créez facilement des cours avec syntaxe Markdown étendue : notes, avertissements, sections déroulantes.</p>
+                </div>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon">🎨</div>
+                <div class="feature-content">
+                    <h3>Personnalisation Facile</h3>
+                    <p>Modifiez styles.css avec des CSS variables pour adapter l'apparence à vos goûts.</p>
+                </div>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon">📱</div>
+                <div class="feature-content">
+                    <h3>Responsive Design</h3>
+                    <p>Fonctionne parfaitement sur ordinateur, tablette et smartphone.</p>
+                </div>
+            </div>
+        </div>
+        
+        <a href="index.html" class="cta-button">
+            🚀 Commencer à Apprendre
+        </a>
+        
+        <div class="tech-stack">
+            <span class="tech-badge">Python</span>
+            <span class="tech-badge">Pyodide</span>
+            <span class="tech-badge">Monaco Editor</span>
+            <span class="tech-badge">Matplotlib</span>
+            <span class="tech-badge">NumPy</span>
+            <span class="tech-badge">Markdown</span>
+            <span class="tech-badge">JavaScript</span>
+            <span class="tech-badge">CSS3</span>
+        </div>
+    </div>
+</body>
+</html>
