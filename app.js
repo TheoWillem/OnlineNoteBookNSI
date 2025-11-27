@@ -383,7 +383,7 @@ function processPythonCode(html) {
                     </div>
                 </div>
                 <div class="code-editor" id="${editorId}"></div>
-                <div class="code-output hidden" id="output-${id}">
+                <div class="code-output" id="output-${id}">
                     <span class="code-output-empty">Aucune sortie</span>
                 </div>
             </div>
@@ -472,7 +472,6 @@ function resetCode(editorId) {
     
     if (outputElement) {
         outputElement.innerHTML = '<span class="code-output-empty">Aucune sortie</span>';
-        outputElement.classList.add('hidden');
     }
 }
 
@@ -653,8 +652,7 @@ async function runPythonCode(editorId) {
         if (hasFigures) {
             console.log('🎨 Matplotlib détecté - Affichage dans la modal');
             await showMatplotlibFigures(stdout, stderr);
-            outputElement.classList.add('hidden');
-            outputElement.innerHTML = '';
+            outputElement.innerHTML = '<span>📊 Graphique affiché dans la fenêtre modale</span>';
             return;
         }
         
@@ -684,10 +682,9 @@ function displayTextOutput(outputElement, stdout, stderr) {
     }
     
     if (!output) {
-        output = '<span class="code-output-empty">Code exécuté avec succès (aucune sortie)</span>';
+        output = '<span class="code-output-empty">Aucune sortie</span>';
     }
     
-    outputElement.classList.remove('hidden');
     outputElement.innerHTML = output;
 }
 
@@ -697,7 +694,6 @@ function displayTextOutput(outputElement, stdout, stderr) {
  * @param {string} message - Le message d'erreur
  */
 function displayError(outputElement, message) {
-    outputElement.classList.remove('hidden');
     outputElement.innerHTML = `<span style="color: #ef4444;">❌ Erreur: ${escapeHtml(message)}</span>`;
 }
 

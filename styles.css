@@ -344,10 +344,27 @@ body {
     padding: var(--spacing-md);
     font-family: var(--font-code);
     font-size: 0.9em;
-    max-height: 200px;
-    overflow-y: auto;
+    border-top: 1px solid #e2e8f0;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
     white-space: pre-wrap;
     word-wrap: break-word;
+    max-height: 200px;
+    overflow-y: auto;
+    text-align: left;
+}
+
+/* Style discret quand pas encore exécuté (contient .code-output-empty) */
+.code-output:has(.code-output-empty) {
+    background-color: #0f172a;
+    color: #475569;
+    padding: 0.5rem 1rem;
+    font-size: 0.85em;
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-height: none;
+    min-height: auto;
+    height: auto;
 }
 
 .code-output.hidden {
@@ -355,8 +372,37 @@ body {
 }
 
 .code-output-empty {
-    color: #64748b;
+    color: #94a3b8;
     font-style: italic;
+    font-size: 0.85em;
+}
+
+/* Scrollbar pour la console avec contenu */
+.code-output::-webkit-scrollbar {
+    width: 8px;
+    height: 4px;
+}
+
+.code-output::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.code-output::-webkit-scrollbar-thumb {
+    background: #475569;
+    border-radius: 4px;
+}
+
+.code-output::-webkit-scrollbar-thumb:hover {
+    background: #334155;
+}
+
+/* Scrollbar discrète pour console vide */
+.code-output:has(.code-output-empty)::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+}
+
+.code-output:has(.code-output-empty)::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
 }
 
 /* ========================================
