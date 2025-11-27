@@ -49,7 +49,8 @@ const AppState = {
     loadedPackages: new Set(['micropip']),
     currentCourse: null,
     editorCounter: 0,
-    collapsibleCounter: 0
+    collapsibleCounter: 0,
+    pendingCollapsibles: []
 };
 
 // Cache des éléments DOM
@@ -289,11 +290,23 @@ function showCourseError(filename, message) {
  */
 function renderMarkdown(markdown) {
     try {
+        // D'abord, extraire les collapsibles du markdown brut (les stocke dans AppState)
+        markdown = processCollapsibleSections(markdown);
+        
+        // Ensuite, parser tout le markdown en HTML (sauf le contenu des collapsibles qui est stocké)
         let html = marked.parse(markdown);
         
+        // Traiter les info boxes
         html = processInfoBoxes(html);
-        html = processCollapsibleSections(html);
+        
+        // Traiter le code Python dans le HTML principal
         html = processPythonCode(html);
+        
+        // Finaliser les collapsibles (parse leur contenu et traite aussi le code Python)
+        html = finalizeCollapsibleSections(html);
+        
+        // Nettoyer les balises <p> vides
+        html = html.replace(/<p>\s*<\/p>/g, '');
         
         DOMCache.courseContent.innerHTML = html;
         
@@ -327,30 +340,29 @@ function processInfoBoxes(html) {
 
 /**
  * Traite les sections déroulantes
- * @param {string} html - Le HTML
+ * @param {string} markdown - Le markdown brut
  * @returns {string}
  */
-function processCollapsibleSections(html) {
-    const collapsibleRegex = /:::collapsible\s+(.*?)\s+([\s\S]*?):::/g;
+function processCollapsibleSections(markdown) {
+    const collapsibleRegex = /:::collapsible\s+(.*?)\n([\s\S]*?)\n:::/g;
+    const collapsibles = [];
     
-    return html.replace(collapsibleRegex, (match, title, content) => {
+    // Extraire et stocker les collapsibles
+    const processedMarkdown = markdown.replace(collapsibleRegex, (match, title, content) => {
         AppState.collapsibleCounter++;
         const id = AppState.collapsibleCounter;
         
-        return `
-            <div class="collapsible-section" data-id="collapsible-${id}">
-                <div class="collapsible-header">
-                    <span>${escapeHtml(title)}</span>
-                    <span class="collapsible-icon">▼</span>
-                </div>
-                <div class="collapsible-content">
-                    <div class="collapsible-inner">
-                        ${marked.parse(content)}
-                    </div>
-                </div>
-            </div>
-        `;
+        // Stocker le collapsible avec son contenu
+        collapsibles.push({ id, title: title.trim(), content: content.trim() });
+        
+        // Remplacer par un marqueur unique
+        return `\n\n<!--COLLAPSIBLE_PLACEHOLDER_${id}-->\n\n`;
     });
+    
+    // Stocker les collapsibles dans l'état global pour y accéder plus tard
+    AppState.pendingCollapsibles = collapsibles;
+    
+    return processedMarkdown;
 }
 
 /**
@@ -392,6 +404,48 @@ function processPythonCode(html) {
             </script>
         `;
     });
+}
+
+/**
+ * Finalise les sections collapsibles après le traitement du code Python
+ * @param {string} html - Le HTML
+ * @returns {string}
+ */
+function finalizeCollapsibleSections(html) {
+    // Récupérer les collapsibles stockés
+    const collapsibles = AppState.pendingCollapsibles || [];
+    
+    // Remplacer chaque placeholder par le collapsible complet
+    collapsibles.forEach(({ id, title, content }) => {
+        // Parser le contenu markdown du collapsible
+        let parsedContent = marked.parse(content);
+        
+        // Traiter le code Python dans le contenu parsé
+        parsedContent = processPythonCode(parsedContent);
+        
+        const collapsibleHtml = `
+            <div class="collapsible-section" data-id="collapsible-${id}">
+                <div class="collapsible-header">
+                    <span>${escapeHtml(title)}</span>
+                    <span class="collapsible-icon">▼</span>
+                </div>
+                <div class="collapsible-content">
+                    <div class="collapsible-inner">
+                        ${parsedContent}
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Remplacer le placeholder
+        const placeholderRegex = new RegExp(`<!--COLLAPSIBLE_PLACEHOLDER_${id}-->`, 'g');
+        html = html.replace(placeholderRegex, collapsibleHtml);
+    });
+    
+    // Réinitialiser les collapsibles en attente
+    AppState.pendingCollapsibles = [];
+    
+    return html;
 }
 
 // ========================================

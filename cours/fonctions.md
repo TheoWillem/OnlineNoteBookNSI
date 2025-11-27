@@ -244,7 +244,7 @@ for i in range(6):
     print(f"{i}! = {factorielle(i)}")
 ```
 
-:::collapsible Suite de Fibonacci
+:::collapsible Suite
 ```python
 def fibonacci(n):
     """
