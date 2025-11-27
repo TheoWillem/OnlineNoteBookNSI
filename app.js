@@ -55,20 +55,30 @@ const AppState = {
 
 // Cache des éléments DOM
 const DOMCache = {
-    courseList: null,
+    courseGrid: null,
+    courseSelection: null,
     courseTitle: null,
     courseContent: null,
     outputModal: null,
     modalBody: null,
-    sidebar: null,
+    homeButton: null,
+    tocSidebar: null,
+    tocContent: null,
+    tocToggle: null,
+    tocFloatingButton: null,
     
     init() {
-        this.courseList = document.getElementById('courseList');
+        this.courseGrid = document.getElementById('courseGrid');
+        this.courseSelection = document.getElementById('courseSelection');
         this.courseTitle = document.getElementById('courseTitle');
         this.courseContent = document.getElementById('courseContent');
         this.outputModal = document.getElementById('outputModal');
         this.modalBody = document.getElementById('modalBody');
-        this.sidebar = document.querySelector('.sidebar');
+        this.homeButton = document.getElementById('homeButton');
+        this.tocSidebar = document.getElementById('tocSidebar');
+        this.tocContent = document.getElementById('tocContent');
+        this.tocToggle = document.getElementById('tocToggle');
+        this.tocFloatingButton = document.getElementById('tocFloatingButton');
     }
 };
 
@@ -169,51 +179,111 @@ function loadMonaco() {
 // GESTION DES COURS
 // ========================================
 const courses = Object.freeze([
-    { id: 'introduction', title: '📌 Introduction à Python', file: 'introduction.md' },
-    { id: 'variables', title: '🔢 Variables et Types', file: 'variables.md' },
-    { id: 'structures', title: '🔄 Structures de Contrôle', file: 'structures.md' },
-    { id: 'fonctions', title: '⚡ Fonctions', file: 'fonctions.md' },
-    { id: 'matplotlib', title: '📊 Matplotlib & Visualisation', file: 'matplotlib.md' },
-    { id: 'turtle', title: '🐢 Turtle Graphics', file: 'turtle-graphics.md' },
-    { id: 'test-matplotlib', title: '🧪 Test Matplotlib', file: 'test-matplotlib.md' },
-    { id: 'projets', title: '🎮 Projets Pratiques', file: 'projets.md' },
-    { id: 'test-modules', title: '🔧 Test des Modules', file: 'test-modules.md' },
+    { 
+        id: 'introduction', 
+        title: 'Introduction à Python', 
+        icon: '📌',
+        description: 'Découvrez les bases de Python et commencez votre voyage dans le monde de la programmation.',
+        file: 'introduction.md' 
+    },
+    { 
+        id: 'variables', 
+        title: 'Variables et Types', 
+        icon: '🔢',
+        description: 'Apprenez à stocker et manipuler des données avec les variables et les types de données.',
+        file: 'variables.md' 
+    },
+    { 
+        id: 'structures', 
+        title: 'Structures de Contrôle', 
+        icon: '🔄',
+        description: 'Maîtrisez les conditions, boucles et flux de contrôle pour des programmes dynamiques.',
+        file: 'structures.md' 
+    },
+    { 
+        id: 'fonctions', 
+        title: 'Fonctions', 
+        icon: '⚡',
+        description: 'Créez du code réutilisable et organisé avec les fonctions Python.',
+        file: 'fonctions.md' 
+    },
+    { 
+        id: 'matplotlib', 
+        title: 'Matplotlib & Visualisation', 
+        icon: '📊',
+        description: 'Créez des graphiques et visualisations de données professionnelles.',
+        file: 'matplotlib.md' 
+    },
+    { 
+        id: 'turtle', 
+        title: 'Turtle Graphics', 
+        icon: '🐢',
+        description: 'Apprenez à dessiner et créer des animations avec le module Turtle.',
+        file: 'turtle-graphics.md' 
+    },
+    { 
+        id: 'test-matplotlib', 
+        title: 'Test Matplotlib', 
+        icon: '🧪',
+        description: 'Testez et expérimentez avec différents types de graphiques.',
+        file: 'test-matplotlib.md' 
+    },
+    { 
+        id: 'projets', 
+        title: 'Projets Pratiques', 
+        icon: '🎮',
+        description: 'Mettez en pratique vos compétences avec des projets concrets et amusants.',
+        file: 'projets.md' 
+    },
+    { 
+        id: 'test-modules', 
+        title: 'Test des Modules', 
+        icon: '🔧',
+        description: 'Explorez et testez différents modules Python.',
+        file: 'test-modules.md' 
+    },
 ]);
 
 /**
- * Charge la liste des cours avec délégation d'événements
+ * Charge la grille des cours avec des cartes
  */
-function loadCourseList() {
+function loadCourseGrid() {
     const fragment = document.createDocumentFragment();
     
     courses.forEach(course => {
-        const item = document.createElement('div');
-        item.className = 'course-item';
-        item.textContent = course.title;
-        item.dataset.courseId = course.id;
-        fragment.appendChild(item);
+        const card = document.createElement('div');
+        card.className = 'course-card';
+        card.dataset.courseId = course.id;
+        
+        card.innerHTML = `
+            <span class="course-card-icon">${course.icon}</span>
+            <h3 class="course-card-title">${escapeHtml(course.title)}</h3>
+            <p class="course-card-description">${escapeHtml(course.description)}</p>
+        `;
+        
+        fragment.appendChild(card);
     });
     
-    DOMCache.courseList.innerHTML = '';
-    DOMCache.courseList.appendChild(fragment);
+    DOMCache.courseGrid.innerHTML = '';
+    DOMCache.courseGrid.appendChild(fragment);
     
     // Délégation d'événements
-    DOMCache.courseList.addEventListener('click', handleCourseClick);
+    DOMCache.courseGrid.addEventListener('click', handleCourseCardClick);
 }
 
 /**
- * Gestionnaire de clic sur les cours
+ * Gestionnaire de clic sur les cartes de cours
  * @param {Event} event
  */
-function handleCourseClick(event) {
-    const courseItem = event.target.closest('.course-item');
-    if (!courseItem) return;
+function handleCourseCardClick(event) {
+    const courseCard = event.target.closest('.course-card');
+    if (!courseCard) return;
     
-    const courseId = courseItem.dataset.courseId;
+    const courseId = courseCard.dataset.courseId;
     const course = courses.find(c => c.id === courseId);
     
     if (course) {
-        loadCourse(course, courseItem);
+        loadCourse(course);
     }
 }
 
@@ -234,10 +304,9 @@ function cleanupEditors() {
 /**
  * Charge un cours
  * @param {Object} course - Le cours
- * @param {HTMLElement} targetElement - L'élément cliqué
  * @returns {Promise<void>}
  */
-async function loadCourse(course, targetElement) {
+async function loadCourse(course) {
     try {
         cleanupEditors();
         
@@ -249,13 +318,22 @@ async function loadCourse(course, targetElement) {
         
         const markdown = await response.text();
         
-        DOMCache.courseTitle.textContent = course.title;
+        // Mettre à jour le titre avec l'icône
+        DOMCache.courseTitle.textContent = `${course.icon} ${course.title}`;
+        
+        // Cacher la page de sélection et afficher le contenu du cours
+        DOMCache.courseSelection.style.display = 'none';
+        DOMCache.courseContent.style.display = 'block';
+        
+        // Afficher le bouton d'accueil
+        DOMCache.homeButton.style.display = 'block';
+        
         renderMarkdown(markdown);
         
-        // Mettre à jour l'état actif
-        const activeItem = DOMCache.courseList.querySelector('.course-item.active');
-        if (activeItem) activeItem.classList.remove('active');
-        if (targetElement) targetElement.classList.add('active');
+        // Générer la table des matières après le rendu
+        setTimeout(() => {
+            generateTableOfContents();
+        }, 100);
         
         AppState.currentCourse = course;
         
@@ -312,6 +390,7 @@ function renderMarkdown(markdown) {
         
         initializeCodeEditors();
         initializeCollapsible();
+        generateTableOfContents();
     } catch (error) {
         logError('Rendu markdown', error);
         showCourseError('markdown', error.message);
@@ -908,21 +987,288 @@ function setupModal() {
 // ========================================
 // SIDEBAR
 // ========================================
+
+
 /**
- * Configure la sidebar
+ * Retourne à la page d'accueil
  */
-function setupSidebar() {
-    const toggleBtn = document.getElementById('toggleSidebar');
+function goToHome() {
+    // Nettoyer les éditeurs
+    cleanupEditors();
     
-    toggleBtn.addEventListener('click', () => {
-        DOMCache.sidebar.classList.toggle('active');
+    // Réinitialiser le titre
+    DOMCache.courseTitle.textContent = '📚 Cours NSI - Notebook Interactif';
+    
+    // Cacher le bouton d'accueil
+    DOMCache.homeButton.style.display = 'none';
+    
+    // Afficher la page de sélection et cacher le contenu du cours
+    DOMCache.courseSelection.style.display = 'block';
+    DOMCache.courseContent.style.display = 'none';
+    
+    // Cacher la table des matières
+    hideTOC();
+    
+    // Vider le contenu du cours
+    DOMCache.courseContent.innerHTML = '';
+    
+    // Réinitialiser le cours actuel
+    AppState.currentCourse = null;
+}
+
+/**
+ * Configure le bouton d'accueil
+ */
+function setupHomeButton() {
+    const homeBtn = document.getElementById('homeButton');
+    
+    if (homeBtn) {
+        homeBtn.addEventListener('click', goToHome);
+    }
+}
+
+// ========================================
+// TABLE DES MATIÈRES
+// ========================================
+/**
+ * Génère la table des matières à partir du contenu du cours
+ */
+function generateTableOfContents() {
+    if (!DOMCache.courseContent || !DOMCache.tocContent) return;
+    
+    // Récupérer tous les titres h2, h3, h4 du contenu
+    const headings = DOMCache.courseContent.querySelectorAll('h2, h3, h4');
+    
+    if (headings.length === 0) {
+        // Pas de titres, cacher la TOC
+        hideTOC();
+        return;
+    }
+    
+    // Créer les liens de la table des matières
+    const fragment = document.createDocumentFragment();
+    
+    headings.forEach((heading, index) => {
+        // Ajouter un ID au titre s'il n'en a pas
+        if (!heading.id) {
+            heading.id = `heading-${index}`;
+        }
+        
+        const level = heading.tagName.toLowerCase();
+        const text = heading.textContent;
+        
+        const link = document.createElement('a');
+        link.className = `toc-item toc-${level}`;
+        link.textContent = text;
+        link.href = `#${heading.id}`;
+        link.dataset.target = heading.id;
+        
+        // Gérer le clic
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            scrollToHeading(heading.id);
+            
+            // Sur mobile, fermer la TOC après le clic
+            if (window.innerWidth <= 1200) {
+                DOMCache.tocSidebar.classList.remove('active');
+            }
+        });
+        
+        fragment.appendChild(link);
     });
     
-    if (window.innerWidth <= 768) {
-        DOMCache.courseList.addEventListener('click', () => {
-            DOMCache.sidebar.classList.remove('active');
+    DOMCache.tocContent.innerHTML = '';
+    DOMCache.tocContent.appendChild(fragment);
+    
+    // Afficher la TOC
+    showTOC();
+    
+    // Détecter la section active lors du scroll
+    observeActiveSection();
+}
+
+/**
+ * Fait défiler jusqu'à un titre spécifique
+ * @param {string} headingId - L'ID du titre
+ */
+function scrollToHeading(headingId) {
+    const heading = document.getElementById(headingId);
+    if (!heading) {
+        console.warn(`Heading with id "${headingId}" not found`);
+        return;
+    }
+    
+    // Le container avec le scroll
+    const container = document.querySelector('.content-container');
+    
+    if (container) {
+        // Calculer la position en tenant compte de la toolbar
+        const toolbarHeight = 73;
+        const containerRect = container.getBoundingClientRect();
+        const headingRect = heading.getBoundingClientRect();
+        
+        // Position relative au container
+        const scrollTop = container.scrollTop;
+        const relativeTop = headingRect.top - containerRect.top;
+        const targetScroll = scrollTop + relativeTop - 20; // 20px de marge
+        
+        container.scrollTo({
+            top: targetScroll,
+            behavior: 'smooth'
+        });
+    } else {
+        // Fallback vers window scroll
+        const toolbarHeight = 73;
+        const elementPosition = heading.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - toolbarHeight - 20;
+        
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
         });
     }
+    
+    // Mettre à jour le lien actif
+    updateActiveTOCItem(headingId);
+}
+
+/**
+ * Met à jour le lien actif dans la TOC
+ * @param {string} headingId - L'ID du titre actif
+ */
+function updateActiveTOCItem(headingId) {
+    // Retirer la classe active de tous les liens
+    const allLinks = DOMCache.tocContent.querySelectorAll('.toc-item');
+    allLinks.forEach(link => link.classList.remove('active'));
+    
+    // Ajouter la classe active au lien correspondant
+    const activeLink = DOMCache.tocContent.querySelector(`[data-target="${headingId}"]`);
+    if (activeLink) {
+        activeLink.classList.add('active');
+    }
+}
+
+/**
+ * Observe les sections visibles pour mettre à jour la TOC
+ */
+function observeActiveSection() {
+    const headings = DOMCache.courseContent.querySelectorAll('h2, h3, h4');
+    
+    if (!headings.length) return;
+    
+    // Le container avec le scroll
+    const container = document.querySelector('.content-container');
+    
+    // Observer les changements de visibilité
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                updateActiveTOCItem(entry.target.id);
+            }
+        });
+    }, {
+        root: container, // Observer dans le container
+        rootMargin: '-100px 0px -66%',
+        threshold: 0
+    });
+    
+    headings.forEach(heading => observer.observe(heading));
+}
+
+/**
+ * Affiche la table des matières
+ */
+function showTOC() {
+    if (DOMCache.tocSidebar) {
+        DOMCache.tocSidebar.style.display = 'block';
+        
+        // Sur desktop, afficher directement
+        if (window.innerWidth > 1200) {
+            DOMCache.tocSidebar.classList.remove('hidden');
+            // Afficher aussi le bouton toggle
+            if (DOMCache.tocToggle) {
+                DOMCache.tocToggle.style.display = 'flex';
+                DOMCache.tocToggle.classList.remove('toc-closed');
+            }
+        }
+    }
+    
+    if (DOMCache.tocFloatingButton && window.innerWidth <= 1200) {
+        DOMCache.tocFloatingButton.style.display = 'flex';
+    }
+}
+
+/**
+ * Cache la table des matières
+ */
+function hideTOC() {
+    if (DOMCache.tocSidebar) {
+        DOMCache.tocSidebar.style.display = 'none';
+        DOMCache.tocSidebar.classList.remove('active');
+    }
+    
+    if (DOMCache.tocFloatingButton) {
+        DOMCache.tocFloatingButton.style.display = 'none';
+    }
+    
+    // Cacher aussi le bouton toggle
+    if (DOMCache.tocToggle) {
+        DOMCache.tocToggle.style.display = 'none';
+        DOMCache.tocToggle.classList.remove('toc-closed');
+    }
+}
+
+/**
+ * Configure les contrôles de la table des matières
+ */
+function setupTOCControls() {
+    // Bouton toggle indépendant (Desktop et Mobile)
+    if (DOMCache.tocToggle) {
+        DOMCache.tocToggle.addEventListener('click', () => {
+            // Sur desktop, toggle hidden pour replier/déplier
+            if (window.innerWidth > 1200) {
+                DOMCache.tocSidebar.classList.toggle('hidden');
+                // Toggle la classe sur le bouton lui-même pour la rotation de la flèche
+                DOMCache.tocToggle.classList.toggle('toc-closed');
+            } else {
+                // Sur mobile, toggle active
+                DOMCache.tocSidebar.classList.toggle('active');
+            }
+        });
+    }
+    
+    // Bouton flottant sur mobile
+    if (DOMCache.tocFloatingButton) {
+        DOMCache.tocFloatingButton.addEventListener('click', () => {
+            DOMCache.tocSidebar.classList.toggle('active');
+        });
+    }
+    
+    // Fermer la TOC en cliquant en dehors sur mobile
+    document.addEventListener('click', (e) => {
+        if (window.innerWidth <= 1200 && 
+            DOMCache.tocSidebar.classList.contains('active') &&
+            !DOMCache.tocSidebar.contains(e.target) &&
+            !DOMCache.tocFloatingButton.contains(e.target)) {
+            DOMCache.tocSidebar.classList.remove('active');
+        }
+    });
+    
+    // Gérer le redimensionnement de la fenêtre
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 1200) {
+            DOMCache.tocSidebar.classList.remove('active');
+            DOMCache.tocSidebar.classList.remove('hidden');
+            if (DOMCache.tocFloatingButton) {
+                DOMCache.tocFloatingButton.style.display = 'none';
+            }
+        } else {
+            DOMCache.tocSidebar.classList.add('hidden');
+            if (DOMCache.tocSidebar.style.display === 'block') {
+                DOMCache.tocFloatingButton.style.display = 'flex';
+            }
+        }
+    });
 }
 
 // ========================================
@@ -936,9 +1282,10 @@ async function initializeApp() {
     console.log('🚀 Initialisation de l\'application...');
     
     DOMCache.init();
-    loadCourseList();
+    loadCourseGrid();
     setupModal();
-    setupSidebar();
+    setupHomeButton();
+    setupTOCControls();
     
     loadPyodideEnvironment().catch(error => {
         logError('Init Pyodide', error);

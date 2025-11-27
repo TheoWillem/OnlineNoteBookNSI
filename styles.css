@@ -59,51 +59,109 @@ body {
 }
 
 /* ========================================
-   BARRE LATÉRALE
+   PAGE DE SÉLECTION DES COURS
    ======================================== */
-.sidebar {
-    width: 280px;
-    background-color: var(--sidebar-bg);
-    color: white;
-    padding: var(--spacing-lg);
-    overflow-y: auto;
+.course-selection {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.welcome-header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    padding: var(--spacing-xl) 0;
+}
+
+.welcome-header h2 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-md);
+}
+
+.welcome-header p {
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+}
+
+.course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--spacing-lg);
+    padding: var(--spacing-md);
+}
+
+.course-card {
+    background: white;
+    border-radius: var(--border-radius);
+    padding: var(--spacing-xl);
+    box-shadow: var(--shadow-md);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.course-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+}
+
+.course-card::after {
+    content: '→';
+    position: absolute;
+    bottom: var(--spacing-md);
+    right: var(--spacing-md);
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s ease;
+}
+
+.course-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    border-color: var(--primary-color);
+}
+
+.course-card:hover::after {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.course-card:active {
+    transform: translateY(-4px);
+}
+
+.course-card-icon {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-md);
+    display: block;
     transition: transform 0.3s ease;
 }
 
-.sidebar.collapsed {
-    transform: translateX(-100%);
+.course-card:hover .course-card-icon {
+    transform: scale(1.1);
 }
 
-.logo h2 {
-    margin-bottom: var(--spacing-xl);
-    color: var(--accent-color);
-    font-size: 1.5rem;
+.course-card-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+    margin-bottom: var(--spacing-sm);
 }
 
-.course-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-sm);
-}
-
-.course-item {
-    padding: var(--spacing-md);
-    background-color: rgba(255, 255, 255, 0.05);
-    border-radius: var(--border-radius-sm);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    border-left: 3px solid transparent;
-}
-
-.course-item:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-left-color: var(--accent-color);
-    transform: translateX(4px);
-}
-
-.course-item.active {
-    background-color: var(--primary-color);
-    border-left-color: var(--accent-color);
+.course-card-description {
+    color: #64748b;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: var(--spacing-lg);
 }
 
 /* ========================================
@@ -114,6 +172,11 @@ body {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    width: 100%;
+}
+
+.main-content.full-width {
+    margin-left: 0;
 }
 
 .toolbar {
@@ -122,18 +185,106 @@ body {
     box-shadow: var(--shadow-sm);
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: var(--spacing-md);
+    position: relative;
+}
+
+.toolbar-left,
+.toolbar-right {
+    flex: 1;
+    display: flex;
+}
+
+.toolbar-left {
+    justify-content: flex-start;
+}
+
+.toolbar-right {
+    justify-content: flex-end;
+}
+
+.toolbar h1 {
+    flex: 1;
+    margin: 0;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Bouton de retour stylisé */
+.btn-home {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-home::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: width 0.3s ease;
+}
+
+.btn-home:hover::before {
+    width: 100%;
+}
+
+.btn-home:hover {
+    transform: translateX(-3px);
+    box-shadow: 0 4px 8px rgba(37, 99, 235, 0.3);
+}
+
+.btn-home:active {
+    transform: translateX(-1px);
+}
+
+.btn-home-icon {
+    font-size: 1.3rem;
+    font-weight: bold;
+    transition: transform 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.btn-home:hover .btn-home-icon {
+    transform: translateX(-3px);
+}
+
+.btn-home-text {
+    white-space: nowrap;
+    position: relative;
+    z-index: 1;
 }
 
 .content-container {
     flex: 1;
     overflow-y: auto;
     padding: var(--spacing-xl);
+    position: relative;
 }
 
 .course-content {
     max-width: 900px;
     margin: 0 auto;
+    transition: margin 0.3s ease;
 }
 
 /* ========================================
@@ -536,17 +687,51 @@ body {
    RESPONSIVE
    ======================================== */
 @media (max-width: 768px) {
-    .sidebar {
-        position: fixed;
-        left: 0;
-        top: 0;
-        height: 100vh;
-        z-index: 100;
-        transform: translateX(-100%);
+    .course-grid {
+        grid-template-columns: 1fr;
+        padding: var(--spacing-sm);
     }
     
-    .sidebar.active {
-        transform: translateX(0);
+    .welcome-header h2 {
+        font-size: 1.8rem;
+    }
+    
+    .welcome-header p {
+        font-size: 1rem;
+    }
+    
+    .toolbar {
+        padding: var(--spacing-sm) var(--spacing-md);
+        gap: var(--spacing-sm);
+    }
+    
+    .toolbar h1 {
+        font-size: 0.9rem;
+        padding: 0 var(--spacing-xs);
+    }
+    
+    .toolbar-left,
+    .toolbar-right {
+        flex: 0 0 auto;
+    }
+    
+    .btn-home {
+        padding: var(--spacing-xs) var(--spacing-sm);
+        font-size: 0.85rem;
+        gap: 4px;
+    }
+    
+    .btn-home-icon {
+        font-size: 1.1rem;
+    }
+    
+    .btn-home-text {
+        display: none;
+    }
+    
+    .btn-home::after {
+        content: 'Menu';
+        display: inline;
     }
     
     .content-container {
@@ -583,4 +768,208 @@ body {
 
 .hidden {
     display: none;
+}
+
+/* ========================================
+   TABLE DES MATIÈRES
+   ======================================== */
+.toc-sidebar {
+    position: fixed;
+    left: 0;
+    top: 73px; /* Hauteur de la toolbar */
+    width: 280px;
+    height: calc(100vh - 73px);
+    background: white;
+    border-right: 1px solid #e2e8f0;
+    padding: var(--spacing-lg);
+    overflow-y: auto;
+    z-index: 50;
+    transition: transform 0.3s ease;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+}
+
+.toc-sidebar.hidden {
+    transform: translateX(-100%); /* Cache complètement la TOC */
+}
+
+.toc-sidebar.hidden .toc-content,
+.toc-sidebar.hidden .toc-header h3 {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.toc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 2px solid var(--primary-color);
+    transition: opacity 0.3s ease;
+}
+
+.toc-header h3 {
+    font-size: 1.1rem;
+    color: var(--secondary-color);
+    transition: opacity 0.3s ease;
+    margin-left: 40px;
+}
+
+/* Bouton toggle indépendant de la TOC */
+.toc-toggle {
+    position: fixed;
+    left: var(--spacing-md);
+    top: calc(73px + var(--spacing-md)); /* Juste sous la toolbar */
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    color: white;
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+    flex-shrink: 0;
+    z-index: 100; /* Toujours au-dessus de la TOC */
+}
+
+.toc-toggle:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+}
+
+.toc-toggle:active {
+    transform: scale(0.95);
+}
+
+/* Rotation de la flèche selon l'état de la TOC */
+.toc-toggle-icon {
+    transform: rotate(0deg); /* Flèche « vers la gauche par défaut */
+    transition: transform 0.3s ease;
+    display: inline-block;
+    font-weight: bold;
+}
+
+/* Quand la TOC est cachée, la flèche pointe vers la droite */
+.toc-sidebar.hidden ~ .toc-toggle .toc-toggle-icon,
+.toc-toggle.toc-closed .toc-toggle-icon {
+    transform: rotate(180deg); /* Flèche » vers la droite */
+}
+
+.toc-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.toc-item {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    color: #64748b;
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: block;
+    border-radius: 4px;
+    line-height: 1.4;
+}
+
+.toc-item:hover {
+    color: var(--primary-color);
+    background: #f1f5f9;
+    border-left-color: var(--primary-color);
+    padding-left: var(--spacing-md);
+}
+
+.toc-item.active {
+    color: var(--primary-color);
+    background: #eff6ff;
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.toc-item.toc-h2 {
+    padding-left: var(--spacing-sm);
+    font-weight: 500;
+}
+
+.toc-item.toc-h3 {
+    padding-left: var(--spacing-lg);
+    font-size: 0.85rem;
+}
+
+.toc-item.toc-h4 {
+    padding-left: calc(var(--spacing-lg) + var(--spacing-md));
+    font-size: 0.8rem;
+    color: #94a3b8;
+}
+
+/* Bouton flottant pour mobile */
+.toc-floating-button {
+    position: fixed;
+    bottom: var(--spacing-xl);
+    left: var(--spacing-xl);
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    color: white;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    z-index: 100;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toc-floating-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+}
+
+.toc-floating-button:active {
+    transform: scale(0.95);
+}
+
+/* Responsive TOC */
+@media (max-width: 1200px) {
+    .toc-sidebar {
+        transform: translateX(-100%);
+    }
+    
+    .toc-sidebar.active {
+        transform: translateX(0);
+        box-shadow: 2px 0 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .toc-sidebar.hidden {
+        transform: translateX(-100%);
+    }
+    
+    .toc-sidebar.hidden .toc-content,
+    .toc-sidebar.hidden .toc-header h3 {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    
+    /* Cache le bouton toggle fixe sur mobile (on utilise le bouton flottant) */
+    .toc-toggle {
+        display: none !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .toc-sidebar {
+        width: 80%;
+        max-width: 300px;
+    }
 }
