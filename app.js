@@ -186,69 +186,69 @@ const courses = Object.freeze([
         description: 'Créez un jeu où l\'ordinateur choisit un nombre et le joueur doit deviner.',
         file: 'devine(mini-projet).md'
     },
-    { 
-        id: 'introduction', 
-        title: 'Introduction à Python', 
-        icon: '📌',
-        description: 'Découvrez les bases de Python et commencez votre voyage dans le monde de la programmation.',
-        file: 'introduction.md' 
-    },
-    { 
-        id: 'variables', 
-        title: 'Variables et Types', 
-        icon: '🔢',
-        description: 'Apprenez à stocker et manipuler des données avec les variables et les types de données.',
-        file: 'variables.md' 
-    },
-    { 
-        id: 'structures', 
-        title: 'Structures de Contrôle', 
-        icon: '🔄',
-        description: 'Maîtrisez les conditions, boucles et flux de contrôle pour des programmes dynamiques.',
-        file: 'structures.md' 
-    },
-    { 
-        id: 'fonctions', 
-        title: 'Fonctions', 
-        icon: '⚡',
-        description: 'Créez du code réutilisable et organisé avec les fonctions Python.',
-        file: 'fonctions.md' 
-    },
-    { 
-        id: 'matplotlib', 
-        title: 'Matplotlib & Visualisation', 
-        icon: '📊',
-        description: 'Créez des graphiques et visualisations de données professionnelles.',
-        file: 'matplotlib.md' 
-    },
-    { 
-        id: 'turtle', 
-        title: 'Turtle Graphics', 
-        icon: '🐢',
-        description: 'Apprenez à dessiner et créer des animations avec le module Turtle.',
-        file: 'turtle-graphics.md' 
-    },
-    { 
-        id: 'test-matplotlib', 
-        title: 'Test Matplotlib', 
-        icon: '🧪',
-        description: 'Testez et expérimentez avec différents types de graphiques.',
-        file: 'test-matplotlib.md' 
-    },
-    { 
-        id: 'projets', 
-        title: 'Projets Pratiques', 
-        icon: '🎮',
-        description: 'Mettez en pratique vos compétences avec des projets concrets et amusants.',
-        file: 'projets.md' 
-    },
-    { 
-        id: 'test-modules', 
-        title: 'Test des Modules', 
-        icon: '🔧',
-        description: 'Explorez et testez différents modules Python.',
-        file: 'test-modules.md' 
-    },
+    // { 
+    //     id: 'introduction', 
+    //     title: 'Introduction à Python', 
+    //     icon: '📌',
+    //     description: 'Découvrez les bases de Python et commencez votre voyage dans le monde de la programmation.',
+    //     file: 'introduction.md' 
+    // },
+    // { 
+    //     id: 'variables', 
+    //     title: 'Variables et Types', 
+    //     icon: '🔢',
+    //     description: 'Apprenez à stocker et manipuler des données avec les variables et les types de données.',
+    //     file: 'variables.md' 
+    // },
+    // { 
+    //     id: 'structures', 
+    //     title: 'Structures de Contrôle', 
+    //     icon: '🔄',
+    //     description: 'Maîtrisez les conditions, boucles et flux de contrôle pour des programmes dynamiques.',
+    //     file: 'structures.md' 
+    // },
+    // { 
+    //     id: 'fonctions', 
+    //     title: 'Fonctions', 
+    //     icon: '⚡',
+    //     description: 'Créez du code réutilisable et organisé avec les fonctions Python.',
+    //     file: 'fonctions.md' 
+    // },
+    // { 
+    //     id: 'matplotlib', 
+    //     title: 'Matplotlib & Visualisation', 
+    //     icon: '📊',
+    //     description: 'Créez des graphiques et visualisations de données professionnelles.',
+    //     file: 'matplotlib.md' 
+    // },
+    // { 
+    //     id: 'turtle', 
+    //     title: 'Turtle Graphics', 
+    //     icon: '🐢',
+    //     description: 'Apprenez à dessiner et créer des animations avec le module Turtle.',
+    //     file: 'turtle-graphics.md' 
+    // },
+    // { 
+    //     id: 'test-matplotlib', 
+    //     title: 'Test Matplotlib', 
+    //     icon: '🧪',
+    //     description: 'Testez et expérimentez avec différents types de graphiques.',
+    //     file: 'test-matplotlib.md' 
+    // },
+    // { 
+    //     id: 'projets', 
+    //     title: 'Projets Pratiques', 
+    //     icon: '🎮',
+    //     description: 'Mettez en pratique vos compétences avec des projets concrets et amusants.',
+    //     file: 'projets.md' 
+    // },
+    // { 
+    //     id: 'test-modules', 
+    //     title: 'Test des Modules', 
+    //     icon: '🔧',
+    //     description: 'Explorez et testez différents modules Python.',
+    //     file: 'test-modules.md' 
+    // },
 ]);
 
 /**
