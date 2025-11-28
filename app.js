@@ -179,6 +179,13 @@ function loadMonaco() {
 // GESTION DES COURS
 // ========================================
 const courses = Object.freeze([
+    {
+        id: 'devine',
+        title: 'Devine le Nombre (Mini-Projet)',
+        icon: '🎲',
+        description: 'Créez un jeu où l\'ordinateur choisit un nombre et le joueur doit deviner.',
+        file: 'devine(mini-projet).md'
+    },
     { 
         id: 'introduction', 
         title: 'Introduction à Python', 
