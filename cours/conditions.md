@@ -15,7 +15,7 @@ Les conditions utilisent justement ces valeurs.
 
 Afin de vérifier si une condition est vraie ou fausse, on utilise des **opérateurs de comparaison**. Par exemple pour vérifier l'égalité on va utiliser `==` :
 
-```python:executable
+```python
 a = 3           #-> `=` assignation
 print(a == 3)   #-> `==` comparaison (a est-il égal à 3 ?)
 print(a == 5)   #-> `==` comparaison (a est-il égal à 5 ?)
@@ -26,7 +26,7 @@ Réaliser une comparaison revient donc à poser une question dont la réponse es
 Cette réponse est ensuite utilisée dans les conditions. Si la réponse est `True`, le bloc de code associé à la condition est exécuté, sinon il est ignoré.
 
 Il existe plusieurs opérateurs de comparaison, en voici quelques-uns avec des exemples :
-```python:executable
+```python
 a = 5
 b = 3
 
@@ -67,7 +67,7 @@ if condition:
 
 Exemple :
 
-```python:executable
+```python
 age = 18
 
 if age >= 18:
@@ -82,7 +82,7 @@ Essaye de modifier `age = 16` -> tu constateras que rien ne s’affiche, car la 
 ### Comparaison de chaînes de caractères
 On peut aussi comparer des chaînes de caractères avec les mêmes opérateurs.
 
-```python:executable
+```python
 mot_de_passe = "secret"
 if mot_de_passe == "secret":
     print("Accès autorisé.")
@@ -90,7 +90,7 @@ if mot_de_passe == "secret":
 
 Bien que ce ne soit pas le plus courant, on peut aussi utiliser les autres opérateurs (`!=`, `<`, `>`, etc.) avec des chaînes de caractères. Dans ce cas, la comparaison se fait selon l’ordre alphabétique.
 
-```python:executable
+```python
 mot1 = "apple"
 mot2 = "banana"
 if mot1 < mot2:
@@ -130,7 +130,7 @@ Le programme s’arrête **au premier bloc dont la condition est vraie**.
 
 Exemple :
 
-```python:executable
+```python
 note = 14
 
 if note >= 16:
@@ -165,7 +165,7 @@ else:
 
 Exemple avec une note :
 
-```python:executable
+```python
 note = 8
 
 if note >= 16:
@@ -185,7 +185,7 @@ Ici :
 ## 5. Imbriquer des conditions
 On peut imbriquer des conditions, c’est-à-dire mettre un `if` à l’intérieur d’un autre `if`.
 
-```python:executable
+```python
 age = 20
 a_permis = True
 
@@ -220,7 +220,7 @@ Pour rappel, voici leur **table de vérité** :
 
 Voici des exemples d’utilisation :
 
-```python:executable
+```python
 age = 20
 a_permis = True
 
@@ -229,7 +229,7 @@ if age >= 18 and a_permis:
 ```
 Modifie `age` et `a_permis` pour tester différents cas.
 
-```python:executable
+```python
 jour = "samedi"
 
 if jour == "samedi" or jour == "dimanche":
@@ -237,7 +237,7 @@ if jour == "samedi" or jour == "dimanche":
 ```
 Modifie `jour` pour tester différents cas.
 
-```python:executable
+```python
 est_connecte = False
 
 if not est_connecte:
@@ -253,7 +253,7 @@ Modifie `est_connecte` pour tester différents cas.
 
 A vous de pratiquer !
 
-```python:executable
+```python
 print("------- Exercices : conditions -------")
 # * SI le contenue de ma variable "nombre" EST STRICTEMENT POSITIVE, ALORS j'affiche "positif" SINON j'affiche "négatif ou nul".
 # ** SI ma variable "age" EST SUPÉRIEURE OU ÉGALE À 21 :
@@ -271,7 +271,7 @@ Avant d'executer le code si dessous, reféchis à quel valeur sera affiché à l
 
 Si tu n'est pas tombé sur le bon résultat du premier coup ce n'est pas grave, essaye d'ajouter des prints un peu partout dans le code pour suivre l'évolution de la variable "nombre" (`print(nombre)`).
 
-```python:executable
+```python
 # *** Quel sera la valeur finale de "nombre" ?
 nombre = 10
 

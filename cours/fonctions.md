@@ -26,7 +26,7 @@ def nom_de_la_fonction():
 
 ### 1.2. Exemple : dire bonjour
 
-```python:executable
+```python
 def dire_bonjour():
     print("Bonjour !")
     print("Bienvenue en NSI.")
@@ -42,7 +42,7 @@ Remarques :
 
 On peut l’appeler **plusieurs fois** :
 
-```python:executable
+```python
 def dire_bonjour():
     print("Bonjour !")
     print("Bienvenue en NSI.")
@@ -74,7 +74,7 @@ Les paramètres se mettent **entre les parenthèses**. On peut en avoir :
 
 ### 2.2. Exemple : dire bonjour à quelqu’un
 
-```python:executable
+```python
 def dire_bonjour_a(prenom):
     print("Bonjour", prenom, "!")
 
@@ -95,7 +95,7 @@ On peut imaginer :
 
 ### 2.3. Exemple : afficher une ligne de séparation
 
-```python:executable
+```python
 def ligne(separateur, longueur):
     print(separateur * longueur)
 
@@ -112,7 +112,7 @@ Ici, la même fonction peut produire des lignes très différentes selon les **p
 
 L’intérêt principal des fonctions avec paramètres est de **réutiliser le même code** avec des **données différentes**.
 
-```python:executable
+```python
 def presentation(prenom, age):
     print("Je m appelle", prenom, "et j ai", age, "ans.")
 
@@ -132,7 +132,7 @@ Pour l’instant, nos fonctions **affichent** des choses (`print`).
 
 On peut aussi créer des fonctions qui **renvoient** une valeur grâce à `return`.
 
-```python:executable
+```python
 def carre(x):
     return x * x
 
@@ -149,7 +149,7 @@ Ici :
 
 ## 5. Exercices
 
-```python:executable
+```python
 print("------- Exercices : fonctions -------")
 # * Écrire une fonction bonjour() qui affiche "Bonjour !" puis l'appeler 3 fois.
 # * Écrire une fonction ligne() qui affiche une ligne de 20 tirets "--------------------".

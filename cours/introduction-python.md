@@ -24,7 +24,7 @@ on peut souvent tester rapidement de petites portions de code.
 
 Python exécute les instructions **dans l’ordre**. Pour vérifier cela, executez le code suivant grace au bouton "Exécuter en haut à droite" du bloc de code ci-dessous :
 
-```python:executable
+```python
 print("Ligne 1")
 print("Ligne 2")
 print("Ligne 3")
@@ -39,7 +39,7 @@ Certaines instructions (comme les conditions ou les boucles) peuvent faire saute
 On va commencer par écrire un programme très simple qui affiche du texte à l’écran.
 La fonction print() permet d’afficher quelque chose à l’écran (dans la console).
 
-```python:executable
+```python
 print("Bonjour")
 print("3 + 4 =", 3 + 4)
 ```
@@ -50,7 +50,7 @@ On peut afficher plusieurs choses à la fois, séparées par des virgules.
 ### A vous de jouer !
 Traditionnellement, le premier programme dans un nouveau langage affiche : "Hello, World!".
 
-```python:executable
+```python
 # Ecrire un programme qui affiche "Hello, World!" à l'écran. (utilisez print())
 ```
 

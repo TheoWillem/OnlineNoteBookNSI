@@ -8,14 +8,14 @@ Dans ce contexte apres avoir utiliser mon premier oeuf ma boite_oeuf contiendra 
 
 L'affectation c'est le fait de créer une variable et de lui donner une valeur. En Python, on utilise le symbole `=` pour cela.
 
-```python:executable
+```python
 boite_oeuf = 12  # On crée la variable boite_oeuf et on lui donne la valeur 12
 print("Nombre d'oeufs dans la boite:", boite_oeuf) # Affiche le contenu de la variable
 ```
 
 On peut également réaffecter une nouvelle valeur à une variable existante :
 
-```python:executable
+```python
 boite_oeuf = 12  # On crée la variable boite_oeuf et on lui donne la valeur 12
 print("Nombre d'oeufs dans la boite:", boite_oeuf) # Affiche le contenu de la variable
 boite_oeuf = 10  # On réaffecte une nouvelle valeur à la variable boite_oeuf
@@ -31,7 +31,7 @@ Avant d'aller plus loin il est important de mettre un point d'honneur sur l'impo
 ## Les operations
 Maintenant qu'on sait comment creer une variable voyons comment la manipuler. Pour récuperer la valeur contenue dans la variable on doit simplement ecrire le nom de la variable comme dans l'exemple de l'affichage précédent. Une fois le contenue récupéré il est alors possible diverses opération.
 
-```python:executable
+```python
 boite_oeuf = 12  # On crée la variable boite_oeuf et on lui donne la valeur 12
 print("Nombre d'oeufs dans la boite:", boite_oeuf) # Affiche le contenu de la variable
 boite_oeuf = boite_oeuf + 1
@@ -52,7 +52,7 @@ print("Nombre d'oeufs dans la boite apres ** 2 (puissance):", boite_oeuf)
 
 Une autre syntaxe possible est d'utiliser `+=`,`-=`,`*=`, etc. Cela realise simultanément l'operation puis l'affectation :
 
-```python:executable
+```python
 boite_oeuf = 12  # On crée la variable boite_oeuf et on lui donne la valeur 12
 print("Nombre d'oeufs dans la boite:", boite_oeuf) # Affiche le contenu de la variable
 boite_oeuf += 1
@@ -84,7 +84,7 @@ boolean = True  # ou False
 ```
  
 En fonction du type de la variable certaines opérations sont possibles.
-```python:executable
+```python
 nombre = 5 # +, -, *, /, //, %, **
 print("----- Chaine de caractère -------")
 print("Concatenation :", "hello " + "world")  # concaténation
@@ -97,7 +97,7 @@ print("not True :", not True)
 
 En fonction du type de la variable certaines opérations sont impossibles.
 
-```python:executable
+```python
 nombre = 5
 texte = "hello"
 resultat = nombre + texte  # On ne peut pas additionner un nombre et une chaîne

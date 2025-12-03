@@ -5,7 +5,7 @@
 
 Une **liste** est une structure de données qui permet de stocker plusieurs valeurs dans une seule variable.
 
-```python:executable
+```python
 notes = [12, 15, 9, 18]
 prenoms = ["Alice", "Bob", "Charlie"]
 ```
@@ -18,7 +18,7 @@ On parle parfois de **tableau**, mais en Python le type s’appelle `list`.
 
 En Python, une liste peut contenir des **types différents** :
 
-```python:executable
+```python
 melange = [42, "Python", 3.14, True]
 ```
 
@@ -51,7 +51,7 @@ En Python (et dans beaucoup de langages) :
 - la 3ᵉ case a l’indice `2`
 - etc.
 
-```python:executable
+```python
 fruits = ["pomme", "banane", "cerise"]
 
 print(fruits[0])  # 1er élément  -> "pomme"
@@ -74,7 +74,7 @@ note3 = 9
 
 On met tout dans une liste :
 
-```python:executable
+```python
 notes = [12, 15, 9]
 
 print(notes[0])  # même idée que note1
@@ -88,7 +88,7 @@ On a donc **une variable** (`notes`) + **un indice** (0, 1, 2, …).
 
 On peut changer ce qu’il y a dans une case :
 
-```python:executable
+```python
 fruits = ["pomme", "banane", "cerise"]
 
 fruits[1] = "kiwi"   # on remplace "banane" (indice 1) par "kiwi"
@@ -99,7 +99,7 @@ print(fruits)        # ["pomme", "kiwi", "cerise"]
 
 Si on demande un indice qui n’existe pas, Python se fâche :
 
-```python:executable
+```python
 fruits = ["pomme", "banane", "cerise"]
 
 print(fruits[3])  # ERREUR : il n'y a pas d'indice 3 (juste 0,1,2)
@@ -110,7 +110,7 @@ Erreur obtenue : `IndexError: list index out of range`
 
 Pour éviter ça, on peut utiliser `len()` pour connaître la taille :
 
-```python:executable
+```python
 fruits = ["pomme", "banane", "cerise"]
 n = len(fruits)   # ici 3
 
@@ -122,7 +122,7 @@ print("Dernier élément :", fruits[n - 1])  # fruits[2]
 
 Python permet aussi d’utiliser des **indices négatifs** :
 
-```python:executable
+```python
 fruits = ["pomme", "banane", "cerise"]
 
 print(fruits[-1])  # dernier élément  -> "cerise"
@@ -137,7 +137,7 @@ print(fruits[-2])  # avant-dernier    -> "banane"
 
 Les listes ont plein de **méthodes** déjà prêtes dans Python :
 
-```python:executable
+```python
 nombres = [1, 2, 3]
 
 nombres.append(4)      # ajoute un élément à la fin -> [1, 2, 3, 4]
@@ -162,7 +162,7 @@ Quelques méthodes fréquentes :
 
 ### a) Addition : concaténation
 
-```python:executable
+```python
 a = [1, 2]
 b = [3, 4]
 c = a + b
@@ -173,7 +173,7 @@ Le `+` **colle** les listes l’une à la suite de l’autre.
 
 ### b) Multiplication : répétition
 
-```python:executable
+```python
 l = [0]
 l2 = l * 5
 print(l2)  # [0, 0, 0, 0, 0]
@@ -187,7 +187,7 @@ Le `*` **répète** le contenu plusieurs fois.
 
 On peut mettre des listes **dans** une liste : ce sont des « listes de listes » (souvent utilisées comme tableaux 2D).
 
-```python:executable
+```python
 grille = [
     [1, 2, 3],
     [4, 5, 6],
@@ -208,7 +208,7 @@ print(grille[0][1]) # 2 (ligne 0, colonne 1)
 Pour parcourir les éléments d’une liste, on utilise une boucle `for`.  
 Pour en apprendre plus sur les boucles, voir le chapitre [Les Boucles (suite)](boucles-suite.md).
 
-```python:executable
+```python
 fruits = ["pomme", "banane", "cerise"]
 
 for fruit in fruits:
@@ -217,7 +217,7 @@ for fruit in fruits:
 
 On peut aussi utiliser l’indice :
 
-```python:executable
+```python
 fruits = ["pomme", "banane", "cerise"]
 
 for i in range(len(fruits)):
@@ -228,7 +228,7 @@ for i in range(len(fruits)):
 
 ## Exercices
 
-```python:executable
+```python
 print("------- Exercices : listes -------")
 # * Créer une liste de 4 fruits, afficher le 1er et le 3e élément.
 # * Afficher le dernier élément d'une liste sans écrire directement son indice (utiliser len()).
