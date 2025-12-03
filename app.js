@@ -467,9 +467,25 @@ function processCollapsibleSections(markdown) {
  * @returns {string}
  */
 function processPythonCode(html) {
-    const codeBlockRegex = /<pre><code class="language-python">([\s\S]*?)<\/code><\/pre>/g;
+    // Traiter d'abord les blocs python-static (non-exécutables)
+    const staticCodeRegex = /<pre><code class="language-python-static">([\s\S]*?)<\/code><\/pre>/g;
+    html = html.replace(staticCodeRegex, (match, code) => {
+        const decodedCode = decodeHtml(code);
+        return `
+            <div class="code-static-container">
+                <div class="code-static-header">
+                    <div class="code-static-title">
+                        🐍 Python (lecture seule)
+                    </div>
+                </div>
+                <pre class="code-static"><code class="language-python">${escapeHtml(decodedCode)}</code></pre>
+            </div>
+        `;
+    });
     
-    return html.replace(codeBlockRegex, (match, code) => {
+    // Puis traiter les blocs python normaux (exécutables)
+    const codeBlockRegex = /<pre><code class="language-python">([\s\S]*?)<\/code><\/pre>/g;
+    html = html.replace(codeBlockRegex, (match, code) => {
         AppState.editorCounter++;
         const id = AppState.editorCounter;
         const decodedCode = decodeHtml(code);
@@ -500,6 +516,8 @@ function processPythonCode(html) {
             </script>
         `;
     });
+    
+    return html;
 }
 
 /**

@@ -107,14 +107,59 @@ Cliquez sur le titre pour l'afficher.
 
 ### Code Python Exécutable
 
-Tout bloc de code Python devient automatiquement exécutable :
+Tout bloc de code avec la balise ` ```python ` devient automatiquement **exécutable** :
 
 ````markdown
 ```python
-# Votre code ici
+# Votre code ici - Exécutable avec le bouton ▶
 print("Ce code peut être exécuté !")
 ```
 ````
+
+### Code Python Non Exécutable (Lecture Seule)
+
+Pour afficher du code Python **sans** le rendre exécutable (par exemple pour montrer une solution sans que l'élève puisse la modifier) :
+
+````markdown
+```python-static
+# Code en lecture seule - Non exécutable
+# Utile pour les corrections ou exemples de syntaxe
+def solution():
+    return 42
+```
+````
+
+**Cas d'usage** :
+- ✅ Montrer des corrections d'exercices
+- ✅ Afficher du pseudo-code ou des exemples de syntaxe
+- ✅ Présenter du code incomplet (qui ne s'exécuterait pas)
+- ✅ Montrer du code à ne pas copier-coller directement
+
+### Blocs de Code Autres Langages
+
+Pour afficher du code dans d'autres langages (non exécutables) :
+
+````markdown
+```bash
+# Commande shell
+python3 script.py
+```
+
+```javascript
+// Code JavaScript (non exécutable)
+console.log("Hello");
+```
+
+```text
+Sortie attendue :
+Hello, World!
+```
+````
+
+**Récapitulatif** :
+- **`python`** → Code exécutable avec Monaco Editor ✅
+- **`python-static`** → Code Python non exécutable (lecture seule) 📖
+- **Autres langages** (`bash`, `javascript`, `text`, etc.) → Non exécutables
 
 ## 🎨 Personnalisation du Style
 

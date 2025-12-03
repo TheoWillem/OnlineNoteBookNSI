@@ -557,6 +557,73 @@ body {
 }
 
 /* ========================================
+   BLOCS DE CODE STATIQUES (Non-exécutables)
+   ======================================== */
+.code-static-container {
+    margin-bottom: var(--spacing-lg);
+    border: 1px solid #e2e8f0;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    background-color: white;
+    box-shadow: var(--shadow-sm);
+}
+
+.code-static-header {
+    background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+    color: white;
+    padding: var(--spacing-sm) var(--spacing-md);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.code-static-title {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-weight: 600;
+    font-size: 0.9em;
+}
+
+.code-static {
+    background-color: #f8fafc;
+    color: #1e293b;
+    padding: var(--spacing-md);
+    margin: 0;
+    font-family: var(--font-code);
+    font-size: 0.9em;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    overflow-x: auto;
+    line-height: 1.6;
+}
+
+.code-static code {
+    background: none;
+    padding: 0;
+    border: none;
+    font-family: inherit;
+}
+
+/* Scrollbar pour code statique */
+.code-static::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.code-static::-webkit-scrollbar-track {
+    background: #e2e8f0;
+}
+
+.code-static::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+.code-static::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* ========================================
    BOUTONS
    ======================================== */
 .btn {

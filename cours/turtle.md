@@ -4,7 +4,7 @@ Le module `turtle` permet de faire de petits dessins à l’écran en contrôlan
 
 ## 1. Démarrer avec turtle
 
-```python
+```python-static
 import turtle          # On importe le module
 t = turtle.Turtle()    # On crée une tortue (un crayon que l’on contrôle)
 ```
@@ -14,7 +14,7 @@ t = turtle.Turtle()    # On crée une tortue (un crayon que l’on contrôle)
 
 À la fin du programme, on ajoute souvent :
 
-```python
+```python-static
 turtle.done()
 ```
 
@@ -24,7 +24,7 @@ Cela laisse la fenêtre ouverte tant que tu ne la fermes pas.
 
 ## 2. Déplacer la tortue
 
-```python
+```python-static
 t.forward(100)   # Avancer de 100 pixels
 t.right(90)      # Tourner à droite de 90°
 t.left(90)       # Tourner à gauche de 90°
@@ -40,7 +40,7 @@ t.goto(100, 100) # Aller directement au point (x=100, y=100)
 
 ## 3. Lever et poser le crayon
 
-```python
+```python-static
 t.penup()    # Lever le crayon : ne dessine plus en se déplaçant
 t.pendown()  # Poser le crayon : recommence à dessiner
 ```
@@ -51,7 +51,7 @@ t.pendown()  # Poser le crayon : recommence à dessiner
 
 ## 4. Gérer l’épaisseur, la couleur et la vitesse
 
-```python
+```python-static
 t.pensize(3)        # Épaisseur du trait (3 pixels)
 t.pencolor("red")   # Couleur du trait : ici, rouge
 t.speed(0)          # Vitesse max (0 = très rapide)
@@ -65,7 +65,7 @@ t.speed(0)          # Vitesse max (0 = très rapide)
 
 ## 5. Dessiner un cercle
 
-```python
+```python-static
 t.circle(50)  # Dessine un cercle de rayon 50 pixels
 ```
 
@@ -77,7 +77,7 @@ La tortue dessine un cercle autour de sa position actuelle.
 
 Pour colorier une forme (un cercle, un carré, etc.) :
 
-```python
+```python-static
 t.fillcolor("blue")  # Couleur de remplissage
 t.begin_fill()       # Commencer à remplir
 t.circle(50)         # Exemple : on dessine un cercle
@@ -92,7 +92,7 @@ Tout ce qui est dessiné **entre** `begin_fill()` et `end_fill()` sera rempli av
 
 Voici un petit programme qui utilise tous ces éléments :
 
-```python
+```python-static
 import turtle
 
 t = turtle.Turtle()
