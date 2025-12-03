@@ -470,21 +470,27 @@ function processPythonCode(html) {
     // Traiter d'abord les blocs python-static (non-exécutables)
     const staticCodeRegex = /<pre><code class="language-python-static">([\s\S]*?)<\/code><\/pre>/g;
     html = html.replace(staticCodeRegex, (match, code) => {
+        AppState.editorCounter++;
+        const id = AppState.editorCounter;
         const decodedCode = decodeHtml(code);
-        // Appliquer la coloration syntaxique avec Highlight.js
-        const highlightedCode = typeof hljs !== 'undefined' 
-            ? hljs.highlight(decodedCode, { language: 'python' }).value
-            : escapeHtml(decodedCode);
+        const editorId = `editor-${id}`;
         
         return `
-            <div class="code-static-container">
-                <div class="code-static-header">
-                    <div class="code-static-title">
+            <div class="code-editor-container code-static-mode" data-editor-id="${editorId}">
+                <div class="code-editor-header">
+                    <div class="code-editor-title">
                         🐍 Python (lecture seule)
                     </div>
+                    <!-- Pas de boutons pour le mode statique -->
                 </div>
-                <pre class="code-static"><code class="language-python hljs">${highlightedCode}</code></pre>
+                <div class="code-editor" id="${editorId}"></div>
+                <div class="code-output" style="display: none;">
+                    <span class="code-output-empty">Aucune sortie</span>
+                </div>
             </div>
+            <script type="application/json" data-original-code="${editorId}">
+                ${JSON.stringify(decodedCode)}
+            </script>
         `;
     });
     
