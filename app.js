@@ -479,7 +479,7 @@ function processPythonCode(html) {
             <div class="code-editor-container code-static-mode" data-editor-id="${editorId}">
                 <div class="code-editor-header">
                     <div class="code-editor-title">
-                        🐍 Python (lecture seule)
+                        🐍 Python
                     </div>
                     <!-- Pas de boutons pour le mode statique -->
                 </div>
