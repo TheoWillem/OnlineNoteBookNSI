@@ -1,4 +1,24 @@
-# Découvrir le module `turtle` en Python
+# Dé## 1. Démarrer avec turtle
+
+```python-static
+import turtle          # On importe le module
+t = turtle.Turtle()    # On crée une tortue (un crayon que l'on contrôle)
+```
+
+- `import turtle` : charge le module.
+- `t = turtle.Turtle()` : crée un objet tortue nommé `t` (c'est elle qui dessine).
+
+À la fin du programme, on ajoute souvent :
+
+```python-static
+turtle.done()
+```
+
+Cela laisse la fenêtre ouverte tant que tu ne la fermes pas.
+
+:::info À noter
+Le module `turtle` ne fonctionne pas dans Pyodide (le Python du navigateur). Ces exemples sont **en lecture seule** pour que tu comprennes la syntaxe. Pour les tester, tu devras les copier dans un fichier Python sur ton ordinateur.
+::: `turtle` en Python
 
 Le module `turtle` permet de faire de petits dessins à l’écran en contrôlant une « tortue » qui se déplace et trace des lignes.
 
@@ -116,7 +136,48 @@ t.end_fill()
 turtle.done()
 ```
 
-Tu peux maintenant t’amuser à :
+Tu peux maintenant t'amuser à :
 - changer les valeurs (angles, distances),
 - changer les couleurs,
 - dessiner plusieurs formes à différents endroits.
+
+---
+
+## 8. Comparaison : Code Statique vs Code Exécutable
+
+### Exemple de code Turtle (lecture seule)
+
+Voici du code Turtle avec **coloration syntaxique** mais non exécutable (car Turtle ne fonctionne pas dans le navigateur) :
+
+```python-static
+import turtle
+
+# Dessiner un carré
+for i in range(4):
+    turtle.forward(100)
+    turtle.right(90)
+
+turtle.done()
+```
+
+### Exemple de code Python standard (exécutable)
+
+Et voici du code Python **exécutable** dans le navigateur :
+
+```python
+# Ce code fonctionne dans Pyodide
+import math
+
+rayon = 50
+perimetre = 2 * math.pi * rayon
+aire = math.pi * rayon ** 2
+
+print(f"Pour un cercle de rayon {rayon}:")
+print(f"  Périmètre: {perimetre:.2f}")
+print(f"  Aire: {aire:.2f}")
+```
+
+:::success Astuce
+- Utilise `python-static` pour les exemples de syntaxe ou du code qui ne peut pas s'exécuter dans le navigateur
+- Utilise `python` pour le code interactif que les élèves peuvent modifier et tester
+:::

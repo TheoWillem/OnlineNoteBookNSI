@@ -471,6 +471,11 @@ function processPythonCode(html) {
     const staticCodeRegex = /<pre><code class="language-python-static">([\s\S]*?)<\/code><\/pre>/g;
     html = html.replace(staticCodeRegex, (match, code) => {
         const decodedCode = decodeHtml(code);
+        // Appliquer la coloration syntaxique avec Highlight.js
+        const highlightedCode = typeof hljs !== 'undefined' 
+            ? hljs.highlight(decodedCode, { language: 'python' }).value
+            : escapeHtml(decodedCode);
+        
         return `
             <div class="code-static-container">
                 <div class="code-static-header">
@@ -478,7 +483,7 @@ function processPythonCode(html) {
                         🐍 Python (lecture seule)
                     </div>
                 </div>
-                <pre class="code-static"><code class="language-python">${escapeHtml(decodedCode)}</code></pre>
+                <pre class="code-static"><code class="language-python hljs">${highlightedCode}</code></pre>
             </div>
         `;
     });

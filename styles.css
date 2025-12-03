@@ -586,8 +586,8 @@ body {
 }
 
 .code-static {
-    background-color: #f8fafc;
-    color: #1e293b;
+    background-color: #282c34;
+    color: #abb2bf;
     padding: var(--spacing-md);
     margin: 0;
     font-family: var(--font-code);
@@ -602,6 +602,13 @@ body {
     padding: 0;
     border: none;
     font-family: inherit;
+    display: block;
+}
+
+/* Assurer que le thème Highlight.js s'applique correctement */
+.code-static code.hljs {
+    background: transparent;
+    padding: 0;
 }
 
 /* Scrollbar pour code statique */
