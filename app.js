@@ -179,6 +179,70 @@ function loadMonaco() {
 // GESTION DES COURS
 // ========================================
 const courses = Object.freeze([
+    // 1. Introduction
+    {
+        id: 'introduction-python',
+        title: 'Introduction à Python',
+        icon: '🐍',
+        description: 'Découvrez Python : un langage simple et puissant pour apprendre la programmation.',
+        file: 'introduction-python.md'
+    },
+    
+    // 2. Bases : Variables
+    {
+        id: 'variables',
+        title: 'Les Variables',
+        icon: '📦',
+        description: 'Apprenez à stocker et manipuler des données avec les variables et les types.',
+        file: 'variables.md'
+    },
+    
+    // 3. Structures : Conditions
+    {
+        id: 'conditions',
+        title: 'Les Conditions',
+        icon: '🔀',
+        description: 'Prenez des décisions dans vos programmes avec if, elif et else.',
+        file: 'conditions.md'
+    },
+    
+    // 4. Collections : Listes
+    {
+        id: 'listes',
+        title: 'Les Listes',
+        icon: '📋',
+        description: 'Manipulez des collections d\'éléments avec les listes Python.',
+        file: 'listes.md'
+    },
+    
+    // 5. Structures : Boucles
+    {
+        id: 'boucles',
+        title: 'Les Boucles',
+        icon: '🔁',
+        description: 'Répétez des actions avec les boucles for et while.',
+        file: 'boucles.md'
+    },
+    
+    // 6. Boucles avancées
+    {
+        id: 'boucles-suite',
+        title: 'Les Boucles (Suite)',
+        icon: '🔄',
+        description: 'Allez plus loin avec break, continue et les boucles imbriquées.',
+        file: 'boucles-suite.md'
+    },
+    
+    // 7. Fonctions
+    {
+        id: 'fonctions',
+        title: 'Les Fonctions',
+        icon: '⚡',
+        description: 'Créez du code réutilisable et organisé avec les fonctions Python.',
+        file: 'fonctions.md'
+    },
+    
+    // 8. Mini-Projet : Devine le nombre
     {
         id: 'devine',
         title: 'Devine le Nombre (Mini-Projet)',
@@ -186,69 +250,15 @@ const courses = Object.freeze([
         description: 'Créez un jeu où l\'ordinateur choisit un nombre et le joueur doit deviner.',
         file: 'devine(mini-projet).md'
     },
-    // { 
-    //     id: 'introduction', 
-    //     title: 'Introduction à Python', 
-    //     icon: '📌',
-    //     description: 'Découvrez les bases de Python et commencez votre voyage dans le monde de la programmation.',
-    //     file: 'introduction.md' 
-    // },
-    // { 
-    //     id: 'variables', 
-    //     title: 'Variables et Types', 
-    //     icon: '🔢',
-    //     description: 'Apprenez à stocker et manipuler des données avec les variables et les types de données.',
-    //     file: 'variables.md' 
-    // },
-    // { 
-    //     id: 'structures', 
-    //     title: 'Structures de Contrôle', 
-    //     icon: '🔄',
-    //     description: 'Maîtrisez les conditions, boucles et flux de contrôle pour des programmes dynamiques.',
-    //     file: 'structures.md' 
-    // },
-    // { 
-    //     id: 'fonctions', 
-    //     title: 'Fonctions', 
-    //     icon: '⚡',
-    //     description: 'Créez du code réutilisable et organisé avec les fonctions Python.',
-    //     file: 'fonctions.md' 
-    // },
-    // { 
-    //     id: 'matplotlib', 
-    //     title: 'Matplotlib & Visualisation', 
-    //     icon: '📊',
-    //     description: 'Créez des graphiques et visualisations de données professionnelles.',
-    //     file: 'matplotlib.md' 
-    // },
-    // { 
-    //     id: 'turtle', 
-    //     title: 'Turtle Graphics', 
-    //     icon: '🐢',
-    //     description: 'Apprenez à dessiner et créer des animations avec le module Turtle.',
-    //     file: 'turtle-graphics.md' 
-    // },
-    // { 
-    //     id: 'test-matplotlib', 
-    //     title: 'Test Matplotlib', 
-    //     icon: '🧪',
-    //     description: 'Testez et expérimentez avec différents types de graphiques.',
-    //     file: 'test-matplotlib.md' 
-    // },
-    // { 
-    //     id: 'projets', 
-    //     title: 'Projets Pratiques', 
-    //     icon: '🎮',
-    //     description: 'Mettez en pratique vos compétences avec des projets concrets et amusants.',
-    //     file: 'projets.md' 
-    // },
-    // { 
-    //     id: 'test-modules', 
-    //     title: 'Test des Modules', 
-    //     icon: '🔧',
-    //     description: 'Explorez et testez différents modules Python.',
-    //     file: 'test-modules.md' 
-    // },
+    
+    // 9. Graphisme : Turtle
+    {
+        id: 'turtle',
+        title: 'Turtle Graphics',
+        icon: '🐢',
+        description: 'Apprenez à dessiner et créer des animations avec le module Turtle.',
+        file: 'turtle.md'
+    },
 ]);
 
 /**
