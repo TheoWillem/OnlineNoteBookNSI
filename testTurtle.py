@@ -116,3 +116,4 @@ def carre(x, y, size):
 
 
 #ajouter fonction de set up position
+

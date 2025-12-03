@@ -140,5 +140,26 @@ Tu peux maintenant t'amuser à :
 - changer les valeurs (angles, distances),
 - changer les couleurs,
 - dessiner plusieurs formes à différents endroits.
-
 ---
+
+## Exorcices
+
+```python
+def sol(y): #fenetre de 1000 sur 1000 centre 0,0
+    ...
+
+def etoile(x, y, size): # angle de 144 pour etoile a 5 branche
+    ...
+
+def maison(x, y, size): #theoreme de pythagore pour le toit
+    ...
+
+def cercle(x, y, radius): #t.cercle(...)
+    ...
+
+def rosace(x, y, radius, petals): #cercles complet
+    ...
+    
+def dragon_de_tres_loin(x, y): #t.dot(...)
+    ...
+``` 
