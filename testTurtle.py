@@ -62,12 +62,14 @@ def couronne_avent(x, y, radius):
     etoile(x - radius * 0.55, y - radius * 0.55, radius / 4)
     etoile(x + radius * 0.5, y + radius * 0.5, radius / 4)
 
-""" sol(-300)
-maison(-200, -100, 200)
-etoile(0, 100, 150)
-etoile(-250, 200, 100)
-etoile(250, 250, 75)
- """
+#sol(-300)
+#maison(-200, -100, 300)
+#etoile(0, 100, 150)
+#etoile(-250, 200, 100)
+#etoile(250, 250, 75)
+
+rosace(0,0,100, 12)
+
 turtle.done()
 
 
@@ -110,7 +112,7 @@ def carre(x, y, size):
     return True #ne sert a rien, juste pour l'exemple
 
 
-
+carre()
 
 
 

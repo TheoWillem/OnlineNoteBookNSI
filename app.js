@@ -259,6 +259,22 @@ const courses = Object.freeze([
         description: 'Apprenez à dessiner et créer des animations avec le module Turtle.',
         file: 'turtle.md'
     },
+    // 10. POO
+    {
+        id: 'POO',
+        title: 'Programmation Orienté Objet (POO)',
+        icon: '🏛️',
+        description: 'Découvrez les concepts de base de la POO : classes, objets',
+        file: 'POO.md'
+    },
+    // 11. Mini-Projet : morpion
+    {
+        id: 'morpion',
+        title: 'Morpion (Mini-Projet)',
+        icon: '❌',
+        description: 'Créez votre propre jeu de morpion en Python.',
+        file: 'morpion(mini-projet).md'
+    }
 ]);
 
 /**

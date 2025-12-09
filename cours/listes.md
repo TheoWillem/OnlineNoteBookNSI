@@ -82,7 +82,7 @@ print(notes[1])  # même idée que note2
 print(notes[2])  # même idée que note3
 ```
 
-On a donc **une variable** (`notes`) + **un indice** (0, 1, 2, …).
+On a donc **une variable** (`notes`) et **un indice** (0, 1, 2, …).
 
 ### 3.4. Modifier une valeur à un indice donné
 
@@ -118,7 +118,7 @@ print("Longueur de la liste :", n)
 print("Dernier élément :", fruits[n - 1])  # fruits[2]
 ```
 
-:::details ** 3.6. Indices négatifs : partir de la fin
+:::collapsible ** 3.6. Indices négatifs : partir de la fin
 
 Python permet aussi d’utiliser des **indices négatifs** :
 
@@ -185,7 +185,7 @@ Le `*` **répète** le contenu plusieurs fois.
 
 ## 6. Les listes de listes
 
-On peut mettre des listes **dans** une liste : ce sont des « listes de listes » (souvent utilisées comme tableaux 2D).
+On peut mettre des listes **dans** une liste : ce sont des « listes de listes » (souvent utilisées comme matrice) (ça peut servir à représenter un échiquier ou une grille de morpion par exemple).
 
 ```python
 grille = [
@@ -223,6 +223,20 @@ fruits = ["pomme", "banane", "cerise"]
 for i in range(len(fruits)):
     print("Indice", i, "->", fruits[i])
 ```
+### 7.1 Parcourir une liste de listes
+Pour parcourir une liste de listes, on utilise deux boucles `for` imbriquées :
+
+```python
+grille = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+] 
+for ligne in grille:
+    for valeur in ligne:
+        print(valeur, end=' ') # le paramètre end=' ' évite le saut de ligne
+    print()  # nouvelle ligne après chaque ligne de la grille
+```
 
 ---
 
@@ -237,3 +251,4 @@ print("------- Exercices : listes -------")
 # *** Écrire un programme qui affiche chaque indice et chaque valeur d'une liste (avec range(len(...))).
 # *** Provoquer volontairement un IndexError, puis corriger le programme.
 ```
+
