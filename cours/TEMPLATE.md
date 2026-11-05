@@ -1,171 +1,80 @@
-# Titre de Votre Cours
+<div class="lesson-hero">
+  <span class="eyebrow">PREMIÈRE NSI · CHAPITRE XX</span>
+  <h1>🧭 Titre du chapitre</h1>
+  <p>Une phrase courte pour introduire la notion.</p>
+  <div class="lesson-meta"><span>⏱ 1 h</span><span>🎯 Niveau</span><span>🧪 3 exercices</span></div>
+</div>
 
-:::note Objectifs
-Décrivez ici les objectifs du cours :
-- Objectif 1
-- Objectif 2
-- Objectif 3
+:::note 🎯 Objectifs
+À la fin de la séance, je sais :
+- expliquer ... ;
+- utiliser ... ;
+- vérifier ... .
 :::
 
-## Introduction
-
-Introduisez le sujet du cours ici. Expliquez pourquoi c'est important et ce que les étudiants vont apprendre.
-
-:::info Information contextuelle
-Ajoutez des informations de contexte importantes ici.
+:::info 💾 Mon travail
+Les cellules Python sont modifiables et sauvegardées automatiquement **dans ce navigateur**.
+Utilise **Exporter / Importer** pour transférer ton travail sur un autre appareil.
 :::
 
-## Concept Principal 1
+## 1. Découvrir la notion
 
-Expliquez le premier concept avec du texte et des exemples.
-
-### Exemple de Code
+Texte court, exemple concret et si besoin illustration : `![Description utile](assets/nom.svg)`.
 
 ```python
-# Exemple de code Python
-print("Votre code ici")
-
-# Ce code sera automatiquement exécutable
-resultat = 2 + 2
-print(f"Le résultat est : {resultat}")
+print("Exemple exécutable")
 ```
 
-:::collapsible Explications détaillées
-Ajoutez des explications supplémentaires que les étudiants peuvent ouvrir/fermer.
-- Point 1
-- Point 2
-- Point 3
+:::reminder 🧠 À retenir
+Une règle essentielle en une ou deux phrases.
 :::
 
-## Concept Principal 2
+## 2. S'entraîner
 
-Continuez avec les autres concepts...
+### 🧪 Exercice 1 — Titre explicite
 
-### Pratique Interactive
+Une consigne avec un objectif observable.
 
-```python
-# Les étudiants peuvent modifier ce code
-def ma_fonction():
-    return "Modifiez-moi !"
-
-print(ma_fonction())
+```python:exemple-01
+# À compléter
+resultat = 0
 ```
 
-:::warning Attention
-Mettez en garde sur les erreurs communes ou les points délicats.
+```python-test:exemple-01
+assert resultat == 42, "Le résultat attendu est 42."
+print("✅ Test réussi !")
+```
+
+:::collapsible 💡 Indice 1 — Question
+Une piste de compréhension, sans donner la réponse.
 :::
 
-## Exercice Pratique
-
-```python
-# Exercice pour les étudiants
-# TODO: Complétez ce code
-
-def exercice():
-    # Votre solution ici
-    pass
-
-# Testez votre solution
-exercice()
-```
-
-:::reminder Rappel
-Rappelez les points clés à retenir.
+:::collapsible 🔍 Indice 2 — Mise en œuvre
+Une indication de syntaxe ou un fragment de raisonnement.
 :::
 
-## Types d'Encadrés Disponibles
-
-### Note (bleu)
+:::collapsible ✅ Correction
+```python-static
+resultat = 42
 ```
-:::note Titre
-Contenu de la note
-:::
-```
-
-### Warning (orange)
-```
-:::warning Titre
-Contenu de l'avertissement
-:::
-```
-
-### Attention (rouge)
-```
-:::attention Titre
-Contenu important
-:::
-```
-
-### Success (vert)
-```
-:::success Titre
-Message de succès
-:::
-```
-
-### Info (cyan)
-```
-:::info Titre
-Information
-:::
-```
-
-### Reminder (violet)
-```
-:::reminder Titre
-Rappel important
-:::
-```
-
-### Section Déroulante
-```
-:::collapsible Titre de la section
-Contenu caché par défaut
-:::
-```
-
-## Visualisation avec Matplotlib
-
-Si vous voulez inclure des graphiques :
-
-```python
-import matplotlib.pyplot as plt
-import numpy as np
-
-# Créer des données
-x = np.linspace(0, 10, 100)
-y = np.sin(x)
-
-# Créer le graphique
-plt.figure(figsize=(10, 6))
-plt.plot(x, y)
-plt.title('Mon Graphique')
-plt.xlabel('x')
-plt.ylabel('sin(x)')
-plt.grid(True)
-plt.show()
-```
-
-## Conclusion
-
-Résumez les points clés du cours.
-
-:::success Félicitations !
-Message de fin encourageant pour les étudiants.
 :::
 
----
+:::warning ⚠️ Erreur fréquente
+Attention à ...
+:::
 
-## Notes pour l'Enseignant
+## 3. Bilan
 
-- N'oubliez pas d'ajouter votre cours dans `app.js` :
-  ```javascript
-  const courses = [
-      // ... autres cours
-      { id: 'nouveau-cours', title: '🆕 Nouveau Cours', file: 'nouveau-cours.md' },
-  ];
-  ```
+:::success ✅ Je sais maintenant
+- Vérifier ma réponse sans révéler immédiatement la correction.
+- Utiliser les concepts du chapitre.
+:::
 
-- Utilisez des emojis dans les titres pour rendre le menu plus visuel
-- Testez tous les exemples de code avant de publier
-- Pensez à varier les types d'exercices
+<!-- ENSEIGNANT :
+  - Les identifiants explicites (ex: python:exemple-01) servent de clés de sauvegarde.
+  - Un bloc python-test:<id> est associé à la cellule python:<id>.
+  - Les tests sont formatifs et consultables dans le Markdown : pas de barème secret.
+  - Ne pas imbriquer des blocs ::: dans d'autres blocs :::.
+  - Tester chaque exercice en l'état (doit échouer si incomplet), puis avec la correction (doit réussir).
+  - Ajouter le cours uniquement dans config.json, pas dans app.js.
+-->

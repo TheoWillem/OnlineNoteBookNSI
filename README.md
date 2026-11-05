@@ -1,330 +1,193 @@
-# 📚 Site Web de Cours NSI - Notebook Interactif
+# 📚 OnlineNoteBookNSI — Cours Python interactifs
 
-Un site web interactif pour apprendre la programmation Python avec des fonctionnalités de notebook avancées.
+Une plateforme de cours de NSI à partir de fichiers **Markdown** : les élèves lisent les notions, modifient leurs programmes avec **Monaco Editor** et les exécutent dans le navigateur avec **Pyodide**.
 
-## 🎯 Fonctionnalités
+## ✨ Fonctionnalités
 
-### ✨ Ce qui est inclus :
+- 📖 Cours Markdown avec sommaire automatique, encadrés colorés et sections déroulables.
+- 🐍 Éditeurs Python interactifs, lecture seule pour les corrections (`python-static`).
+- 💡 **Indices progressifs** : plusieurs panneaux `:::collapsible` sous chaque exercice.
+- ✅ **Tests formatifs** : bouton « Vérifier » associé à certains exercices ; retour immédiatement visible.
+- 💾 **Sauvegarde automatique locale** des cellules éditables, distincte pour chaque cours et exercice.
+- 📂 **Import / Export du travail** par fichier JSON pour transférer ses réponses ou les rendre.
+- 🎨 Illustrations SVG dans `assets/`, styles communs pour tous les chapitres.
+- 📋 **Catalogue unique dans `config.json`** : 11 cours existants conservés.
 
-- **📝 Cours en Markdown** : Ajoutez facilement des cours au format Markdown dans le dossier `cours/`
-- **💻 Éditeur de Code Intégré** : Monaco Editor pour modifier et exécuter du code Python
-- **🐍 Exécution Python dans le Navigateur** : Pyodide permet d'exécuter du code Python sans serveur
-- **📊 Support des Bibliothèques** : Matplotlib, NumPy et autres bibliothèques Python
-- **📦 Fenêtres de Sortie** : Affichage des graphiques dans des fenêtres modales
-- **🎨 CSS Personnalisable** : Modifiez facilement `styles.css` pour changer l'apparence
-- **📂 Sections Déroulantes** : Organisez votre contenu avec des sections collapsibles
-- **💡 Encadrés Spéciaux** : Note, Warning, Attention, Success, Info, Reminder
+> **Confidentialité et limites** : les réponses restent dans le `localStorage` de ce navigateur, sur cet appareil et sur la même origine (adresse Web). Elles ne sont pas synchronisées sur un serveur et peuvent disparaître si les données du navigateur sont effacées ou si l'enseignant change l'adresse du site. Utilisez régulièrement **Exporter** et conservez le fichier JSON.
 
-## 🚀 Démarrage Rapide
+## 🚀 Lancer le projet
 
-### 1. Ouvrir le site
-
-Ouvrez simplement `index.html` dans votre navigateur :
+Le site nécessite un serveur HTTP pour charger `config.json` et les fichiers Markdown (le mode `file://` ne convient pas).
 
 ```bash
-# Avec Python
 python3 -m http.server 8000
-
-# Avec Node.js (si installé)
-npx serve
-
-# Avec l'extension Live Server de VS Code
-# Clic droit sur index.html > Open with Live Server
 ```
 
-Puis naviguez vers `http://localhost:8000`
+Puis ouvrez `http://localhost:8000/`.
 
-### 2. Ajouter un cours
+Une connexion est nécessaire au premier chargement des bibliothèques du navigateur (Pyodide, Monaco, Marked) depuis les CDN. Le code Python des élèves est exécuté dans leur navigateur ; il n'est **pas** envoyé à un serveur par la plateforme.
 
-Créez un fichier Markdown dans le dossier `cours/` :
+## 🗂️ Structure du dépôt
 
-```markdown
-# Mon Nouveau Cours
-
-:::note Objectifs
-Ce que vous allez apprendre dans ce cours.
-:::
-
-## Section 1
-
-Votre contenu ici...
-
-```python
-# Code Python exécutable
-print("Hello, World!")
-```
+```text
+OnlineNoteBookNSI/
+├── index.html
+├── app.js                  # Lecteur Markdown, éditeurs, exécution, tests et sauvegarde
+├── styles.css              # Design général et composants pédagogiques
+├── config.json             # UNIQUE catalogue des cours
+├── assets/                 # Illustrations SVG (accessibles depuis le Markdown)
+├── cours/
+│   ├── TEMPLATE.md         # Modèle de chapitre réutilisable
+│   ├── variables.md        # Chapitre complet avec exercices
+│   └── ...                 # Autres cours existants
+├── tests/check_content.py  # Validations du catalogue et des identifiants de cellules
+└── .github/workflows/validate.yml
 ```
 
-### 3. Enregistrer le cours dans l'application
+## ✍️ Créer un nouveau cours
 
-Modifiez `app.js` pour ajouter votre cours à la liste :
+1. Copiez `cours/TEMPLATE.md` vers `cours/mon-chapitre.md`.
+2. Remplacez les objectifs, exemples, exercices, indices et corrections.
+3. Ajoutez **uniquement** une entrée dans `config.json` :
 
-```javascript
-const courses = [
-    // Cours existants...
-    { id: 'nouveau', title: '🆕 Mon Nouveau Cours', file: 'nouveau.md' },
-];
+```json
+{
+  "id": "mon-chapitre",
+  "titre": "Mon chapitre",
+  "icone": "🧭",
+  "description": "Une phrase pour présenter le cours.",
+  "fichier": "mon-chapitre.md",
+  "niveau": "Première NSI",
+  "duree_estimee": "1 h"
+}
 ```
 
-## 📖 Syntaxe Markdown Étendue
+4. Vérifiez le format : `python3 tests/check_content.py` puis ouvrez le cours dans le navigateur.
 
-### Encadrés d'Information
+### Bandeau de cours
 
-```markdown
-:::note Titre de la note
-Contenu de la note
+```html
+<div class="lesson-hero">
+  <span class="eyebrow">PREMIÈRE NSI · CHAPITRE 1</span>
+  <h1>📦 Les variables</h1>
+  <p>Une brève introduction.</p>
+  <div class="lesson-meta"><span>⏱ 1 h</span><span>🎯 Débutant</span></div>
+</div>
+```
+
+### Encadrés Markdown
+
+Les types reconnus sont `note`, `warning`, `attention`, `success`, `info` et `reminder` :
+
+```text
+:::note 🎯 Objectifs
+- Objectif n°1
+- Objectif n°2
 :::
 
-:::warning Attention
-Message d'avertissement
-:::
-
-:::attention Danger
-Message important
-:::
-
-:::success Félicitations
-Message de succès
-:::
-
-:::info Information
-Information utile
-:::
-
-:::reminder Rappel
-Point à se rappeler
+:::warning ⚠️ Attention
+Une erreur fréquente.
 :::
 ```
 
-### Sections Déroulantes
+Ces blocs peuvent contenir des listes, du Markdown et des blocs de code. **N'imbriquez pas un bloc `:::` dans un autre.** Les anciens `:::details` restent pris en charge.
 
-```markdown
-:::collapsible Titre de la section
-Contenu caché par défaut.
-Cliquez sur le titre pour l'afficher.
+### Sections repliables pour les indices
+
+```text
+:::collapsible 💡 Indice 1 — Première piste
+Une question ou un rappel.
+:::
+
+:::collapsible 🔍 Indice 2 — Une piste de code
+Une indication plus précise.
+:::
+
+:::collapsible ✅ Correction
+Une proposition de solution ; éventuellement un bloc python-static.
 :::
 ```
 
-### Code Python Exécutable
+### Code Python
 
-Tout bloc de code avec la balise ` ```python ` devient automatiquement **exécutable** :
+Bloc modifiable et exécutable :
 
 ````markdown
 ```python
-# Votre code ici - Exécutable avec le bouton ▶
-print("Ce code peut être exécuté !")
+print('Bonjour')
 ```
 ````
 
-### Code Python Non Exécutable (Lecture Seule)
+Bloc modifiable avec **ID stable** (conseillé pour les exercices et leur sauvegarde) :
 
-Pour afficher du code Python **sans** le rendre exécutable (par exemple pour montrer une solution sans que l'élève puisse la modifier) :
+````markdown
+```python:ex-01
+resultat = 0  # À compléter
+```
+````
+
+Correction en lecture seule :
 
 ````markdown
 ```python-static
-# Code en lecture seule - Non exécutable
-# Utile pour les corrections ou exemples de syntaxe
-def solution():
-    return 42
+resultat = 42
 ```
 ````
 
-**Cas d'usage** :
-- ✅ Montrer des corrections d'exercices
-- ✅ Afficher du pseudo-code ou des exemples de syntaxe
-- ✅ Présenter du code incomplet (qui ne s'exécuterait pas)
-- ✅ Montrer du code à ne pas copier-coller directement
+### Tests formatifs
 
-### Blocs de Code Autres Langages
-
-Pour afficher du code dans d'autres langages (non exécutables) :
+Associez un bloc `python-test:<id>` à une cellule `python:<id>` du même cours. Le bouton **✓ Vérifier** apparaît automatiquement. Le code de l'élève est exécuté dans un espace de noms Python distinct, puis les tests utilisent `assert` et peuvent afficher une confirmation avec `print`.
 
 ````markdown
-```bash
-# Commande shell
-python3 script.py
+```python:ex-01
+resultat = 0
 ```
 
-```javascript
-// Code JavaScript (non exécutable)
-console.log("Hello");
-```
-
-```text
-Sortie attendue :
-Hello, World!
+```python-test:ex-01
+assert resultat == 42, "Le résultat attendu est 42."
+print("✅ Réussi !")
 ```
 ````
 
-**Récapitulatif** :
-- **`python`** → Code exécutable avec Monaco Editor ✅
-- **`python-static`** → Code Python non exécutable (lecture seule) 📖
-- **Autres langages** (`bash`, `javascript`, `text`, etc.) → Non exécutables
+Les tests sont visibles dans les fichiers sources Markdown : **ils servent à l'autoévaluation formative, pas à la certification ni à la notation sécurisée**. Les tests ne garantissent pas la qualité d'un programme pour toutes les entrées.
 
-## 🎨 Personnalisation du Style
+### Illustrations
 
-Modifiez `styles.css` pour personnaliser l'apparence :
+Stockez de préférence des images SVG légères dans `assets/`, puis insérez-les dans le cours :
 
-```css
-:root {
-    /* Couleurs principales */
-    --primary-color: #2563eb;      /* Couleur principale */
-    --secondary-color: #475569;     /* Couleur secondaire */
-    --accent-color: #0ea5e9;        /* Couleur d'accent */
-    
-    /* Couleurs des boîtes */
-    --note-color: #3b82f6;          /* Bleu pour les notes */
-    --warning-color: #f59e0b;       /* Orange pour les avertissements */
-    --danger-color: #ef4444;        /* Rouge pour les dangers */
-    --success-color: #10b981;       /* Vert pour les succès */
-    
-    /* Espacements */
-    --spacing-md: 1rem;
-    --spacing-lg: 1.5rem;
-    
-    /* Polices */
-    --font-main: 'Segoe UI', sans-serif;
-    --font-code: 'Consolas', monospace;
-}
+```markdown
+![Description informative de l'image](assets/affectation.svg)
 ```
 
-## 📊 Utiliser des Bibliothèques Python
+Le chemin est relatif à la page Web (`index.html`), et non au fichier Markdown `cours/...`.
 
-### Matplotlib (graphiques)
+## 💾 Sauvegarde, import et export
 
-```python
-import matplotlib.pyplot as plt
-import numpy as np
+- Toute modification d'un éditeur est sauvegardée dans le stockage local du navigateur avec la clé `nsi-progress:v1:<id-cours>:<id-cellule>`.
+- Lors du retour sur le même cours, le code précédent est automatiquement restauré.
+- **Réinitialiser** restaure la version du cours et efface la sauvegarde de la cellule concernée.
+- **Exporter** produit un fichier `nsi-<id-cours>-travail.json` contenant les cellules éditables.
+- **Importer** recharge ce fichier dans le **même cours** ; seules les cellules aux identifiants correspondants sont restaurées.
 
-x = np.linspace(0, 10, 100)
-y = np.sin(x)
+Les éditeurs sans ID explicite restent compatibles, mais leur clé `auto-N` peut changer lorsque vous ajoutez ou retirez des blocs de code au chapitre. **Donnez un ID stable aux exercices** pour ne pas perdre leur correspondance après une mise à jour du cours.
 
-plt.figure(figsize=(8, 6))
-plt.plot(x, y)
-plt.title('Fonction Sinus')
-plt.xlabel('x')
-plt.ylabel('sin(x)')
-plt.grid(True)
-plt.show()
+## 🔧 Validation et dépannage
+
+```bash
+node --check app.js
+python3 tests/check_content.py
 ```
 
-Le graphique s'affichera dans une fenêtre modale.
+La validation automatique vérifie le JSON, les fichiers des cours, les blocs `:::`, les identifiants Python et les liens SVG. Le navigateur doit être utilisé pour tester réellement l'éditeur, Pyodide et les rendus graphiques. GitHub Actions exécute les vérifications statiques sur les demandes de fusion.
 
-### NumPy (calculs scientifiques)
+Si une cellule n'exécute pas Python, vérifiez le chargement de Pyodide, la console du navigateur et les restrictions réseau sur les CDN. Certaines bibliothèques CPython natives (comme `tkinter`) ne fonctionnent pas dans Pyodide.
 
-```python
-import numpy as np
+## 🎓 Pour les enseignants
 
-# Créer un tableau
-arr = np.array([1, 2, 3, 4, 5])
-print("Tableau:", arr)
-print("Moyenne:", np.mean(arr))
-print("Écart-type:", np.std(arr))
+- Introduisez une notion par un exemple court et une question d'observation.
+- Prévoyez des exercices de difficulté progressive avec **deux indices** avant la correction.
+- Placez les corrections dans des blocs repliables, avec `python-static`.
+- Ajoutez un ou deux `assert` pertinents par exercice ; vérifiez qu'ils échouent sur le code initial et réussissent sur la correction.
+- Faites exporter les fichiers JSON en fin de séance si les élèves doivent les remettre.
 
-# Opérations matricielles
-matrix = np.array([[1, 2], [3, 4]])
-print("Matrice:\n", matrix)
-print("Déterminant:", np.linalg.det(matrix))
-```
-
-## 🛠️ Structure du Projet
-
-```
-testSiteWebCour2/
-├── index.html          # Page principale
-├── styles.css          # Feuille de style (personnalisable)
-├── app.js              # Logique JavaScript
-├── cours/              # Dossier des cours
-│   ├── introduction.md
-│   ├── variables.md
-│   ├── structures.md
-│   └── fonctions.md
-└── README.md           # Ce fichier
-```
-
-## 💡 Conseils d'Utilisation
-
-### Pour les Enseignants
-
-1. **Créez des cours progressifs** : Commencez simple, augmentez la complexité
-2. **Utilisez les encadrés** : Mettez en valeur les points importants
-3. **Ajoutez des exercices** : Code modifiable encourage l'expérimentation
-4. **Sections déroulantes** : Pour les explications détaillées optionnelles
-
-### Pour les Étudiants
-
-1. **Modifiez le code** : N'hésitez pas à expérimenter dans les éditeurs
-2. **Bouton Réinitialiser** : Remet le code d'origine si vous vous perdez
-3. **Regardez les sorties** : Les messages d'erreur sont éducatifs
-4. **Explorez les sections** : Cliquez sur les sections déroulantes
-
-## 🔧 Technologies Utilisées
-
-- **Pyodide** : Python dans le navigateur (WebAssembly)
-- **Monaco Editor** : L'éditeur de VS Code dans le navigateur
-- **Marked.js** : Parser Markdown
-- **CSS Variables** : Personnalisation facile
-- **Vanilla JavaScript** : Pas de framework, code simple
-
-## 📝 Ajouter Plus de Bibliothèques Python
-
-Pour ajouter des bibliothèques Python supplémentaires, modifiez `app.js` :
-
-```javascript
-async function loadPyodide() {
-    pyodide = await loadPyodideModule();
-    // Ajoutez vos bibliothèques ici
-    await pyodide.loadPackage(['numpy', 'matplotlib', 'pandas', 'scipy']);
-    // ...
-}
-```
-
-Bibliothèques disponibles : https://pyodide.org/en/stable/usage/packages-in-pyodide.html
-
-## 🎓 Exemples de Cours
-
-Le site inclut 4 cours d'exemple :
-
-1. **Introduction à Python** : Premier contact avec le langage
-2. **Variables et Types** : Types de données, conversions, listes
-3. **Structures de Contrôle** : Conditions, boucles, break/continue
-4. **Fonctions** : Création, paramètres, return, récursion
-
-## 🐛 Dépannage
-
-### Le code Python ne s'exécute pas
-
-- Attendez que Pyodide soit chargé (quelques secondes au démarrage)
-- Vérifiez la console du navigateur pour les erreurs
-- Assurez-vous que le navigateur supporte WebAssembly
-
-### Les graphiques ne s'affichent pas
-
-- Matplotlib peut prendre quelques secondes à initialiser
-- Essayez de recharger la page
-- Vérifiez que `plt.show()` est appelé
-
-### Le style ne se charge pas correctement
-
-- Videz le cache du navigateur
-- Vérifiez que `styles.css` est dans le même dossier que `index.html`
-
-## 📄 Licence
-
-Ce projet est libre d'utilisation pour l'éducation.
-
-## 🤝 Contributions
-
-N'hésitez pas à :
-- Ajouter de nouveaux cours
-- Améliorer le CSS
-- Signaler des bugs
-- Proposer des fonctionnalités
-
-## 📧 Support
-
-Pour toute question ou problème, consultez la documentation ou ouvrez un ticket.
-
----
-
-**Bon enseignement et bon apprentissage ! 🎓**
+Ce projet repose sur Pyodide, Monaco Editor, Marked.js, JavaScript et CSS ; aucun compte externe n'est requis pour consulter ou exécuter les cours.

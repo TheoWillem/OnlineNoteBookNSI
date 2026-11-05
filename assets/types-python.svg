@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="290" viewBox="0 0 920 290" role="img" aria-labelledby="title desc">
+<title id="title">Quatre types de valeurs en Python</title><desc id="desc">Cartes distinctes pour un entier 42, un flottant 3.14, un texte Bonjour et le booléen True.</desc>
+<rect width="920" height="290" rx="22" fill="#f8fafc"/>
+<g font-family="system-ui,sans-serif" text-anchor="middle">
+ <rect x="22" y="48" width="205" height="193" rx="20" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/><text x="124" y="89" font-size="26" font-weight="700" fill="#1e40af">int</text><text x="124" y="157" font-family="monospace" font-size="43" fill="#1e3a8a">42</text><text x="124" y="210" font-size="18" fill="#334155">Entier</text>
+ <rect x="245" y="48" width="205" height="193" rx="20" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2"/><text x="348" y="89" font-size="26" font-weight="700" fill="#6d28d9">float</text><text x="348" y="157" font-family="monospace" font-size="43" fill="#5b21b6">3.14</text><text x="348" y="210" font-size="18" fill="#334155">Décimal</text>
+ <rect x="470" y="48" width="205" height="193" rx="20" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/><text x="572" y="89" font-size="26" font-weight="700" fill="#047857">str</text><text x="572" y="157" font-family="monospace" font-size="25" fill="#065f46">"Bonjour"</text><text x="572" y="210" font-size="18" fill="#334155">Texte</text>
+ <rect x="694" y="48" width="205" height="193" rx="20" fill="#fff7ed" stroke="#f59e0b" stroke-width="2"/><text x="796" y="89" font-size="26" font-weight="700" fill="#b45309">bool</text><text x="796" y="157" font-family="monospace" font-size="36" fill="#92400e">True</text><text x="796" y="210" font-size="18" fill="#334155">Vrai / Faux</text>
+</g></svg>

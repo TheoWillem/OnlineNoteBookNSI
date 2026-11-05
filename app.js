@@ -50,7 +50,9 @@ const AppState = {
     currentCourse: null,
     editorCounter: 0,
     collapsibleCounter: 0,
-    pendingCollapsibles: []
+    pendingCollapsibles: [],
+    tests: new Map(),
+    pythonBusy: false
 };
 
 // Cache des éléments DOM
@@ -178,104 +180,33 @@ function loadMonaco() {
 // ========================================
 // GESTION DES COURS
 // ========================================
-const courses = Object.freeze([
-    // 1. Introduction
-    {
-        id: 'introduction-python',
-        title: 'Introduction à Python',
-        icon: '🐍',
-        description: 'Découvrez Python : un langage simple et puissant pour apprendre la programmation.',
-        file: 'introduction-python.md'
-    },
-    
-    // 2. Bases : Variables
-    {
-        id: 'variables',
-        title: 'Les Variables',
-        icon: '📦',
-        description: 'Apprenez à stocker et manipuler des données avec les variables et les types.',
-        file: 'variables.md'
-    },
-    
-    // 3. Structures : Conditions
-    {
-        id: 'conditions',
-        title: 'Les Conditions',
-        icon: '🔀',
-        description: 'Prenez des décisions dans vos programmes avec if, elif et else.',
-        file: 'conditions.md'
-    },
-    
-    // 4. Collections : Listes
-    {
-        id: 'listes',
-        title: 'Les Listes',
-        icon: '📋',
-        description: 'Manipulez des collections d\'éléments avec les listes Python.',
-        file: 'listes.md'
-    },
-    
-    // 5. Structures : Boucles
-    {
-        id: 'boucles',
-        title: 'Les Boucles',
-        icon: '🔁',
-        description: 'Répétez des actions avec les boucles for et while.',
-        file: 'boucles.md'
-    },
-    
-    // 6. Boucles avancées
-    {
-        id: 'boucles-suite',
-        title: 'Les Boucles (Suite)',
-        icon: '🔄',
-        description: 'Allez plus loin avec break, continue et les boucles imbriquées.',
-        file: 'boucles-suite.md'
-    },
-    
-    // 7. Fonctions
-    {
-        id: 'fonctions',
-        title: 'Les Fonctions',
-        icon: '⚡',
-        description: 'Créez du code réutilisable et organisé avec les fonctions Python.',
-        file: 'fonctions.md'
-    },
-    
-    // 8. Mini-Projet : Devine le nombre
-    {
-        id: 'devine',
-        title: 'Devine le Nombre (Mini-Projet)',
-        icon: '🎲',
-        description: 'Créez un jeu où l\'ordinateur choisit un nombre et le joueur doit deviner.',
-        file: 'devine(mini-projet).md'
-    },
-    
-    // 9. Graphisme : Turtle
-    {
-        id: 'turtle',
-        title: 'Turtle Graphics',
-        icon: '🐢',
-        description: 'Apprenez à dessiner et créer des animations avec le module Turtle.',
-        file: 'turtle.md'
-    },
-    // 10. POO
-    {
-        id: 'POO',
-        title: 'Programmation Orienté Objet (POO)',
-        icon: '🏛️',
-        description: 'Découvrez les concepts de base de la POO : classes, objets',
-        file: 'POO.md'
-    },
-    // 11. Mini-Projet : morpion
-    {
-        id: 'morpion',
-        title: 'Morpion (Mini-Projet)',
-        icon: '❌',
-        description: 'Créez votre propre jeu de morpion en Python.',
-        file: 'morpion(mini-projet).md'
-    }
-]);
+// Le catalogue est désormais centralisé dans config.json.
+let courses = [];
+
+async function loadCourseConfig() {
+    const response = await fetch('config.json', { cache: 'no-store' });
+    if (!response.ok) throw new Error(`Catalogue indisponible (HTTP ${response.status})`);
+    const config = await response.json();
+    if (!Array.isArray(config.cours)) throw new Error('config.json : "cours" doit être un tableau');
+    const ids = new Set();
+    courses = config.cours.map((item) => {
+        const id = item.id;
+        const file = item.fichier;
+        if (!/^[\w-]+$/.test(id || '') || !/^[\w().-]+\.md$/.test(file || '') || ids.has(id)) {
+            throw new Error(`Cours invalide ou identifiant dupliqué : ${id}`);
+        }
+        ids.add(id);
+        return {
+            id,
+            file,
+            title: item.titre,
+            icon: item.icone || '📚',
+            description: item.description || '',
+            level: item.niveau || '',
+            duration: item.duree_estimee || ''
+        };
+    });
+}
 
 /**
  * Charge la grille des cours avec des cartes
@@ -330,6 +261,7 @@ function cleanupEditors() {
         }
     });
     AppState.editors.clear();
+    AppState.tests.clear();
     AppState.editorCounter = 0;
     AppState.collapsibleCounter = 0;
 }
@@ -361,7 +293,9 @@ async function loadCourse(course) {
         // Afficher le bouton d'accueil
         DOMCache.homeButton.style.display = 'block';
         
+        AppState.currentCourse = course; // Défini avant les éditeurs pour la sauvegarde.
         renderMarkdown(markdown);
+        setProgressButtonsVisible(true);
         
         // Générer la table des matières après le rendu
         setTimeout(() => {
@@ -407,9 +341,7 @@ function renderMarkdown(markdown) {
         // Ensuite, parser tout le markdown en HTML (sauf le contenu des collapsibles qui est stocké)
         let html = marked.parse(markdown);
         
-        // Traiter les info boxes
-        html = processInfoBoxes(html);
-        
+        // Les encadrés sont extraits en amont avec les sections repliables.
         // Traiter le code Python dans le HTML principal
         html = processPythonCode(html);
         
@@ -435,46 +367,45 @@ function renderMarkdown(markdown) {
  * @param {string} html - Le HTML
  * @returns {string}
  */
-function processInfoBoxes(html) {
-    const infoBoxRegex = /:::(note|warning|attention|success|info|reminder)\s+(.*?)\s+([\s\S]*?):::/g;
-    
-    return html.replace(infoBoxRegex, (match, type, title, content) => {
-        const icon = INFO_BOX_ICONS[type] || '📌';
-        
-        return `
-            <div class="info-box ${type}">
-                <strong>${icon} ${escapeHtml(title)}</strong>
-                ${marked.parse(content)}
-            </div>
-        `;
-    });
-}
-
-/**
- * Traite les sections déroulantes
- * @param {string} markdown - Le markdown brut
- * @returns {string}
- */
+// Extrait les blocs ::: avant Marked pour autoriser du Markdown à l'intérieur.
+// Les marqueurs dans les blocs de code ``` sont ignorés.
 function processCollapsibleSections(markdown) {
-    const collapsibleRegex = /:::collapsible\s+(.*?)\n([\s\S]*?)\n:::/g;
-    const collapsibles = [];
-    
-    // Extraire et stocker les collapsibles
-    const processedMarkdown = markdown.replace(collapsibleRegex, (match, title, content) => {
-        AppState.collapsibleCounter++;
-        const id = AppState.collapsibleCounter;
-        
-        // Stocker le collapsible avec son contenu
-        collapsibles.push({ id, title: title.trim(), content: content.trim() });
-        
-        // Remplacer par un marqueur unique
-        return `\n\n<!--COLLAPSIBLE_PLACEHOLDER_${id}-->\n\n`;
-    });
-    
-    // Stocker les collapsibles dans l'état global pour y accéder plus tard
-    AppState.pendingCollapsibles = collapsibles;
-    
-    return processedMarkdown;
+    const lines = markdown.split('\n');
+    const result = [];
+    const blocks = [];
+    const opening = /^:::(collapsible|details|note|warning|attention|success|info|reminder)\s+(.+)\s*$/;
+    let fenced = null;
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        const fence = line.trim().match(/^(`{3,}|~{3,})/);
+        if (fence) {
+            if (!fenced) fenced = fence[1][0];
+            else if (fenced === fence[1][0]) fenced = null;
+            result.push(line);
+            continue;
+        }
+        const match = !fenced && line.match(opening);
+        if (!match) { result.push(line); continue; }
+        const body = [];
+        let innerFence = null;
+        let foundEnd = false;
+        for (++i; i < lines.length; i++) {
+            const inner = lines[i];
+            const f = inner.trim().match(/^(`{3,}|~{3,})/);
+            if (f) {
+                if (!innerFence) innerFence = f[1][0];
+                else if (innerFence === f[1][0]) innerFence = null;
+            }
+            if (!innerFence && inner.trim() === ':::') { foundEnd = true; break; }
+            body.push(inner);
+        }
+        if (!foundEnd) { result.push(line, ...body); break; } // Ancien document mal formé : rendu brut plutôt que panne globale.
+        const id = ++AppState.collapsibleCounter;
+        blocks.push({ id, type: match[1], title: match[2].replace(/^\*{1,2}\s+/, ''), content: body.join('\n') });
+        result.push('', `<!--COLLAPSIBLE_PLACEHOLDER_${id}-->`, '');
+    }
+    AppState.pendingCollapsibles = blocks;
+    return result.join('\n');
 }
 
 /**
@@ -483,68 +414,43 @@ function processCollapsibleSections(markdown) {
  * @returns {string}
  */
 function processPythonCode(html) {
-    // Traiter d'abord les blocs python-static (non-exécutables)
-    const staticCodeRegex = /<pre><code class="language-python-static">([\s\S]*?)<\/code><\/pre>/g;
-    html = html.replace(staticCodeRegex, (match, code) => {
-        AppState.editorCounter++;
-        const id = AppState.editorCounter;
-        const decodedCode = decodeHtml(code);
+    const codeRegex = /<pre><code class="language-(python(?:-static|-test)?)(?::([a-zA-Z0-9_-]+))?">([\s\S]*?)<\/code><\/pre>/g;
+    let lastEditableKey = null;
+    return html.replace(codeRegex, (match, language, explicitKey, escapedCode) => {
+        const code = decodeHtml(escapedCode);
+        if (language === 'python-test') {
+            const testKey = explicitKey || lastEditableKey;
+            if (!testKey) throw new Error('Un bloc python-test doit désigner une cellule Python (id).');
+            if (AppState.tests.has(testKey)) throw new Error(`Tests dupliqués : ${testKey}`);
+            AppState.tests.set(testKey, code);
+            // Les tests restent formatifs et ne s'affichent pas dans le cours.
+            return '';
+        }
+        const isStatic = language === 'python-static';
+        const id = ++AppState.editorCounter;
         const editorId = `editor-${id}`;
-        
+        const key = explicitKey || `auto-${id}`;
+        if (!isStatic) lastEditableKey = key;
+        if (!/^[a-zA-Z0-9_-]+$/.test(key)) throw new Error(`ID de cellule non valide : ${key}`);
+        const original = JSON.stringify(code).replace(/</g, '\\u003c');
         return `
-            <div class="code-editor-container code-static-mode" data-editor-id="${editorId}">
+            <div class="code-editor-container ${isStatic ? 'code-static-mode' : ''}"
+                 data-editor-id="${editorId}" data-code-key="${key}">
                 <div class="code-editor-header">
-                    <div class="code-editor-title">
-                        🐍 Python
-                    </div>
-                    <!-- Pas de boutons pour le mode statique -->
-                </div>
-                <div class="code-editor" id="${editorId}"></div>
-                <div class="code-output" style="display: none;">
-                    <span class="code-output-empty">Aucune sortie</span>
-                </div>
-            </div>
-            <script type="application/json" data-original-code="${editorId}">
-                ${JSON.stringify(decodedCode)}
-            </script>
-        `;
-    });
-    
-    // Puis traiter les blocs python normaux (exécutables)
-    const codeBlockRegex = /<pre><code class="language-python">([\s\S]*?)<\/code><\/pre>/g;
-    html = html.replace(codeBlockRegex, (match, code) => {
-        AppState.editorCounter++;
-        const id = AppState.editorCounter;
-        const decodedCode = decodeHtml(code);
-        const editorId = `editor-${id}`;
-        
-        return `
-            <div class="code-editor-container" data-editor-id="${editorId}">
-                <div class="code-editor-header">
-                    <div class="code-editor-title">
-                        🐍 Python Editor
-                    </div>
+                    <div class="code-editor-title">🐍 ${isStatic ? 'Exemple Python' : 'Atelier Python'}</div>
                     <div class="code-editor-actions">
-                        <button class="btn btn-success btn-small" onclick="runPythonCode('${editorId}')">
-                            ▶ Exécuter
-                        </button>
-                        <button class="btn btn-secondary btn-small" onclick="resetCode('${editorId}')">
-                            🔄 Réinitialiser
-                        </button>
+                        ${isStatic ? '' : `
+                        <span class="editor-save-status" id="save-${id}" aria-live="polite">Sauvegarde locale</span>
+                        <button class="btn btn-success btn-small" type="button" onclick="runPythonCode('${editorId}')">▶ Exécuter</button>
+                        <button class="btn btn-secondary btn-small" type="button" onclick="resetCode('${editorId}')">↺ Réinitialiser</button>`}
                     </div>
                 </div>
                 <div class="code-editor" id="${editorId}"></div>
-                <div class="code-output" id="output-${id}">
-                    <span class="code-output-empty">Aucune sortie</span>
-                </div>
+                ${isStatic ? '' : `<div class="code-output" id="output-${id}"><span class="code-output-empty">Aucune sortie</span></div>`}
             </div>
-            <script type="application/json" data-original-code="${editorId}">
-                ${JSON.stringify(decodedCode)}
-            </script>
+            <script type="application/json" data-original-code="${editorId}">${original}</script>
         `;
     });
-    
-    return html;
 }
 
 /**
@@ -553,39 +459,24 @@ function processPythonCode(html) {
  * @returns {string}
  */
 function finalizeCollapsibleSections(html) {
-    // Récupérer les collapsibles stockés
-    const collapsibles = AppState.pendingCollapsibles || [];
-    
-    // Remplacer chaque placeholder par le collapsible complet
-    collapsibles.forEach(({ id, title, content }) => {
-        // Parser le contenu markdown du collapsible
-        let parsedContent = marked.parse(content);
-        
-        // Traiter le code Python dans le contenu parsé
-        parsedContent = processPythonCode(parsedContent);
-        
-        const collapsibleHtml = `
-            <div class="collapsible-section" data-id="collapsible-${id}">
-                <div class="collapsible-header">
-                    <span>${escapeHtml(title)}</span>
-                    <span class="collapsible-icon">▼</span>
-                </div>
-                <div class="collapsible-content">
-                    <div class="collapsible-inner">
-                        ${parsedContent}
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        // Remplacer le placeholder
-        const placeholderRegex = new RegExp(`<!--COLLAPSIBLE_PLACEHOLDER_${id}-->`, 'g');
-        html = html.replace(placeholderRegex, collapsibleHtml);
+    const blocks = AppState.pendingCollapsibles || [];
+    blocks.forEach(({ id, type, title, content }) => {
+        let body = marked.parse(content);
+        body = processPythonCode(body);
+        const rendered = (type === 'collapsible' || type === 'details') ? `
+            <section class="collapsible-section" data-id="collapsible-${id}">
+                <button type="button" class="collapsible-header" aria-expanded="false">
+                    <span>${escapeHtml(title)}</span><span class="collapsible-icon" aria-hidden="true">▼</span>
+                </button>
+                <div class="collapsible-content"><div class="collapsible-inner">${body}</div></div>
+            </section>` : `
+            <aside class="info-box ${type}" role="note">
+                <strong>${INFO_BOX_ICONS[type]} ${escapeHtml(title)}</strong>
+                ${body}
+            </aside>`;
+        html = html.replace(`<!--COLLAPSIBLE_PLACEHOLDER_${id}-->`, rendered);
     });
-    
-    // Réinitialiser les collapsibles en attente
     AppState.pendingCollapsibles = [];
-    
     return html;
 }
 
@@ -605,6 +496,7 @@ async function initializeCodeEditors() {
     
     const promises = Array.from(editorContainers).map(container => createMonacoEditor(container));
     await Promise.all(promises);
+    attachTestButtons();
 }
 
 /**
@@ -612,62 +504,162 @@ async function initializeCodeEditors() {
  * @param {HTMLElement} container - Le conteneur
  * @returns {Promise<void>}
  */
+function storageKey(codeKey) {
+    return `nsi-progress:v1:${AppState.currentCourse.id}:${codeKey}`;
+}
+
+function readSavedCode(codeKey) {
+    try { return localStorage.getItem(storageKey(codeKey)); }
+    catch (error) { console.warn('Stockage local indisponible', error); return null; }
+}
+
+function saveCode(editorData) {
+    if (editorData.readOnly) return;
+    try {
+        const value = editorData.editor.getValue();
+        if (value === editorData.originalCode) localStorage.removeItem(storageKey(editorData.key));
+        else localStorage.setItem(storageKey(editorData.key), value);
+        const el = document.getElementById(`save-${editorData.editorId.split('-')[1]}`);
+        if (el) el.textContent = value === editorData.originalCode ? 'Code initial' : '✓ Sauvegardé ici';
+    } catch (error) {
+        const el = document.getElementById(`save-${editorData.editorId.split('-')[1]}`);
+        if (el) el.textContent = '⚠ Sauvegarde impossible';
+    }
+}
+
 function createMonacoEditor(container) {
     return new Promise((resolve) => {
         const editorId = container.id;
-        
-        const originalCodeScript = document.querySelector(`script[data-original-code="${editorId}"]`);
-        if (!originalCodeScript) {
-            console.warn(`Code original non trouvé pour ${editorId}`);
-            resolve();
-            return;
-        }
-        
-        const originalCode = JSON.parse(originalCodeScript.textContent);
-        
+        const script = document.querySelector(`script[data-original-code="${editorId}"]`);
+        if (!script) { console.warn(`Code absent pour ${editorId}`); resolve(); return; }
+        const originalCode = JSON.parse(script.textContent);
+        const wrapper = container.closest('.code-editor-container');
+        const readOnly = wrapper.classList.contains('code-static-mode');
+        const key = wrapper.dataset.codeKey;
+        const saved = readOnly ? null : readSavedCode(key);
         const editor = AppState.monaco.editor.create(container, {
-            value: originalCode,
+            value: saved === null ? originalCode : saved,
             language: 'python',
             theme: 'vs-dark',
+            readOnly,
             minimap: { enabled: false },
             fontSize: 14,
             lineNumbers: 'on',
-            roundedSelection: false,
             scrollBeyondLastLine: false,
             automaticLayout: true,
-            scrollbar: {
-                vertical: 'auto',
-                horizontal: 'auto',
-                useShadows: false,
-                verticalScrollbarSize: 10,
-                horizontalScrollbarSize: 10
-            }
+            scrollbar: { vertical: 'auto', horizontal: 'auto', verticalScrollbarSize: 10, horizontalScrollbarSize: 10 }
         });
-        
-        AppState.editors.set(editorId, { editor, originalCode });
+        const editorData = { editor, editorId, key, originalCode, readOnly };
+        AppState.editors.set(editorId, editorData);
+        if (!readOnly) {
+            const status = document.getElementById(`save-${editorId.split('-')[1]}`);
+            if (status && saved !== null) status.textContent = '✓ Réponse retrouvée';
+            editor.onDidChangeModelContent(() => saveCode(editorData));
+        }
         resolve();
     });
 }
 
-/**
- * Réinitialise un éditeur
- * @param {string} editorId - L'ID de l'éditeur
- */
 function resetCode(editorId) {
-    const editorData = AppState.editors.get(editorId);
-    if (!editorData) {
-        console.warn(`Éditeur ${editorId} non trouvé`);
-        return;
+    const data = AppState.editors.get(editorId);
+    if (!data || data.readOnly) return;
+    data.editor.setValue(data.originalCode);
+    const output = document.getElementById(`output-${editorId.split('-')[1]}`);
+    if (output) output.innerHTML = '<span class="code-output-empty">Aucune sortie</span>';
+}
+
+function attachTestButtons() {
+    AppState.editors.forEach((data) => {
+        if (data.readOnly || !AppState.tests.has(data.key)) return;
+        const wrapper = document.querySelector(`[data-editor-id="${data.editorId}"]`);
+        const actions = wrapper && wrapper.querySelector('.code-editor-actions');
+        if (!actions || actions.querySelector('.btn-test')) return;
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'btn btn-test btn-small';
+        button.textContent = '✓ Vérifier';
+        button.addEventListener('click', () => runPythonTests(data.editorId));
+        actions.appendChild(button);
+    });
+}
+
+// Les tests sont formatifs : ils sont exécutés dans un dictionnaire Python isolé,
+// sans connaître ni envoyer le code de l'élève à un serveur.
+async function runPythonTests(editorId) {
+    const data = AppState.editors.get(editorId);
+    const tests = data && AppState.tests.get(data.key);
+    if (!data || !tests || !AppState.pyodide || AppState.pythonBusy) return;
+    const output = document.getElementById(`output-${editorId.split('-')[1]}`);
+    AppState.pythonBusy = true;
+    try {
+        const studentCode = data.editor.getValue();
+        await detectAndLoadPackages(studentCode);
+        await resetPythonEnvironment();
+        AppState.pyodide.globals.set('_nsi_student_source', studentCode);
+        AppState.pyodide.globals.set('_nsi_tests_source', tests);
+        await AppState.pyodide.runPythonAsync(`
+_namespace = {'__name__': '__main__'}
+exec(compile(_nsi_student_source, '<travail-eleve>', 'exec'), _namespace)
+exec(compile(_nsi_tests_source, '<tests-formatifs>', 'exec'), _namespace)
+`);
+        const stdout = await AppState.pyodide.runPythonAsync('sys.stdout.getvalue()');
+        const stderr = await AppState.pyodide.runPythonAsync('sys.stderr.getvalue()');
+        displayTextOutput(output, stdout || '✅ Tous les tests ont réussi.', stderr);
+    } catch (error) {
+        displayError(output, `Vérification non validée : ${error.message}`);
+    } finally {
+        AppState.pyodide.globals.delete('_nsi_student_source');
+        AppState.pyodide.globals.delete('_nsi_tests_source');
+        AppState.pythonBusy = false;
     }
-    
-    editorData.editor.setValue(editorData.originalCode);
-    
-    const outputId = `output-${editorId.replace('editor-', '')}`;
-    const outputElement = document.getElementById(outputId);
-    
-    if (outputElement) {
-        outputElement.innerHTML = '<span class="code-output-empty">Aucune sortie</span>';
+}
+
+function setProgressButtonsVisible(visible) {
+    for (const id of ['exportProgressButton', 'importProgressButton']) {
+        const el = document.getElementById(id);
+        if (el) el.style.display = visible ? 'inline-flex' : 'none';
     }
+}
+
+function setupProgressControls() {
+    const exportBtn = document.getElementById('exportProgressButton');
+    const importBtn = document.getElementById('importProgressButton');
+    const input = document.getElementById('importProgressFile');
+    exportBtn.addEventListener('click', () => {
+        if (!AppState.currentCourse) return;
+        const codes = {};
+        AppState.editors.forEach((data) => { if (!data.readOnly) codes[data.key] = data.editor.getValue(); });
+        const body = JSON.stringify({ format: 'nsi-progress-v1', course: AppState.currentCourse.id, codes }, null, 2);
+        const url = URL.createObjectURL(new Blob([body], { type: 'application/json' }));
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `nsi-${AppState.currentCourse.id}-travail.json`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+    });
+    importBtn.addEventListener('click', () => input.click());
+    input.addEventListener('change', async () => {
+        const file = input.files && input.files[0];
+        if (!file || !AppState.currentCourse) return;
+        try {
+            const progress = JSON.parse(await file.text());
+            if (progress.format !== 'nsi-progress-v1' || progress.course !== AppState.currentCourse.id ||
+                !progress.codes || typeof progress.codes !== 'object' || Array.isArray(progress.codes)) {
+                throw new Error('Fichier non compatible avec ce cours.');
+            }
+            let count = 0;
+            AppState.editors.forEach((data) => {
+                if (!data.readOnly && typeof progress.codes[data.key] === 'string') {
+                    data.editor.setValue(progress.codes[data.key]);
+                    count++;
+                }
+            });
+            alert(`${count} cellule(s) importée(s). Les réponses sont sauvegardées sur cet appareil.`);
+        } catch (error) { alert(`Import impossible : ${error.message}`); }
+        finally { input.value = ''; }
+    });
 }
 
 // ========================================
@@ -834,6 +826,8 @@ async function runPythonCode(editorId) {
         return;
     }
     
+    if (AppState.pythonBusy) return;
+    AppState.pythonBusy = true;
     try {
         await detectAndLoadPackages(code);
         await resetPythonEnvironment();
@@ -856,6 +850,8 @@ async function runPythonCode(editorId) {
     } catch (error) {
         logError('Python', error);
         displayError(outputElement, error.message);
+    } finally {
+        AppState.pythonBusy = false;
     }
 }
 
@@ -1011,12 +1007,15 @@ async function cleanupMatplotlib() {
  * Initialise les sections déroulantes
  */
 function initializeCollapsible() {
+    // Un seul gestionnaire délégué pour tous les chapitres visités.
+    if (DOMCache.courseContent.dataset.collapsibleReady) return;
+    DOMCache.courseContent.dataset.collapsibleReady = 'true';
     DOMCache.courseContent.addEventListener('click', (event) => {
-        const header = event.target.closest('.collapsible-header');
-        if (header) {
-            const section = header.parentElement;
-            section.classList.toggle('active');
-        }
+        const button = event.target.closest('.collapsible-header');
+        if (!button) return;
+        const section = button.closest('.collapsible-section');
+        const open = section.classList.toggle('active');
+        button.setAttribute('aria-expanded', String(open));
     });
 }
 
@@ -1076,6 +1075,7 @@ function goToHome() {
     
     // Réinitialiser le cours actuel
     AppState.currentCourse = null;
+    setProgressButtonsVisible(false);
 }
 
 /**
@@ -1344,8 +1344,15 @@ async function initializeApp() {
     console.log('🚀 Initialisation de l\'application...');
     
     DOMCache.init();
-    loadCourseGrid();
+    try {
+        await loadCourseConfig();
+        loadCourseGrid();
+    } catch (error) {
+        logError('Catalogue de cours', error);
+        DOMCache.courseGrid.textContent = 'Impossible de charger config.json. Lancez un serveur HTTP local et vérifiez le catalogue.';
+    }
     setupModal();
+    setupProgressControls();
     setupHomeButton();
     setupTOCControls();
     

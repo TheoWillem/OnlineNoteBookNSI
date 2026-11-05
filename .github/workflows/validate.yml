@@ -1,0 +1,23 @@
+name: Validation des cours NSI
+on:
+  push:
+  pull_request:
+jobs:
+  verification:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntaxe JavaScript
+        run: node --check app.js
+      - name: Catalogue, exercices et ressources
+        run: python3 tests/check_content.py
+      - name: Vérification des composants interactifs
+        run: node tests/check_frontend.cjs
+      - name: Exercices et corrections Python
+        run: python3 tests/check_exercises.py
