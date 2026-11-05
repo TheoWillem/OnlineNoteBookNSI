@@ -18,7 +18,7 @@ Cela laisse la fenêtre ouverte tant que tu ne la fermes pas.
 
 :::info À noter
 Le module `turtle` ne fonctionne pas dans Pyodide (le Python du navigateur). Ces exemples sont **en lecture seule** pour que tu comprennes la syntaxe. Pour les tester, tu devras les copier dans un fichier Python sur ton ordinateur.
-::: `turtle` en Python
+:::
 
 Le module `turtle` permet de faire de petits dessins à l’écran en contrôlant une « tortue » qui se déplace et trace des lignes.
 

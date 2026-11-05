@@ -53,3 +53,5 @@ print("------- Exercice -------")
 # ** Écrire une boucle `for` imbriquée qui affiche une table de multiplication complète de 1 à 10.
 # *** Écrire une boucle `for` imbriquée qui affiche un tableau de 5 lignes et 5 colonnes rempli de zéros.
 ```
+
+:::

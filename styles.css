@@ -983,3 +983,48 @@ body {
         max-width: 300px;
     }
 }
+
+
+/* ========================================
+   COMPOSANTS PÉDAGOGIQUES ET SAUVEGARDE
+   ======================================== */
+.course-content { max-width: 1000px; }
+.course-content img { max-width: 100%; height: auto; display: block; margin: 1.2rem auto; border-radius: 12px; }
+.course-content p { text-align: left; }
+.lesson-hero {
+    padding: clamp(1.5rem, 4vw, 2.8rem);
+    margin-bottom: 2rem;
+    border-radius: 20px;
+    background: linear-gradient(120deg, #14284a 0%, #244a83 58%, #286eb0 100%);
+    color: #f8fafc;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 16px 38px rgba(24, 55, 107, .18);
+}
+.lesson-hero::after { content: '✦'; position: absolute; right: 2rem; top: 1rem; font-size: 6rem; opacity: .12; }
+.lesson-hero .eyebrow { display: block; letter-spacing: .12em; font-size: .8rem; color: #bfdbfe; font-weight: 750; }
+.lesson-hero h1 { color: #fff; border: 0; margin: .5rem 0; padding: 0; line-height: 1.14; }
+.lesson-hero p { color: #e0f2fe; max-width: 48rem; margin: 0; }
+.lesson-hero .lesson-meta { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.3rem; }
+.lesson-hero .lesson-meta span { border-radius: 999px; background: #ffffff24; border: 1px solid #ffffff4d; padding: .25rem .7rem; font-size: .83rem; }
+.course-content h2 { border-left: 5px solid #60a5fa; padding-left: .8rem; }
+.course-content blockquote { border-left: 4px solid #818cf8; background: #eef2ff; padding: .85rem 1.2rem; margin: 1rem 0; border-radius: 0 10px 10px 0; }
+.course-content .info-box { border-radius: 12px; }
+.course-content .info-box strong { display: block; margin-bottom: .5rem; }
+.course-content .info-box p:last-child { margin-bottom: 0; }
+.course-content .collapsible-header { width: 100%; border: none; text-align: left; font: inherit; cursor: pointer; }
+.course-content .collapsible-header:focus-visible, .btn:focus-visible { outline: 3px solid #2563eb; outline-offset: 3px; }
+.code-editor-header { flex-wrap: wrap; }
+.code-editor-actions { flex-wrap: wrap; align-items: center; justify-content: flex-end; }
+.editor-save-status { color: #475569; font-size: .77rem; white-space: nowrap; }
+.btn-test { background: #e0f2fe; border: 1px solid #38bdf8; color: #075985; }
+.btn-test:hover { background: #bae6fd; }
+.progress-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: end; gap: .35rem; }
+.code-static-mode .code-editor { background: #1e293b; }
+.lesson-checklist { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: .8rem; margin: 1rem 0; }
+.lesson-checklist > div { padding: .9rem 1rem; border: 1px solid #dbeafe; border-radius: 12px; background: #eff6ff; }
+@media (max-width: 780px) {
+    .lesson-hero::after { display: none; }
+    .progress-actions .btn { font-size: .75rem; }
+    .editor-save-status { flex-basis: 100%; text-align: right; }
+}
