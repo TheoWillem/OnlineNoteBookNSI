@@ -223,6 +223,15 @@ print(type(est_connecte))
 
 :::
 
+:::attention Attention au format des nombres à virgules
+
+En informatique, on utilise le `.` dans un nombre décimal et non la virgule, qui est, quant à elle, utilisée pour séparer des éléments.
+
+:::
+
+Il est possible de concaténer des chaines de charactères ; c'est-à-dire mettre bout à bout des éléments.  
+Par exemple : `"Hello " + "World"` equivaut à `"Hello World"`.
+
 ```python
 print(4 + 5)        # 9
 print("4" + "5")    # "45" (concaténation)
