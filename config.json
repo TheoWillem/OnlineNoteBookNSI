@@ -3,17 +3,7 @@
   "description": "Cours et exercices Python exécutables dans le navigateur",
   "version": "1.1.0",
   "cours": [
-    { "id": "introduction-python", "titre": "Introduction à Python", "icone": "🐍", "description": "Premiers pas dans le langage Python.", "fichier": "introduction-python.md", "niveau": "Première NSI", "duree_estimee": "30 min" },
-    { "id": "variables", "titre": "Les variables", "icone": "📦", "description": "Affectation, types et premiers calculs : un cours guidé avec exercices et indices.", "fichier": "variables.md", "niveau": "Première NSI", "duree_estimee": "1 h 30" },
-    { "id": "conditions", "titre": "Les conditions", "icone": "🔀", "description": "Prendre des décisions avec if, elif et else.", "fichier": "conditions.md", "niveau": "Première NSI", "duree_estimee": "1 h" },
-    { "id": "listes", "titre": "Les listes", "icone": "📋", "description": "Créer et manipuler des collections.", "fichier": "listes.md", "niveau": "Première NSI", "duree_estimee": "1 h" },
-    { "id": "boucles", "titre": "Les boucles", "icone": "🔁", "description": "Répéter des instructions avec for et while.", "fichier": "boucles.md", "niveau": "Première NSI", "duree_estimee": "1 h" },
-    { "id": "boucles-suite", "titre": "Les boucles — approfondissement", "icone": "🔄", "description": "Boucles imbriquées, break et continue.", "fichier": "boucles-suite.md", "niveau": "Première NSI", "duree_estimee": "1 h" },
-    { "id": "fonctions", "titre": "Les fonctions", "icone": "⚡", "description": "Définir et réutiliser des fonctions.", "fichier": "fonctions.md", "niveau": "Première NSI", "duree_estimee": "1 h" },
-    { "id": "devine", "titre": "Mini-projet : devine le nombre", "icone": "🎲", "description": "Programmer un jeu de devinette.", "fichier": "devine(mini-projet).md", "niveau": "Première NSI", "duree_estimee": "1 h 30" },
-    { "id": "turtle", "titre": "Graphisme avec Turtle", "icone": "🐢", "description": "Dessiner en programmant.", "fichier": "turtle.md", "niveau": "Première NSI", "duree_estimee": "2 h" },
-    { "id": "POO", "titre": "Programmation orientée objet", "icone": "🏛️", "description": "Classes, instances, attributs et méthodes.", "fichier": "POO.md", "niveau": "Terminale NSI", "duree_estimee": "2 h" },
-    { "id": "morpion", "titre": "Mini-projet : morpion", "icone": "❌", "description": "Créer un morpion en Python.", "fichier": "morpion(mini-projet).md", "niveau": "Première NSI", "duree_estimee": "2 h" }
+    { "id": "variables", "titre": "Les variables", "icone": "📦", "description": "Affectation, types et premiers calculs : un cours guidé avec exercices et indices.", "fichier": "variables.md", "niveau": "Première NSI" }
   ],
   "themes": { "couleur_primaire": "#2563eb", "couleur_secondaire": "#475569", "couleur_accent": "#0ea5e9" },
   "bibliotheques_python": ["numpy", "matplotlib"]
