@@ -352,7 +352,16 @@ function renderMarkdown(markdown) {
         html = html.replace(/<p>\s*<\/p>/g, '');
         
         DOMCache.courseContent.innerHTML = html;
-        
+
+        // Tous les tableaux Markdown sont automatiquement entourés d'un conteneur
+        // qui affiche une barre de défilement si l'écran est trop étroit.
+        DOMCache.courseContent.querySelectorAll('table').forEach(table => {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'table-scroll';
+            table.parentNode.insertBefore(wrapper, table);
+            wrapper.appendChild(table);
+        });
+
         initializeCodeEditors();
         initializeCollapsible();
         generateTableOfContents();
