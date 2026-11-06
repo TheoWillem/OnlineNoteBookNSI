@@ -92,6 +92,29 @@ Une erreur fréquente.
 
 Ces blocs peuvent contenir des listes, du Markdown et des blocs de code. **N'imbriquez pas un bloc `:::` dans un autre.** Les anciens `:::details` restent pris en charge.
 
+### Texte en couleur (syntaxe courte)
+
+Dans tous les cours Markdown, on peut écrire :
+
+```text
+:g[Texte vert]        :r[Texte rouge]       :b[Texte bleu]
+:o[Texte orange]      :v[Texte violet]      :s[Texte surligné]
+```
+
+Les noms longs en français sont également acceptés : `:vert[texte]`, `:rouge[texte]`, `:bleu[texte]`, `:orange[texte]`, `:violet[texte]` et `:surligne[texte]`.
+
+**Exemple de cours :**
+
+```markdown
+La réponse est :g[correcte] mais :r[l'expression est incomplète].
+:s[À retenir :] une variable permet de désigner une valeur.
+:b[**Important :**] `=` effectue une affectation.
+```
+
+Cette syntaxe fonctionne aussi dans les tableaux, titres et indices repliables. On peut combiner la couleur avec `**gras**` ou `*italique*`.
+
+La coloration n'est **pas appliquée aux blocs Python**, ni au code situé entre accents graves. Une marque courte doit tenir sur une même ligne et ne peut pas contenir de crochet fermant `]` dans son texte.
+
 ### Sections repliables pour les indices
 
 ```text

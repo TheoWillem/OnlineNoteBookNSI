@@ -1107,3 +1107,23 @@ body {
     .course-content .table-scroll { overflow: visible; box-shadow: none; }
     .course-content .table-scroll table { min-width: 0; }
 }
+
+/* ========================================
+   COULEURS COURTES EN MARKDOWN (:g[texte], :r[texte], etc.)
+   N'affecte pas les éditeurs Python ni le code brut.
+   ======================================== */
+.course-content .md-color { font-weight: 600; }
+.course-content .md-color--green { color: #166534; }
+.course-content .md-color--red { color: #be123c; }
+.course-content .md-color--blue { color: #1d4ed8; }
+.course-content .md-color--orange { color: #9a3412; }
+.course-content .md-color--violet { color: #6d28d9; }
+.course-content .md-color--highlight {
+    background: #fff0ad;
+    color: #713f12;
+    border-radius: 4px;
+    padding: 0.05em 0.22em;
+}
+/* Respecter la couleur demandée même autour d'un `code` inline. */
+.course-content .md-color code,
+.course-content .table-scroll .md-color code { color: inherit; }
