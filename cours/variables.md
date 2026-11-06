@@ -164,7 +164,7 @@ On privilégie les :g[noms descriptifs] en :b[`snake_case`] ; c'est-à-dire que 
 
 :::warning Majuscules et minuscules
 
-:s[`age`, `Age` et `AGE` sont trois noms différents.] Les variables ne sont pas les mêmes.
+:s[`age`, `Age` et `AGE` sont trois noms différents.] Ce sont 3 variables différentes.
 
 :::
 
