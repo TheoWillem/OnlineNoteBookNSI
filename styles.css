@@ -362,7 +362,7 @@ body {
     box-shadow: var(--shadow-sm);
 }
 
-.info-box strong {
+.info-box > strong {
     display: block;
     margin-bottom: var(--spacing-sm);
     font-size: 1.1em;
@@ -1010,7 +1010,7 @@ body {
 .course-content h2 { border-left: 5px solid #60a5fa; padding-left: .8rem; }
 .course-content blockquote { border-left: 4px solid #818cf8; background: #eef2ff; padding: .85rem 1.2rem; margin: 1rem 0; border-radius: 0 10px 10px 0; }
 .course-content .info-box { border-radius: 12px; }
-.course-content .info-box strong { display: block; margin-bottom: .5rem; }
+.course-content .info-box > strong { display: block; margin-bottom: .5rem; }
 .course-content .info-box p:last-child { margin-bottom: 0; }
 .course-content .collapsible-header { width: 100%; border: none; text-align: left; font: inherit; cursor: pointer; }
 .course-content .collapsible-header:focus-visible, .btn:focus-visible { outline: 3px solid #2563eb; outline-offset: 3px; }
