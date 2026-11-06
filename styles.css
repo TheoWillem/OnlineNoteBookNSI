@@ -1028,3 +1028,82 @@ body {
     .progress-actions .btn { font-size: .75rem; }
     .editor-save-status { flex-basis: 100%; text-align: right; }
 }
+
+/* ========================================
+   TABLEAUX MARKDOWN — STYLE GLOBAL
+   S'applique automatiquement aux tableaux des cours,
+   sans HTML supplémentaire dans les fichiers .md.
+   ======================================== */
+.course-content .table-scroll {
+    width: 100%;
+    margin: 1.4rem 0 1.8rem;
+    overflow-x: auto;
+    border: 1px solid #cbd8e8;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 5px 16px rgba(30, 58, 95, 0.08);
+}
+
+.course-content .table-scroll table {
+    width: 100%;
+    min-width: 520px;
+    margin: 0;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    color: #1e293b;
+}
+
+.course-content .table-scroll th,
+.course-content .table-scroll td {
+    padding: 0.8rem 1rem;
+    border-right: 1px solid #cbd8e8; /* séparation verticale fine */
+    border-bottom: 1px solid #e0e7f1; /* séparation horizontale fine */
+    vertical-align: middle;
+}
+
+.course-content .table-scroll th:last-child,
+.course-content .table-scroll td:last-child {
+    border-right: 0;
+}
+
+.course-content .table-scroll tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.course-content .table-scroll thead th {
+    background: #e7f0fb; /* bleu pastel */
+    color: #264663;
+    font-weight: 700;
+    border-bottom-color: #cbd8e8;
+}
+
+.course-content .table-scroll tbody tr:nth-child(even) {
+    background: #f7faff;
+}
+
+.course-content .table-scroll tbody tr:hover {
+    background: #eef5ff;
+}
+
+/* Respecte le centrage défini dans les tableaux Markdown (:---:). */
+.course-content .table-scroll :is(th, td)[align="center"] {
+    text-align: center;
+}
+.course-content .table-scroll :is(th, td)[align="right"] {
+    text-align: right;
+}
+
+.course-content .table-scroll td code {
+    display: inline-block;
+    white-space: nowrap;
+    padding: 0.12rem 0.4rem;
+    border-radius: 5px;
+    border: 1px solid #dce6f3;
+    background: #f2f6fb;
+    color: #c02652;
+}
+
+@media print {
+    .course-content .table-scroll { overflow: visible; box-shadow: none; }
+    .course-content .table-scroll table { min-width: 0; }
+}
