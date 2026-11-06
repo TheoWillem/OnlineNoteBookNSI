@@ -2,59 +2,87 @@
   <span class="eyebrow">PREMIÈRE NSI · PROGRAMMATION PYTHON</span>
   <h1>📦 Les variables en Python</h1>
   <p>Donner un nom à une valeur, la retrouver, la modifier et comprendre son type : les premiers gestes de tout programme.</p>
-  <div class="lesson-meta"><span>⏱ 1 h 30</span><span>🎯 Débutant</span><span>🧪 7 exercices + 1 défi</span></div>
+
 </div>
 
 :::note 🎯 Objectifs de la séance
 À la fin de ce chapitre, je suis capable de :
 - créer une variable avec une affectation `=` et la réaffecter ;
-- utiliser un nom explicite et respecter les règles d'identification ;
+- utiliser un nom explicite et respecter les règles de nommage ;
 - manipuler les types `int`, `float`, `str` et `bool` ;
-- réaliser des calculs, utiliser `//`, `%` et convertir une valeur ;
-- vérifier seul mon programme avec les tests fournis.
+- convertir le type d'une valeur contenue dans une variable ;
+- réaliser des calculs, utiliser `//`, `%`;
 :::
 
-:::info 💾 Comment utiliser ce cours ?
-Tous les blocs **Python** sont éditables. Clique sur **▶ Exécuter**, puis sur **✓ Vérifier** pour les exercices disposant de tests.
-
-Tes modifications sont **enregistrées automatiquement dans ce navigateur sur cet appareil**. Utilise **💾 Exporter** pour conserver un fichier, puis **📂 Importer** si tu changes d'appareil. Les tests sont des aides formatives, **pas une note**.
+:::reminder 🌱 Pour aller plus loin
+Teste les variantes proposées dans les exemples : change les données, prédis le résultat **avant** d'exécuter, puis confronte ton hypothèse à Python.
 :::
 
 ## 1. Une variable, qu'est-ce que c'est ?
 
-Une **variable** est un **nom** auquel Python associe une valeur. Imagine une étiquette `boite_oeufs` qui te permet de retrouver le nombre d'œufs disponibles.
+Une **variable** est un **nom** auquel Python associe une valeur. 
+
+Pour comprendre l'idée, tu peux t'imaginer une boîte d'oeuf : On peut mettre un nombre défini d'oeufs dans la boite, en enlever, en rajouter, etc. Et quand ont a besoin d'un oeuf il suffit de recupérer la boite et l'ouvrir pour récupérer son contenu.
 
 ![Schéma : le nom boite_oeufs pointe vers la valeur entière 12](assets/affectation.svg)
 
-En Python, l'opérateur `=` effectue une **affectation** : l'expression à droite est évaluée, puis le nom à gauche désigne le résultat.
+### Et en Python ca donne quoi ?   
+En Python on commence par ecrire un mot ici `boite_oeufs`. C'est le nom donné à notre variable.
+
+Le nom est suivis de l'opérateur d'affectation `=` il permet de mettre des éléments dans notre variable `boite_oeufs` nouvellement créée.  
+Dans notre exemple cela revient à ouvrir notre boite à oeufs
+
+Et enfin il ne reste plus qu'a préciser l'information que l'on veut stocker dans notre variable.
+Dans notre exemple cela revient à mettre dans notre boite à oeuf une quantité d'oeufs.
+
 
 ```python
 boite_oeufs = 12
 print("Œufs disponibles :", boite_oeufs)
 ```
 
-:::reminder 🧠 À retenir
-`=` **n'est pas** une égalité mathématique : c'est une affectation. L'opérateur de comparaison d'égalité est `==`, que tu verras dans le chapitre sur les conditions.
+On dit qu'on affecte la valeur 12 à la variable `boite_oeufs`
+
+:::reminder À retenir
+`=` n'est pas une égalité mathématique : c'est une affectation. L'opérateur de comparaison d'égalité est `==`, que tu verras dans le chapitre sur les conditions.
 :::
 
-### Réaffecter une variable
+### Pour l'utiliser 
+
+Pour utiliser la variable il suffit ensuite d'inscrire son nom pour en récupérer le contenu
 
 ```python
 boite_oeufs = 12
-boite_oeufs = boite_oeufs - 1
-print(boite_oeufs)  # 11
+print("Œufs disponibles :", boite_oeufs)
 ```
 
-La variable est toujours appelée `boite_oeufs`, mais elle désigne maintenant la valeur `11`. La soustraction n'a pas lieu *automatiquement* lorsque tu prélèves un œuf : il faut écrire une instruction pour modifier la valeur.
+### Réaffecter une variable
 
-:::collapsible 🔎 Observer pas à pas
-1. `boite_oeufs = 12` : le nom désigne `12`.
-2. Python évalue `boite_oeufs - 1`, soit `11`.
-3. `boite_oeufs = ...` : le nom désigne désormais `11`.
-4. `print` affiche la nouvelle valeur.
-:::
+Il est également possible de réaffecter une nouvelle valeur en utilisant exactement la même syntaxe. Ainsi la donnée stocké précédemment est écrasé par la nouvelle
 
-### 🧪 Exercice 1 — Mes premières variables
+```python
+boite_oeufs = 12
+print(boite_oeufs)  # 12
+boite_oeufs = 6
+print(boite_oeufs)  # 6
+```
+
+On peut également utiliser la variable pour sa propre réaffectation :
+
+```python
+boite_oeufs = 12
+print(boite_oeufs)  # 12
+boite_oeufs = boite_oeufs - 2
+print(boite_oeufs)  # 10
+```
+
+Ici nous avons utilisé un calcul pour determiner le nombre d'oeufs après avoir pris 2. Nous verrons les opérations plus en détails plus tard dans ce cours. Cependant voici déjà un avant goût : 
+
+Puisqu'utiliser notre variable signifie récupérer son contenu le calcul `boite_oeufs - 2` equivaut ici à ` 12 - 2`. 
+
+De la même manière d'autres opérateurs logiques sont utilisable : `-`, `+`, `*`, `/`, ... 
+
+### 🧪 Exercice 1 — Tes premières variables
 
 Crée une variable `prenom` contenant le texte `"Alex"` et une variable `age` contenant l'entier `16`. Affiche une phrase avec ces deux variables.
 
@@ -78,13 +106,6 @@ Le prénom est du **texte** : mets-le entre guillemets. L'âge est un entier : p
 Tu peux commencer par `prenom = "Alex"`, puis créer `age` sur la ligne suivante.
 :::
 
-:::collapsible ✅ Proposition de correction
-```python-static
-prenom = "Alex"
-age = 16
-print("Je m'appelle", prenom, "et j'ai", age, "ans.")
-```
-:::
 
 ### 🧪 Exercice 2 — Mettre à jour une valeur
 
@@ -109,27 +130,22 @@ Une nouvelle affectation peut utiliser la valeur actuelle de la même variable.
 `boite_oeufs = boite_oeufs - 3` peut aussi s'écrire `boite_oeufs -= 3`.
 :::
 
-:::collapsible ✅ Proposition de correction
-```python-static
-boite_oeufs = 12
-boite_oeufs -= 3
-print(boite_oeufs)
-```
-:::
 
 ## 2. Bien choisir le nom d'une variable
 
-En Python, un nom : ne comporte pas d'espace, ne commence pas par un chiffre et n'utilise pas de mot-clé réservé (`if`, `for`, `class`, etc.). On privilégie les noms descriptifs en `snake_case`.
+En Python, un nom : ne comporte pas d'espace, ne commence pas par un chiffre ou un caractère spécial et n'utilise pas de mot-clé réservé (`if`, `for`, `class`, etc.).  
+On privilégie les noms descriptifs en `snake_case` ; c'est-à-dire tout les mots sont écrit en minuscule et sont séparé par un tiret du bas `_`.
 
 | 👍 À privilégier | 👎 À éviter | Pourquoi ? |
 |---|---|---|
 | `nombre_eleves` | `n` | Nom plus explicite |
 | `prix_total` | `prix total` | Les espaces sont interdits |
-| `temperature_jour` | `2temperature` | Un identifiant ne commence pas par un chiffre |
+| `temperature_jour` | `°temperature` | Un identifiant ne commence pas par un caratère spécial |
 | `annee_naissance` | `class` | `class` est réservé |
 
-:::warning ⚠️ Majuscules et minuscules
-`age`, `Age` et `AGE` sont **trois noms différents**. Les variables ne sont pas automatiquement interchangeables.
+
+:::warning  Majuscules et minuscules
+`age`, `Age` et `AGE` sont trois noms différents. Les variables ne sont pas les mêmes.
 :::
 
 ### 🧪 Exercice 3 — Calculer le prix d'un panier
@@ -137,9 +153,9 @@ En Python, un nom : ne comporte pas d'espace, ne commence pas par un chiffre et 
 Trois cahiers coûtent 2,50 € chacun. Utilise des noms explicites pour calculer `prix_total`.
 
 ```python:ex-panier
-prix_cahier = 2.50
-nombre_cahiers = 3
-# Complète pour définir prix_total.
+# initialiser le prix du cahier
+# initialiser le nombre du cahier
+# Calculer le prix total
 print("Prix total :", prix_total, "€")
 ```
 
@@ -156,20 +172,16 @@ Un prix unitaire multiplié par une quantité donne un prix total.
 La multiplication utilise le symbole `*` et non `×`.
 :::
 
-:::collapsible ✅ Proposition de correction
-```python-static
-prix_cahier = 2.50
-nombre_cahiers = 3
-prix_total = prix_cahier * nombre_cahiers
-print(prix_total)
-```
-:::
 
 ## 3. Les types de données
 
 Une valeur possède un **type** : il détermine notamment les opérations possibles. En Python, on ne déclare pas le type à l'avance pour les variables simples ; c'est la valeur qui a un type.
 
+En Python il y a 4 type de base. Nous verrons plus tard dans l'année des types dit *construit*.
+
 ![Schéma illustrant les types int, float, str et bool en Python](assets/types-python.svg)
+
+Il est possible de récupérer le type de la variable en utilisant l'intruction `type(ma_variable)`.
 
 ```python
 nombre_entier = 42      # int : entier
@@ -183,7 +195,7 @@ print(type(message))
 print(type(est_connecte))
 ```
 
-:::attention ⛔ Attention aux guillemets
+:::attention Attention aux guillemets
 `18` est un entier (`int`), mais `"18"` est du texte (`str`). Ces deux valeurs ne sont pas équivalentes.
 :::
 
@@ -191,6 +203,15 @@ print(type(est_connecte))
 print(4 + 5)        # 9
 print("4" + "5")    # "45" (concaténation)
 print("NSI " * 3)    # Répétition d'une chaîne
+```
+
+Si le type de la donnée manipulée n'est pas le bon il est possible de *caster*, c'est-à-dire de modifier le type en laissant la valeur intacte. Par exemple : 
+
+```python
+valeur = "67"
+print(valeur * 3)    # Répétition d'une chaîne
+valeur = int(valeur)
+print(valeur * 3)    # multiplication
 ```
 
 ### 🧪 Exercice 4 — Convertir avant de calculer
@@ -217,16 +238,10 @@ print("✅ Conversion et calcul réussis !")
 `int(prix)` renvoie une valeur entière. Utilise-la pour calculer `total`.
 :::
 
-:::collapsible ✅ Proposition de correction
-```python-static
-prix = "12"
-quantite = 3
-total = int(prix) * quantite
-print(total)
-```
-:::
 
 ## 4. Calculs et affectations
+
+Voici les différents opérateur disponible pour effectuer des calculs : 
 
 | Symbole | Signification | Exemple | Résultat |
 |---|---|---|---|
@@ -234,7 +249,7 @@ print(total)
 | `-` | Soustraction | `9 - 4` | `5` |
 | `*` | Multiplication | `9 * 4` | `36` |
 | `/` | Division | `9 / 4` | `2.25` |
-| `//` | Quotient entier (division plancher) | `9 // 4` | `2` |
+| `//` | Division entière | `9 // 4` | `2` |
 | `%` | Reste | `9 % 4` | `1` |
 | `**` | Puissance | `9 ** 2` | `81` |
 
@@ -267,56 +282,86 @@ Combien de fois peut-on mettre 24 heures dans 135 heures ? Et combien en reste-t
 Utilise `// 24` pour le nombre de jours et `% 24` pour le reste.
 :::
 
-:::collapsible ✅ Proposition de correction
-```python-static
-heures = 135
-jours = heures // 24
-heures_restantes = heures % 24
-print(jours, "jours et", heures_restantes, "heures")
-```
-:::
 
 ## 5. Booléens et comparaisons
 
-Un booléen prend l'une de deux valeurs : `True` ou `False`. Les comparaisons (`<`, `>`, `<=`, `>=`, `==`, `!=`) produisent des booléens.
+Une variable de type booléene prend l'une de deux valeurs : `True` ou `False ; c'est-à-dire *Vrai* ou *Faux*.
+
+```python
+vrai = True
+faux = False
+print(vrai)
+print(faux)
+```
+
+Tout comme en tant qu'être humain nous somme capable d'affirmer si un nombre est supérieur à un autre ou si 2 mots sont identiques, il est également possible pour la machine de le faire grâce aux comparaisons.
+
+Voici les différents opérateurs de comparaison en Python :
+
+| Opérateur | Signification | Exemple | Résultat |
+|:---:|---|:---:|:---:|
+| `<` | Strictement inférieur à | `3 < 5` | `True` |
+| `>` | Strictement supérieur à | `3 > 5` | `False` |
+| `<=` | Inférieur ou égal à | `5 <= 5` | `True` |
+| `>=` | Supérieur ou égal à | `4 >= 5` | `False` |
+| `==` | Égal à | `5 == 5` | `True` |
+| `!=` | Différent de | `3 != 5` | `True` |
+
+:::warning  Attention à ne pas confondre !
+- `=` est l'opérateur **d'affectation** : il permet d'attribuer une valeur à une variable.
+- `==` est l'opérateur **de comparaison** : il permet de vérifier si deux valeurs sont égales.
+
+Par exemple, `age = 16` affecte la valeur `16` à `age`, tandis que `age == 16` renvoie `True` ou `False`.
+:::
 
 ```python
 age = 17
 print(age >= 18)   # False
 print(age != 18)   # True
+
+mineur = age < 18
+print(mineur)      #True
 ```
+
+:::info To be continued ...
+*Nous y reviendrons plus en détails lors du chapitre sur les conditions*
+:::
 
 ### 🧪 Exercice 6 — Une condition d'accès
 
-L'accès est autorisé si l'utilisateur est **majeur OU accompagné**. Crée un booléen `autorise` qui décrit cette règle.
+Un parc d'attractions possède une attraction réservée aux personnes âgées d'au moins **16 ans**.
+
+Crée une variable booléenne `autorise` qui vaut :
+- `True` si la personne a 16 ans ou plus ;
+- `False` dans le cas contraire.
+
+Utilise une **comparaison** pour déterminer la valeur de `autorise`.
 
 ```python:ex-acces
-age = 17
-accompagne = False
-# Crée autorise avec une expression booléenne.
+age = 15
+
+# Crée la variable autorise à l'aide d'une comparaison.
 ```
 
 ```python-test:ex-acces
-assert autorise is False, "17 ans et non accompagné : accès refusé."
-print("✅ Expression correcte pour ce premier cas !")
+assert isinstance(autorise, bool), "autorise doit être un booléen."
+assert autorise is False, "À 15 ans, l'accès doit être refusé."
+print("✅ Bonne réponse !")
 ```
 
-:::collapsible 💡 Indice 1 — Deux conditions
-Teste si `age` est au moins 18, puis combine avec `accompagne`.
+:::collapsible 💡 Indice 1 — Comparer deux nombres
+Tu peux utiliser les opérateurs de comparaison pour vérifier si un nombre est supérieur, inférieur ou égal à un autre.
+
+Une comparaison renvoie directement `True` ou `False`.
 :::
 
-:::collapsible 🔍 Indice 2 — Le OU logique
-En Python, le OU logique se note `or`.
+:::collapsible 🔍 Indice 2 — L'opérateur adapté
+L'opérateur `>=` signifie « supérieur ou égal à ».
+
+Par exemple, `taille >= 150` renvoie `True` si `taille` vaut au moins 150.
 :::
 
-:::collapsible ✅ Proposition de correction
-```python-static
-age = 17
-accompagne = False
-autorise = (age >= 18) or accompagne
-print(autorise)
-```
-:::
+
 
 ## 6. Échanger deux valeurs
 
@@ -327,6 +372,7 @@ Deux variables contiennent des valeurs différentes. Comment échanger leurs con
 ```python:ex-echange
 a = 7
 b = 13
+print(a, b)
 # Échange le contenu de a et b.
 print(a, b)
 ```
@@ -345,17 +391,7 @@ Si tu fais directement `a = b`, comment retrouver l'ancienne valeur de `a` ?
 Utilise une troisième variable `temp` pour mémoriser la valeur de `a` avant sa modification.
 :::
 
-:::collapsible ✅ Proposition de correction
-```python-static
-a = 7
-b = 13
-temp = a
-a = b
-b = temp
-print(a, b)
-# Variante Python : a, b = b, a
-```
-:::
+
 
 ## 7. Défi final — Calculer une facture
 
@@ -381,26 +417,13 @@ Calcule d'abord le prix avec TVA ; ajoute ensuite les frais de livraison.
 `round(valeur, 2)` arrondit un nombre à deux décimales.
 :::
 
-:::collapsible ✅ Proposition de correction
-```python-static
-prix_ht = 49.90
-taux_tva = 0.20
-livraison = 4.50
-total_ttc = round(prix_ht * (1 + taux_tva) + livraison, 2)
-print(total_ttc)
-```
-:::
-
 ---
 
 :::success ✅ Bilan — Je sais faire
-- Associer un nom à une valeur et comprendre une réaffectation.
+- Associer une valeur à un nom et être en mesure d'en réaffectater une.
 - Choisir un identifiant lisible.
-- Reconnaître les quatre types usuels.
+- Reconnaître les quatre types de base.
 - Calculer, convertir et utiliser les opérateurs.
-- Tester mes réponses et corriger mes erreurs à l'aide des indices.
 :::
 
-:::reminder 🌱 Pour aller plus loin
-Teste les variantes proposées dans les exemples : change les données, prédis le résultat **avant** d'exécuter, puis confronte ton hypothèse à Python.
-:::
+
