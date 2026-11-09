@@ -3,8 +3,8 @@
   "description": "Cours et exercices Python exécutables dans le navigateur",
   "version": "1.1.0",
   "cours": [
-    { "id": "variables", "titre": "Les variables", "icone": "📦", "description": "Affectation, types et premiers calculs : un cours guidé avec exercices et indices.", "fichier": "variables.md", "niveau": "Première NSI" }
-  ],
+    { "id": "variables", "titre": "Les variables", "icone": "📦", "description": "Affectation, types et premiers calculs : un cours guidé avec exercices et indices.", "fichier": "variables.md", "niveau": "Première NSI" },
+    { "id": "fonctions", "titre": "Les fonctions", "icone": "⚙️", "description": "Définir et appeler des fonctions, utiliser des paramètres, renvoyer des valeurs avec return et organiser son code.", "fichier": "fonctions.md", "niveau": "Première NSI"}  ],
   "themes": { "couleur_primaire": "#2563eb", "couleur_secondaire": "#475569", "couleur_accent": "#0ea5e9" },
   "bibliotheques_python": ["numpy", "matplotlib"]
 }

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="430" viewBox="0 0 1080 430" role="img" aria-labelledby="titre description">
+<title id="titre">Différence entre print et return</title>
+<desc id="description">Print affiche le carré mais ne renvoie pas de valeur exploitable ; return renvoie le carré dans une variable.</desc>
+<defs>
+ <linearGradient id="fond" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#F9FBFF"/><stop offset="1" stop-color="#EEF5FF"/></linearGradient>
+ <filter id="ombre" x="-15%" y="-15%" width="130%" height="140%"><feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#2B4464" flood-opacity=".10"/></filter>
+</defs>
+<rect x="1" y="1" width="1078" height="428" rx="20" fill="url(#fond)" stroke="#D9E7F8" stroke-width="2"/>
+<text x="38" y="52" fill="#1C3558" font-size="24" font-weight="700" font-family="Arial,sans-serif">Afficher n'est pas renvoyer</text>
+<text x="38" y="81" fill="#60758C" font-size="15" font-family="Arial,sans-serif">Les deux fonctions calculent un carré, mais leur résultat n'est pas utilisé de la même manière.</text>
+<g filter="url(#ombre)"><rect x="36" y="112" width="484" height="262" rx="16" fill="#FFFFFF" stroke="#D7E3F3"/><rect x="560" y="112" width="484" height="262" rx="16" fill="#FFFFFF" stroke="#D7E3F3"/></g>
+<rect x="58" y="133" width="88" height="28" rx="14" fill="#FDE9ED"/><text x="102" y="152" text-anchor="middle" fill="#A72B4C" font-family="Arial,sans-serif" font-size="14" font-weight="700">PRINT</text>
+<rect x="582" y="133" width="101" height="28" rx="14" fill="#E5F7EF"/><text x="632" y="152" text-anchor="middle" fill="#168452" font-family="Arial,sans-serif" font-size="14" font-weight="700">RETURN</text>
+<text x="60" y="204" fill="#31445D" font-family="monospace" font-size="20">def carre(x):</text>
+<text x="89" y="242" fill="#AE3159" font-family="monospace" font-size="20" font-weight="700">print(x * x)</text>
+<text x="60" y="291" fill="#31445D" font-family="monospace" font-size="18">valeur = carre(4)</text>
+<text x="60" y="337" fill="#A72B4C" font-family="Arial,sans-serif" font-size="16" font-weight="600">Affiche 16 · valeur contient None</text>
+<text x="584" y="204" fill="#31445D" font-family="monospace" font-size="20">def carre(x):</text>
+<text x="611" y="242" fill="#167B50" font-family="monospace" font-size="20" font-weight="700">return x * x</text>
+<text x="584" y="291" fill="#31445D" font-family="monospace" font-size="18">valeur = carre(4)</text>
+<text x="584" y="337" fill="#167B50" font-family="Arial,sans-serif" font-size="16" font-weight="600">N'affiche rien · valeur contient 16</text>
+<text x="540" y="407" text-anchor="middle" fill="#365989" font-size="16" font-family="Arial,sans-serif" font-weight="600">print → écran      •      return → programme</text>
+</svg>

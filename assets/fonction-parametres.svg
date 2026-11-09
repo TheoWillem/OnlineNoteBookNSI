@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="390" viewBox="0 0 1080 390" role="img" aria-labelledby="titre description">
+<title id="titre">Paramètres et arguments d'une fonction</title>
+<desc id="description">L'argument Alice fourni lors de l'appel est transmis au paramètre prenom de la fonction, qui affiche Bonjour Alice !</desc>
+<defs>
+ <linearGradient id="fond" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#F8FBFF"/><stop offset="1" stop-color="#EDF5FF"/></linearGradient>
+ <filter id="ombre" x="-15%" y="-15%" width="130%" height="140%"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#25416B" flood-opacity=".10"/></filter>
+ <marker id="fleche" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="#6686B3" stroke-width="1.8"/></marker>
+</defs>
+<rect x="1" y="1" width="1078" height="388" rx="20" fill="url(#fond)" stroke="#D9E7F8" stroke-width="2"/>
+<text x="36" y="50" fill="#1C3558" font-size="23" font-weight="700" font-family="Arial, sans-serif">Une fonction reçoit des données</text>
+<text x="36" y="77" fill="#59718C" font-size="15" font-family="Arial, sans-serif">De l'appel au résultat : bien distinguer argument et paramètre.</text>
+<g filter="url(#ombre)"><rect x="36" y="117" width="298" height="178" rx="17" fill="#FFFFFF" stroke="#CBDDF2"/><rect x="386" y="117" width="328" height="178" rx="17" fill="#FFFFFF" stroke="#CBDDF2"/><rect x="764" y="117" width="280" height="178" rx="17" fill="#FFFFFF" stroke="#CBDDF2"/></g>
+<rect x="54" y="135" width="91" height="27" rx="13.5" fill="#E8F0FD"/>
+<text x="99" y="154" text-anchor="middle" fill="#365989" font-family="Arial, sans-serif" font-size="13" font-weight="700">APPEL</text>
+<text x="55" y="208" fill="#202F44" font-family="monospace" font-size="20" font-weight="700">dire_bonjour(</text>
+<text x="213" y="208" fill="#12805C" font-family="monospace" font-size="20" font-weight="700">"Alice"</text>
+<text x="289" y="208" fill="#202F44" font-family="monospace" font-size="20" font-weight="700">)</text>
+<text x="55" y="252" fill="#12805C" font-size="15" font-family="Arial, sans-serif">"Alice" : argument</text>
+<rect x="406" y="135" width="110" height="27" rx="13.5" fill="#F0EAFE"/>
+<text x="461" y="154" text-anchor="middle" fill="#6B46A6" font-family="Arial, sans-serif" font-size="13" font-weight="700">DÉFINITION</text>
+<text x="407" y="205" fill="#202F44" font-family="monospace" font-size="19" font-weight="700">def dire_bonjour(</text>
+<text x="603" y="205" fill="#4059AD" font-family="monospace" font-size="19" font-weight="700">prenom</text>
+<text x="680" y="205" fill="#202F44" font-family="monospace" font-size="19" font-weight="700">):</text>
+<text x="407" y="247" fill="#4059AD" font-size="15" font-family="Arial, sans-serif">prenom : paramètre</text>
+<rect x="783" y="135" width="122" height="27" rx="13.5" fill="#E8F7F0"/>
+<text x="844" y="154" text-anchor="middle" fill="#17734D" font-family="Arial, sans-serif" font-size="13" font-weight="700">AFFICHAGE</text>
+<text x="785" y="209" fill="#202F44" font-family="monospace" font-size="21" font-weight="700">Bonjour Alice !</text>
+<text x="785" y="251" fill="#17734D" font-size="15" font-family="Arial, sans-serif">Le prénom change à chaque appel</text>
+<path d="M341 203 H375" fill="none" stroke="#6686B3" stroke-width="2.8" marker-end="url(#fleche)"/>
+<path d="M721 203 H750" fill="none" stroke="#6686B3" stroke-width="2.8" marker-end="url(#fleche)"/>
+<rect x="36" y="316" width="1008" height="47" rx="10" fill="#E1ECFB"/>
+<text x="540" y="346" text-anchor="middle" fill="#365989" font-size="17" font-family="Arial, sans-serif" font-weight="600">Le paramètre est un nom ; l'argument est la valeur transmise à l'appel.</text>
+</svg>
