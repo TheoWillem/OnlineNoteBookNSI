@@ -177,7 +177,7 @@ Dans `presentation("Alice", 16)`, l'argument `"Alice"` est associé à `prenom` 
 
 Crée une fonction `saluer(prenom)` qui affiche exactement `Salut Alice !` quand on lui transmet `"Alice"`, et adapte le message pour les autres prénoms.
 
-:::infos le mot-clé `pass`
+:::info Le mot-clé pass
 
 `pass` est un mot-clé permettant de *passer à la suite*. Cela permet de mettre une instruction indentée pour éviter une erreur liée à une fonction sans bloc de code associé.
 
@@ -270,6 +270,12 @@ Ici, `carre(5)` :g[renvoie la valeur `25`]. Nous pouvons donc la stocker dans un
 ### Quelle différence entre `print` et `return` ?
 
 ![Schéma comparant l'affichage avec print et la valeur renvoyée avec return](assets/fonction-print-return.svg)
+
+:::info La valeur None
+
+`None` est une valeur particulière qui représente l’absence de valeur. Lorsqu’une fonction termine son exécution sans rencontrer d’instruction `return`, elle renvoie `None` par défaut.
+
+:::
 
 | Instruction | Ce qu'elle fait | Peut-on réutiliser le résultat ? |
 |:---:|---|:---:|
