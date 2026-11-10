@@ -177,6 +177,13 @@ Dans `presentation("Alice", 16)`, l'argument `"Alice"` est associé à `prenom` 
 
 Crée une fonction `saluer(prenom)` qui affiche exactement `Salut Alice !` quand on lui transmet `"Alice"`, et adapte le message pour les autres prénoms.
 
+:::infos le mot-clé `pass`
+
+`pass` est un mot-clé permettant de *passer à la suite*. Cela permet de mettre une instruction indentée pour éviter une erreur liée à une fonction sans bloc de code associé.
+
+:::
+
+
 ```python:ex-fonction-saluer
 # Complète la fonction.
 def saluer(prenom):
