@@ -2,6 +2,8 @@
 
 Une plateforme de cours de NSI à partir de fichiers **Markdown** : les élèves lisent les notions, modifient leurs programmes avec **Monaco Editor** et les exécutent dans le navigateur avec **Pyodide**.
 
+Pour jeter un oeil c'est juste ici : https://theowillem.github.io/OnlineNoteBookNSI/ 
+
 ## ✨ Fonctionnalités
 
 - 📖 Cours Markdown avec sommaire automatique, encadrés colorés et sections déroulables.
