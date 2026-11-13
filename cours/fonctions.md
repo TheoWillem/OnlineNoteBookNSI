@@ -1,7 +1,11 @@
 <div class="lesson-hero">
+
   <span class="eyebrow">PREMIÈRE NSI · PROGRAMMATION PYTHON</span>
+
   <h1>⚙️ Les fonctions en Python</h1>
+
   <p>Donner un nom à une tâche, la réutiliser avec des données différentes et récupérer son résultat : apprenons à organiser nos programmes.</p>
+
 </div>
 
 :::note 🎯 Objectifs de la séance
@@ -12,7 +16,10 @@
 - utiliser des **paramètres** pour transmettre des données à une fonction ;
 - distinguer les **paramètres** des **arguments** ;
 - renvoyer un résultat avec `return` et le différencier de `print` ;
-- comprendre le rôle d'une **variable locale** ;
+- comprendre le rôle d'une **variable locale** et sa portée ;
+- utiliser des **paramètres par défaut** ;
+- distinguer une **fonction** d'une **procédure** ;
+- savoir que **`return` termine immédiatement** l'exécution d'une fonction ;
 - documenter une fonction et vérifier son fonctionnement avec `assert` ;
 - réutiliser une fonction à l'intérieur d'une autre.
 
@@ -33,11 +40,11 @@ Par exemple, imaginons que nous voulions afficher un message de bienvenue au dé
 ```python
 print("Bienvenue dans le jeu !")
 print("Bonne chance !")
+
 # Plus tard dans le programme...
 print("Bienvenue dans le jeu !")
 print("Bonne chance !")
 ```
-
 Une :b[**fonction**] est un :g[ensemble d'instructions regroupées sous un nom] pour réaliser une tâche précise. Une fois créée, nous pouvons l'utiliser autant de fois que nécessaire.
 
 ### Et en Python, ça donne quoi ?
@@ -48,10 +55,10 @@ Pour définir une fonction, nous utilisons le mot-clé :b[`def`], suivi de son n
 def dire_bonjour():
     print("Bienvenue dans le jeu !")
     print("Bonne chance !")
+
 # On appelle la fonction.
 dire_bonjour()
 ```
-
 Voici ce que nous venons d'écrire :
 
 | Élément | Rôle |
@@ -81,21 +88,21 @@ L'indentation permet de délimiter les blocs de code (par exemple, l'ensemble de
 ```python
 def dire_bonjour():
     print("Bonjour !")
+
 print("Avant l'appel")
 dire_bonjour()
 print("Après l'appel")
 ```
-
 Et rien ne nous empêche d'appeler la même fonction plusieurs fois :
 
 ```python
 def dire_bonjour():
     print("Bonjour !")
+
 dire_bonjour()
 dire_bonjour()
 dire_bonjour()
 ```
-
 ### 🧪 Exercice 1 — Ta première fonction
 
 Crée une fonction nommée `bonjour` qui **affiche** exactement `Bonjour !` lorsqu'on l'appelle. Appelle-la ensuite une première fois pour vérifier son fonctionnement.
@@ -104,7 +111,6 @@ Crée une fonction nommée `bonjour` qui **affiche** exactement `Bonjour !` lors
 # Définis la fonction bonjour.
 # Appelle-la une première fois.
 ```
-
 ```python-test:ex-fonction-bonjour
 import io
 from contextlib import redirect_stdout
@@ -112,10 +118,10 @@ assert callable(bonjour), "bonjour doit être une fonction."
 sortie = io.StringIO()
 with redirect_stdout(sortie):
     bonjour()
+
 assert sortie.getvalue().strip() == "Bonjour !", "La fonction doit afficher exactement Bonjour !"
 print("✅ La fonction bonjour fonctionne !")
 ```
-
 :::collapsible 💡 Indice 1 — Commencer la définition
 
 Une fonction commence par le mot-clé `def`, puis son nom et des parenthèses. N'oublie pas les deux-points.
@@ -137,10 +143,10 @@ Pour cela, nous allons lui donner un :b[**paramètre**]. Il s'agit d'un nom que 
 ```python
 def dire_bonjour(prenom):
     print("Bonjour", prenom, "!")
+
 dire_bonjour("Alice")
 dire_bonjour("Bob")
 ```
-
 Le nom `prenom` est le :b[paramètre] défini entre les parenthèses. Lorsque nous appelons `dire_bonjour("Alice")`, le texte `"Alice"` est l':g[**argument**] fourni à la fonction.
 
 ![Schéma : un argument est transmis à une fonction et utilisé par son paramètre](assets/fonction-parametres.svg)
@@ -148,6 +154,7 @@ Le nom `prenom` est le :b[paramètre] défini entre les parenthèses. Lorsque no
 :::reminder À retenir
 
 - Le :b[**paramètre**] est le **nom** utilisé lors de la définition de la fonction.
+
 - L':g[**argument**] est la **valeur** transmise lors de l'appel.
 
 Dans `dire_bonjour("Alice")`, l'argument `"Alice"` est associé au paramètre `prenom`.
@@ -161,15 +168,93 @@ Une fonction peut recevoir plusieurs paramètres, séparés par des virgules.
 ```python
 def presentation(prenom, age):
     print(prenom, "a", age, "ans.")
+
 presentation("Alice", 16)
 presentation("Bob", 17)
 ```
-
 :::warning Attention à l'ordre !
 
 Dans `presentation("Alice", 16)`, l'argument `"Alice"` est associé à `prenom` et `16` à `age`.
 
 :s[En utilisant les arguments dans un ordre différent, nous ne transmettons pas les mêmes données aux paramètres.] Ainsi, si nous ne renseignons pas les paramètres dans le bon ordre, le paramètre `age` pourrait contenir le prénom et inversement.
+
+:::
+
+### Les paramètres par défaut
+
+Jusqu'à présent, chaque paramètre devait recevoir un argument lors de l'appel. Mais parfois, nous voulons qu'une fonction utilise :b[une valeur habituelle] si aucune valeur n'est précisée.
+
+Il est possible de donner une :b[**valeur par défaut**] à un paramètre directement lors de la définition de la fonction, avec le symbole `=`.
+
+```python
+def presentation(prenom, age=16):
+    print(prenom, "a", age, "ans.")
+
+presentation("Alice")       # Alice a 16 ans.
+presentation("Bob", 17)     # Bob a 17 ans.
+presentation("Chloé", 15)  # Chloé a 15 ans.
+```
+
+Dans cet exemple, le paramètre `age` :g[vaut 16 par défaut]. L'appel `presentation("Alice")` fonctionne donc même sans second argument.
+
+Lorsque nous écrivons `presentation("Bob", 17)`, la valeur `17` :b[remplace la valeur par défaut] pour cet appel seulement. Le prochain appel sans âge utilisera de nouveau `16`.
+
+:::reminder À retenir
+
+:s[Un paramètre par défaut est facultatif lors de l'appel.] Un paramètre sans valeur par défaut reste obligatoire.
+
+```python
+def message(prenom, ponctuation="!"):
+    print("Bonjour", prenom + ponctuation)
+
+message("Alice")        # Bonjour Alice!
+message("Bob", " ?")    # Bonjour Bob ?
+```
+
+:::
+
+:::warning ⚠️ Attention à l'ordre des paramètres
+
+Les paramètres sans valeur par défaut doivent être placés :b[avant] ceux qui possèdent une valeur par défaut.
+
+`def presentation(prenom, age=16):` est correct, mais `def presentation(age=16, prenom):` provoque une erreur de syntaxe.
+
+:::
+
+### 🧪 Exercice complémentaire — Un message par défaut
+
+Crée une fonction `accueillir(prenom, formule="Bonjour")` qui affiche la formule de politesse suivie du prénom. Si aucune formule n'est précisée, elle doit afficher `Bonjour Alice` pour `accueillir("Alice")`. L'appel `accueillir("Bob", "Salut")` doit afficher `Salut Bob`.
+
+```python:ex-fonction-defaut
+# Complète la fonction et utilise une valeur par défaut.
+def accueillir(prenom, formule="Bonjour"):
+    pass
+
+accueillir("Alice")
+accueillir("Bob", "Salut")
+```
+
+```python-test:ex-fonction-defaut
+import io
+from contextlib import redirect_stdout
+for args, attendu in [(("Alice",), "Bonjour Alice"), (("Bob", "Salut"), "Salut Bob")]:
+    sortie = io.StringIO()
+    with redirect_stdout(sortie):
+        accueillir(*args)
+    assert sortie.getvalue().strip() == attendu, f"Affichage attendu : {attendu}"
+
+print("✅ La valeur par défaut et sa modification fonctionnent !")
+```
+
+:::collapsible 💡 Indice 1 — Utiliser les paramètres
+
+La fonction peut utiliser les deux paramètres `formule` et `prenom` dans un même `print`.
+
+:::
+
+:::collapsible 🔍 Indice 2 — Afficher le message
+
+Après `def accueillir(prenom, formule="Bonjour")`, utilise `print(formule, prenom)`.
 
 :::
 
@@ -179,19 +264,18 @@ Crée une fonction `saluer(prenom)` qui affiche exactement `Salut Alice !` quand
 
 :::info Le mot-clé pass
 
-`pass` est un mot-clé permettant de *passer à la suite*. Cela permet de mettre une instruction indentée pour éviter une erreur liée à une fonction sans bloc de code associé.
+`pass` est un mot-clé permettant de **passer à la suite**. Cela permet de mettre une instruction indentée pour éviter une erreur liée à une fonction sans bloc de code associé.
 
 :::
-
 
 ```python:ex-fonction-saluer
 # Complète la fonction.
 def saluer(prenom):
     pass
+
 # Essaie avec plusieurs prénoms.
 saluer("Alice")
 ```
-
 ```python-test:ex-fonction-saluer
 import io
 from contextlib import redirect_stdout
@@ -200,9 +284,9 @@ for prenom in ("Alice", "Bob", "Charlie"):
     with redirect_stdout(sortie):
         saluer(prenom)
     assert sortie.getvalue().strip() == f"Salut {prenom} !", f"Le message doit s'adapter au prénom {prenom}."
+
 print("✅ Les trois prénoms fonctionnent !")
 ```
-
 :::collapsible 💡 Indice 1 — Utiliser le paramètre
 
 Tu n'as pas besoin de connaître le prénom à l'avance. Utilise directement `prenom` dans l'instruction `print`.
@@ -225,10 +309,10 @@ Par exemple, `ligne("-", 5)` doit afficher `-----` et `ligne("*", 3)` doit affic
 # Complète la fonction.
 def ligne(symbole, longueur):
     pass
+
 ligne("-", 5)
 ligne("*", 3)
 ```
-
 ```python-test:ex-fonction-ligne
 import io
 from contextlib import redirect_stdout
@@ -237,9 +321,9 @@ for symbole, longueur in (("-", 5), ("*", 3), ("#", 8)):
     with redirect_stdout(sortie):
         ligne(symbole, longueur)
     assert sortie.getvalue().strip() == symbole * longueur, "La ligne affichée ne correspond pas aux arguments."
+
 print("✅ Ta fonction produit les bonnes lignes !")
 ```
-
 :::collapsible 💡 Indice 1 — Une opération déjà connue
 
 Nous avons vu dans le cours sur les variables qu'une chaîne de caractères peut être répétée grâce à l'opérateur `*`.
@@ -261,11 +345,74 @@ Nous allons utiliser le mot-clé :g[**`return`**].
 ```python
 def carre(nombre):
     return nombre * nombre
+
 resultat = carre(5)
 print("Le carré de 5 vaut", resultat)
 ```
-
 Ici, `carre(5)` :g[renvoie la valeur `25`]. Nous pouvons donc la stocker dans une variable, l'afficher ou l'utiliser dans un autre calcul.
+
+### `return` met fin à l'exécution de la fonction
+
+Le mot-clé `return` ne sert pas seulement à :g[renvoyer un résultat]. Il :b[**arrête immédiatement l'exécution de la fonction**]. Les instructions de cette fonction écrites après le `return` ne sont donc pas exécutées.
+
+```python
+def calculer_double(nombre):
+    print("Avant le return")
+    return nombre * 2
+    print("Après le return")  # Cette ligne ne sera jamais exécutée.
+
+resultat = calculer_double(5)
+print("Résultat :", resultat)
+```
+
+Python affiche `"Avant le return"`, puis `"Résultat : 10"`. En revanche, `"Après le return"` n'est jamais affiché.
+
+:::reminder À retenir
+
+:s[Dès que Python rencontre `return`, il quitte la fonction et reprend le programme à l'endroit où elle avait été appelée.]
+
+La suite du programme :g[continue normalement]. C'est bien la fonction qui s'arrête, pas le programme entier.
+
+On peut aussi écrire `return` sans valeur : la fonction s'arrête alors et renvoie `None`.
+
+:::
+
+### 🧪 Exercice complémentaire — Après `return`
+
+Modifie la fonction `tester_retour()` pour qu'elle affiche `"Début"` puis renvoie `42`. Le message `"Fin"` placé après ton `return` ne doit jamais s'afficher.
+
+```python:ex-fonction-fin-return
+def tester_retour():
+    print("Début")
+    # Ajoute ici une instruction return qui renvoie 42.
+    print("Fin")
+
+print(tester_retour())
+```
+
+```python-test:ex-fonction-fin-return
+import io
+from contextlib import redirect_stdout
+sortie = io.StringIO()
+with redirect_stdout(sortie):
+    resultat = tester_retour()
+
+assert resultat == 42, "La fonction doit renvoyer 42."
+assert sortie.getvalue().strip() == "Début", "La fonction doit seulement afficher Début."
+print("✅ Le return arrête l'exécution au bon endroit !")
+```
+
+:::collapsible 💡 Indice 1 — Position du `return`
+
+Le `return` doit être placé après le premier `print`, mais avant le second.
+
+:::
+
+:::collapsible 🔍 Indice 2 — La bonne instruction
+
+Ajoute `return 42` juste après `print("Début")`.
+
+:::
 
 ### Quelle différence entre `print` et `return` ?
 
@@ -285,17 +432,60 @@ Ici, `carre(5)` :g[renvoie la valeur `25`]. Nous pouvons donc la stocker dans un
 ```python
 def afficher_carre(nombre):
     print(nombre * nombre)
+
 def calculer_carre(nombre):
     return nombre * nombre
+
 valeur1 = afficher_carre(4)  # Affiche 16, mais renvoie None.
 valeur2 = calculer_carre(4)  # Renvoie 16 sans l'afficher.
 print("Valeur 1 :", valeur1)
 print("Valeur 2 :", valeur2)
 ```
-
 :::attention ⚠️ Une erreur fréquente
 
 :s[Afficher un résultat et renvoyer un résultat sont deux choses différentes.] Si la consigne demande de **renvoyer** une valeur, il faut utiliser `return`.
+
+:::
+
+### Fonction ou procédure : comment les nommer ?
+
+Dans ce cours, nous avons appelé « fonction » tout bloc défini avec `def`. On peut toutefois distinguer deux usages :
+
+- Une :b[**fonction**] sert principalement à :g[calculer et renvoyer une valeur] avec `return`.
+- Une :b[**procédure**] sert principalement à :g[réaliser une action], par exemple afficher un message, sans renvoyer de résultat utile.
+
+:::info 💡 En Python
+
+Il n'existe :s[pas de mot-clé spécial pour définir une procédure]. Les deux s'écrivent avec `def` et sont, techniquement, des fonctions Python. Une procédure sans `return` renvoie quand même `None`.
+
+Cette distinction est surtout :b[pédagogique] : elle décrit la manière dont nous utilisons le bloc de code.
+
+:::
+
+```python
+def afficher_message(prenom):
+    print("Bonjour", prenom)  # Procédure : réalise un affichage.
+
+def calculer_double(nombre):
+    return nombre * 2       # Fonction : renvoie un résultat.
+
+afficher_message("Alice")
+resultat = calculer_double(5)
+print(resultat)
+```
+
+Pour mieux comprendre un programme, il est utile de choisir un :b[nom explicite] qui annonce le rôle du code :
+
+| Usage | Exemples de noms | Rôle annoncé |
+|---|---|---|
+| Procédure | `afficher_menu()`, `dire_bonjour()` | Effectuer une action |
+| Fonction | `calculer_moyenne()`, `est_pair()` | Renvoyer un résultat |
+
+:::reminder À retenir
+
+:s[Un bon nom de fonction ou de procédure indique clairement ce que fait le bloc.] On utilise les mêmes règles de nommage que pour les variables, notamment le `snake_case`.
+
+Une fonction peut à la fois afficher et renvoyer une valeur : la distinction entre fonction et procédure n'est donc pas une règle imposée par Python.
 
 :::
 
@@ -307,9 +497,9 @@ Crée une fonction `moitie(nombre)` qui :g[renvoie] la moitié du nombre reçu e
 # Complète la fonction.
 def moitie(nombre):
     pass
+
 print(moitie(6))
 ```
-
 ```python-test:ex-fonction-carre
 assert moitie(6) == 3, "La moitié de 6 doit valoir 3."
 assert moitie(0) == 0, "La moitié de 0 doit valoir 0."
@@ -317,7 +507,6 @@ assert moitie(-4) == -2, "La moitié de -4 doit valoir -2."
 assert moitie(3.5) == 1.75, "La fonction doit aussi fonctionner avec un décimal."
 print("✅ Ta fonction renvoie les bonnes moitiés !")
 ```
-
 :::collapsible 💡 Indice 1 — Quelle opération ?
 
 Utilise une instruction de la forme `return nombre / 2` à l'intérieur de la fonction.
@@ -332,16 +521,15 @@ Crée une fonction `prix_total(prix_unitaire, quantite)` qui :g[renvoie] le mont
 # Complète la fonction.
 def prix_total(prix_unitaire, quantite):
     pass
+
 print("Total :", prix_total(2.50, 3), "€")
 ```
-
 ```python-test:ex-fonction-prix-total
 assert abs(prix_total(2.50, 3) - 7.50) < 1e-9, "Trois articles à 2,50 € coûtent 7,50 €."
 assert abs(prix_total(10, 2) - 20) < 1e-9, "Deux articles à 10 € coûtent 20 €."
 assert abs(prix_total(1.25, 4) - 5) < 1e-9, "Quatre articles à 1,25 € coûtent 5 €."
 print("✅ Le calcul fonctionne pour plusieurs paniers !")
 ```
-
 :::collapsible 💡 Indice 1 — Réinvestir le cours précédent
 
 Un prix total se calcule à partir d'un prix unitaire et d'une quantité. Nous avons déjà utilisé cette opération dans le cours sur les variables.
@@ -363,17 +551,16 @@ Corrige-la pour qu'elle :g[renvoie] le double du nombre, au lieu de simplement l
 ```python:ex-fonction-double
 def double(nombre):
     print(nombre * 2)
+
 resultat = double(4)
 print("Résultat récupéré :", resultat)
 ```
-
 ```python-test:ex-fonction-double
 assert double(4) == 8, "double(4) doit renvoyer 8."
 assert double(10) == 20, "double(10) doit renvoyer 20."
 assert double(-2) == -4, "double(-2) doit renvoyer -4."
 print("✅ La fonction renvoie maintenant une valeur !")
 ```
-
 :::collapsible 💡 Indice 1 — Observer le problème
 
 La fonction affiche le résultat, mais que contient `resultat` après l'appel ? Compare le comportement de `print` et celui de `return`.
@@ -397,14 +584,51 @@ def calculer_ttc(prix_ht):
     taux_tva = 0.20
     prix_ttc = prix_ht * (1 + taux_tva)
     return prix_ttc
+
 print(calculer_ttc(10))
 ```
-
 Dans cet exemple, `taux_tva` et `prix_ttc` sont des :b[variables locales]. La fonction les utilise pour réaliser son calcul, puis renvoie le résultat.
 
 :::warning Attention à la portée des variables
 
 :s[Une variable locale n'est pas directement accessible à l'extérieur de sa fonction.] Écrire `print(taux_tva)` après l'appel provoquerait ici une erreur, car `taux_tva` n'a été définie que dans la fonction.
+
+:::
+
+### Les paramètres sont aussi des variables locales
+
+Un paramètre, comme `prix_ht` dans `calculer_ttc(prix_ht)`, est :b[une variable locale à la fonction]. La valeur transmise lors de l'appel est associée à ce nom pendant l'exécution de la fonction.
+
+Une variable définie :b[en dehors d'une fonction] est dite **globale**. Une variable locale peut avoir le même nom qu'une variable globale sans la modifier directement.
+
+```python
+prix = 100
+
+def afficher_prix():
+    prix = 20
+    print("Dans la fonction :", prix)
+
+afficher_prix()                  # Dans la fonction : 20
+print("Hors de la fonction :", prix)  # Hors de la fonction : 100
+```
+
+Dans cet exemple, nous avons :b[deux variables différentes] qui portent le nom `prix` : l'une est locale à la fonction, l'autre est globale.
+
+:::warning ⚠️ Une variable locale n'est pas globale
+
+Une variable créée uniquement à l'intérieur d'une fonction n'est pas utilisable directement après son appel.
+
+```python
+def calculer_double(nombre):
+    resultat = nombre * 2
+    return resultat
+
+print(calculer_double(5))  # 10
+
+# print(resultat)          # NameError : resultat n'existe pas ici.
+```
+
+Pour utiliser le résultat à l'extérieur, il faut le :g[renvoyer avec `return`] et éventuellement le stocker dans une autre variable.
 
 :::
 
@@ -415,19 +639,19 @@ Crée une fonction `calculer_ttc(prix_ht)` qui utilise une variable locale `taux
 ```python:ex-fonction-tva
 # Complète la fonction.
 def calculer_ttc(prix_ht):
-# Définis taux_tva.
+    # Définis taux_tva.
+
 # Calcule et renvoie le prix TTC.
     pass
+
 print(calculer_ttc(10))
 ```
-
 ```python-test:ex-fonction-tva
 assert abs(calculer_ttc(10) - 12) < 1e-9, "10 € HT doivent donner 12 € TTC."
 assert abs(calculer_ttc(20) - 24) < 1e-9, "20 € HT doivent donner 24 € TTC."
 assert abs(calculer_ttc(0) - 0) < 1e-9, "0 € HT doivent donner 0 € TTC."
 print("✅ La TVA est correctement appliquée !")
 ```
-
 :::collapsible 💡 Indice 1 — Rappel sur la TVA
 
 Avec une TVA de 20 %, le prix TTC est égal au prix HT multiplié par `1.20`.
@@ -451,11 +675,9 @@ Une docstring peut préciser :b[le rôle de la fonction], les :b[paramètres] qu
 ```python
 def aire_rectangle(longueur, largeur):
     """Renvoie l'aire d'un rectangle à partir de ses dimensions.
-
     Paramètres :
         longueur (int ou float) : longueur du rectangle.
         largeur (int ou float) : largeur du rectangle.
-
     Renvoie :
         int ou float : aire du rectangle.
     """
@@ -463,8 +685,6 @@ def aire_rectangle(longueur, largeur):
 
 print(aire_rectangle(5, 3))
 ```
-
-
 ### Vérifier le résultat avec `assert`
 
 Nous pouvons aussi vérifier qu'une fonction renvoie la bonne valeur grâce à :b[`assert`].
@@ -478,7 +698,6 @@ assert carre(4) == 16
 assert carre(-2) == 4
 print("Tous les tests ont réussi !")
 ```
-
 Si l'expression placée après `assert` est fausse, Python déclenche une :r[erreur `AssertionError`].
 
 Il est également possible d'ajouter un :b[message d'erreur personnalisé] en plaçant une virgule `,` après la condition, suivie d'un texte entre guillemets.
@@ -493,16 +712,16 @@ def carre(nombre):
 assert carre(4) == 16, "Le carré de 4 devrait être 16."
 assert carre(-2) == 4, "Le carré de -2 devrait être 4."
 assert carre(3) == 6, "Le carré de 3 devrait être 9."
-
 print("Tous les tests ont réussi !")
 ```
-
 Dans cet exemple, la dernière assertion est :r[fausse]. Python déclenche donc une `AssertionError` et affiche le message associé.
 
 :::reminder À retenir
 
 - :s[Un bon test vérifie le résultat pour plusieurs arguments], pas uniquement pour un exemple qui fonctionne par hasard. On essaye en générale de vérifier des "cas limites" ; c'est-à-dire des cas, des valeurs, qui pourraient être problématiquse.
+
 - Le message placé après la virgule est affiché :b[uniquement si l'assertion échoue].
+
 - Si une assertion échoue, :r[l'exécution du programme s'interrompt], sauf si l'erreur est interceptée.
 
 :::
@@ -515,9 +734,9 @@ Crée une fonction `perimetre_rectangle(longueur, largeur)` qui :g[renvoie] le p
 # Complète la fonction et ajoute sa docstring.
 def perimetre_rectangle(longueur, largeur):
     pass
+
 print(perimetre_rectangle(5, 3))
 ```
-
 ```python-test:ex-fonction-perimetre
 assert perimetre_rectangle(5, 3) == 16, "Le périmètre d'un rectangle de 5 × 3 vaut 16."
 assert perimetre_rectangle(2, 2) == 8, "Le périmètre d'un carré de côté 2 vaut 8."
@@ -525,7 +744,6 @@ assert perimetre_rectangle(10, 1) == 22, "Le périmètre d'un rectangle de 10 ×
 assert isinstance(perimetre_rectangle.__doc__, str) and perimetre_rectangle.__doc__.strip(), "Ajoute une docstring à la fonction."
 print("✅ Calcul et documentation corrects !")
 ```
-
 :::collapsible 💡 Indice 1 — Une formule connue
 
 Le périmètre d'un rectangle est égal à deux fois la somme de sa longueur et de sa largeur.
@@ -545,11 +763,12 @@ Maintenant que nous savons définir, appeler et documenter des fonctions, nous p
 ```python
 def carre(nombre):
     return nombre * nombre
+
 def somme_des_carres(a, b):
     return carre(a) + carre(b)
+
 print(somme_des_carres(3, 4))
 ```
-
 Ici, `somme_des_carres` :b[appelle la fonction `carre`] deux fois. Cela évite de recopier le même calcul.
 
 :::info 💡 Pour aller plus loin
@@ -565,6 +784,7 @@ Une boutique vend un article à :b[**49,90 € HT**]. La commande comprend :b[un
 Tu dois créer **deux fonctions** :
 
 - `calculer_ht(prix_unitaire, quantite)` : renvoie le prix HT de la commande ;
+
 - `calculer_facture(prix_unitaire, quantite, taux_tva, livraison)` : :g[utilise `calculer_ht`] et renvoie le total TTC, arrondi à deux décimales.
 
 Pour une quantité de 1 article, le résultat attendu est :g[**64,38 €**].
@@ -574,12 +794,12 @@ prix_unitaire = 49.90
 quantite = 1
 taux_tva = 0.20
 livraison = 4.50
+
 # 1. Crée calculer_ht(prix_unitaire, quantite).
 # 2. Crée calculer_facture(prix_unitaire, quantite, taux_tva, livraison).
 # Cette seconde fonction doit appeler calculer_ht.
 # 3. Affiche le résultat de calculer_facture avec les données ci-dessus.
 ```
-
 ```python-test:defi-fonctions-facture
 assert abs(calculer_ht(49.90, 1) - 49.90) < 1e-9, "calculer_ht doit renvoyer le prix HT de la commande."
 assert abs(calculer_ht(8.50, 3) - 25.50) < 1e-9, "La quantité doit être prise en compte."
@@ -587,7 +807,6 @@ assert abs(calculer_facture(49.90, 1, 0.20, 4.50) - 64.38) < 1e-9, "Le total att
 assert abs(calculer_facture(10, 2, 0.10, 3) - 25) < 1e-9, "La fonction doit fonctionner pour d'autres arguments."
 print("✅ Défi réussi : les calculs de la facture sont corrects !")
 ```
-
 :::collapsible 💡 Indice 1 — Découper le problème
 
 Commence par une fonction qui calcule `prix_unitaire * quantite`. Ensuite, la seconde fonction applique la TVA et ajoute les frais de livraison.
@@ -605,10 +824,18 @@ Dans `calculer_facture`, commence par écrire `total_ht = calculer_ht(prix_unita
 :::success ✅ Bilan — Je sais faire
 
 - **Définir** et **appeler** une fonction.
+
 - Utiliser un ou plusieurs **paramètres** et transmettre des **arguments**.
+
 - Distinguer :b[`print`] de :g[`return`].
-- Manipuler des **variables locales**.
+
+- Manipuler des **variables locales** et distinguer leur portée.
+- Utiliser des **paramètres par défaut**.
+- Distinguer une **procédure** d'une **fonction** dans un cours de programmation.
+- Savoir que **`return` met fin à l'exécution d'une fonction**.
+
 - **Documenter** une fonction et vérifier son résultat avec `assert`.
+
 - **Réutiliser** une fonction à l'intérieur d'une autre.
 
 :::
