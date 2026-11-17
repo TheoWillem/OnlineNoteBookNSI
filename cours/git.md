@@ -165,7 +165,7 @@ La commande **crée** la branche et **bascule** dessus. Vérifie avec `git branc
 ### 🧪 Vérification 3
 
 1. Pourquoi est-il préférable de développer une fonctionnalité sur une branche plutôt que directement sur `main` ?
-2. Si tu dois ensuite ajouter un système de sauvegarde, conserverais-tu la branche de présentation ou en créerais-tu une autre ? Pourquoi ?
+2. Si tu dois ensuite ajouter un système de sauvegarde (pour un jeu vidéo par exemple), conserverais-tu la branche de présentation ou en créerais-tu une autre ? Pourquoi ?
 
 ```reponse:question-redigee-01
 Écris ta réponse ici…
