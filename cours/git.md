@@ -177,9 +177,7 @@ Nous allons effectuer **deux modifications**, sans encore les enregistrer avec u
 
 **A. Créer un fichier personnel.** Dans le dossier `TD-git`, crée un fichier `prenom-nom.txt` portant ton identifiant. Écris-y ton prénom, ton nom, puis une phrase que tu souhaites partager au monde.
 
-**B. Modifier le fichier commun.** Ouvre `message.txt` et remplace sa ligne `Message : Bienvenue dans le TD Git.` par :
-
-`Message : Bonjour, je suis Prenom Nom.`
+**B. Modifier le fichier commun.** Ouvre `message.txt` et ajoute à la fin du message : `Bonjour, je suis Prenom Nom.`
 
 Enregistre les fichiers, puis lance `git status`.
 
