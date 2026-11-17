@@ -212,27 +212,50 @@ async function loadCourseConfig() {
  * Charge la grille des cours avec des cartes
  */
 function loadCourseGrid() {
-    const fragment = document.createDocumentFragment();
-    
+    // Les groupes sont calculés à partir du champ "niveau" de config.json.
+    // L'ordre des niveaux et des cours suit celui du catalogue.
+    const groups = new Map();
     courses.forEach(course => {
-        const card = document.createElement('div');
-        card.className = 'course-card';
-        card.dataset.courseId = course.id;
-        
-        card.innerHTML = `
-            <span class="course-card-icon">${course.icon}</span>
-            <h3 class="course-card-title">${escapeHtml(course.title)}</h3>
-            <p class="course-card-description">${escapeHtml(course.description)}</p>
-        `;
-        
-        fragment.appendChild(card);
+        const level = (course.level || '').trim() || 'Autres cours';
+        if (!groups.has(level)) groups.set(level, []);
+        groups.get(level).push(course);
     });
-    
-    DOMCache.courseGrid.innerHTML = '';
-    DOMCache.courseGrid.appendChild(fragment);
-    
-    // Délégation d'événements
+    const fragment = document.createDocumentFragment();
+    groups.forEach((items, level) => {
+        const section = document.createElement('section');
+        section.className = 'course-level-group';
+        section.setAttribute('aria-label', `Cours : ${level}`);
+        const header = document.createElement('h2');
+        header.className = 'course-level-title';
+        header.textContent = level;
+        const grid = document.createElement('div');
+        grid.className = 'course-level-cards';
+        items.forEach(course => {
+            const card = document.createElement('div');
+            card.className = 'course-card';
+            card.dataset.courseId = course.id;
+            card.setAttribute('role', 'button');
+            card.setAttribute('tabindex', '0');
+            card.innerHTML = `
+                <span class="course-card-icon">${escapeHtml(course.icon)}</span>
+                <h3 class="course-card-title">${escapeHtml(course.title)}</h3>
+                <p class="course-card-description">${escapeHtml(course.description)}</p>
+            `;
+            grid.appendChild(card);
+        });
+        section.append(header, grid);
+        fragment.appendChild(section);
+    });
+    DOMCache.courseGrid.classList.add('course-grid-grouped');
+    DOMCache.courseGrid.replaceChildren(fragment);
+    // Délégation conservée, compatible avec les cartes groupées.
     DOMCache.courseGrid.addEventListener('click', handleCourseCardClick);
+    DOMCache.courseGrid.addEventListener('keydown', event => {
+        if ((event.key === 'Enter' || event.key === ' ') && event.target.classList.contains('course-card')) {
+            event.preventDefault();
+            event.target.click();
+        }
+    });
 }
 
 /**
@@ -338,6 +361,9 @@ function renderMarkdown(markdown) {
         // D'abord, extraire les collapsibles du markdown brut (les stocke dans AppState)
         markdown = processCollapsibleSections(markdown);
         
+        // Les blocs de réponse sont convertis AVANT le rendu Markdown.
+        // Les blocs présents dans les sections ::: sont traités dans finalizeCollapsibleSections.
+        markdown = processWrittenAnswers(markdown);
         // Ensuite, parser tout le markdown en HTML (sauf le contenu des collapsibles qui est stocké)
         let html = marked.parse(markdown);
         
@@ -363,6 +389,7 @@ function renderMarkdown(markdown) {
         });
 
         initializeCodeEditors();
+        initializeWrittenAnswers();
         initializeCollapsible();
         generateTableOfContents();
     } catch (error) {
@@ -417,6 +444,67 @@ function processCollapsibleSections(markdown) {
     return result.join('\n');
 }
 
+// === NSI: réponses rédigées et catalogue par niveaux ===
+// Un bloc Markdown :
+// ```reponse:question-01
+// Question facultative ou texte indicatif (affiché comme aide, non comme réponse)
+// ```
+// produit un champ multiligne sauvegardé automatiquement.
+function processWrittenAnswers(markdown) {
+    return markdown.replace(/^```reponse:([a-zA-Z0-9_-]+)[ \t]*\r?\n([\s\S]*?)^```[ \t]*$/gm,
+        (full, key, help) => {
+            const hint = (help || '').trim();
+            return `\n<div class="nsi-written-answer-box" data-answer-key="${key}">
+                <label class="nsi-answer-label" for="nsi-answer-${key}">✍️ Réponse rédigée</label>
+                <textarea class="nsi-written-answer" id="nsi-answer-${key}"
+                    data-answer-key="${key}" rows="5"
+                    placeholder="${escapeHtml(hint || 'Rédige ta réponse ici…').replace(/"/g, '&quot;')}"></textarea>
+                <div class="nsi-answer-footer">
+                    <span class="nsi-answer-status" aria-live="polite">Sauvegarde locale</span>
+                    <button type="button" class="nsi-answer-reset btn btn-secondary btn-small">↺ Effacer</button>
+                </div>
+            </div>\n`;
+        });
+}
+
+function writtenAnswerStorageKey(key) {
+    return `nsi-progress:v1:${AppState.currentCourse.id}:reponse:${key}`;
+}
+
+function initializeWrittenAnswers() {
+    const fields = DOMCache.courseContent.querySelectorAll('.nsi-written-answer');
+    const seen = new Set();
+    fields.forEach(field => {
+        const key = field.dataset.answerKey;
+        if (seen.has(key)) throw new Error(`Réponse rédigée dupliquée : ${key}`);
+        seen.add(key);
+        // Évite les collisions d'ID HTML dans les pages (un seul cours visible à la fois).
+        const container = field.closest('.nsi-written-answer-box');
+        const status = container.querySelector('.nsi-answer-status');
+        let saved = null;
+        try { saved = localStorage.getItem(writtenAnswerStorageKey(key)); }
+        catch (error) { status.textContent = '⚠ Stockage indisponible'; }
+        if (saved !== null) {
+            field.value = saved;
+            status.textContent = '✓ Réponse retrouvée';
+        }
+        field.addEventListener('input', () => {
+            try {
+                if (field.value) localStorage.setItem(writtenAnswerStorageKey(key), field.value);
+                else localStorage.removeItem(writtenAnswerStorageKey(key));
+                status.textContent = field.value ? '✓ Sauvegardé ici' : 'Réponse vide';
+            } catch (error) { status.textContent = '⚠ Sauvegarde impossible'; }
+        });
+        container.querySelector('.nsi-answer-reset').addEventListener('click', () => {
+            if (!field.value || confirm('Effacer cette réponse rédigée ?')) {
+                field.value = '';
+                field.dispatchEvent(new Event('input', { bubbles: true }));
+            }
+        });
+    });
+}
+// === FIN NSI: réponses rédigées et catalogue par niveaux ===
+
 /**
  * Traite les blocs de code Python
  * @param {string} html - Le HTML
@@ -470,7 +558,7 @@ function processPythonCode(html) {
 function finalizeCollapsibleSections(html) {
     const blocks = AppState.pendingCollapsibles || [];
     blocks.forEach(({ id, type, title, content }) => {
-        let body = marked.parse(content);
+        let body = marked.parse(processWrittenAnswers(content));
         body = processPythonCode(body);
         const rendered = (type === 'collapsible' || type === 'details') ? `
             <section class="collapsible-section" data-id="collapsible-${id}">
@@ -638,7 +726,12 @@ function setupProgressControls() {
         if (!AppState.currentCourse) return;
         const codes = {};
         AppState.editors.forEach((data) => { if (!data.readOnly) codes[data.key] = data.editor.getValue(); });
-        const body = JSON.stringify({ format: 'nsi-progress-v1', course: AppState.currentCourse.id, codes }, null, 2);
+        const answers = {};
+        DOMCache.courseContent.querySelectorAll('.nsi-written-answer').forEach(field => {
+            answers[field.dataset.answerKey] = field.value;
+        });
+        // Format inchangé pour conserver l'import des anciens fichiers JSON.
+        const body = JSON.stringify({ format: 'nsi-progress-v1', course: AppState.currentCourse.id, codes, answers }, null, 2);
         const url = URL.createObjectURL(new Blob([body], { type: 'application/json' }));
         const a = document.createElement('a');
         a.href = url;
@@ -665,7 +758,18 @@ function setupProgressControls() {
                     count++;
                 }
             });
-            alert(`${count} cellule(s) importée(s). Les réponses sont sauvegardées sur cet appareil.`);
+            let answerCount = 0;
+            if (progress.answers && typeof progress.answers === 'object' && !Array.isArray(progress.answers)) {
+                DOMCache.courseContent.querySelectorAll('.nsi-written-answer').forEach(field => {
+                    const value = progress.answers[field.dataset.answerKey];
+                    if (typeof value === 'string') {
+                        field.value = value;
+                        field.dispatchEvent(new Event('input', { bubbles: true }));
+                        answerCount++;
+                    }
+                });
+            }
+            alert(`${count} cellule(s) Python et ${answerCount} réponse(s) rédigée(s) importée(s). Sauvegarde locale effectuée.`);
         } catch (error) { alert(`Import impossible : ${error.message}`); }
         finally { input.value = ''; }
     });

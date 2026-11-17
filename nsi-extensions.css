@@ -1,0 +1,36 @@
+/* Regroupement des TD par niveau */
+.course-grid.nsi-grouped-catalog { display: block; padding: 0 var(--spacing-md); }
+.nsi-level-section { margin-bottom: 2rem; }
+.nsi-level-heading {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: .75rem;
+    margin: .5rem 0 1rem; padding: .35rem 0 .65rem;
+    color: #1d4ed8; font-size: 1.45rem; font-weight: 750;
+    border-bottom: 2px solid #bfdbfe;
+}
+.nsi-level-count { font-size: .8rem; color: #64748b; font-weight: 500; }
+.nsi-level-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--spacing-lg); }
+.nsi-level-grid .course-card { height: 100%; }
+.nsi-level-grid .course-card:focus-visible { outline: 3px solid #2563eb; outline-offset: 3px; }
+
+/* Réponses écrites de l'élève */
+.nsi-answer-box {
+    margin: 1rem 0 1.5rem; padding: 1rem;
+    background: #f8fbff; border: 1px solid #bfdbfe;
+    border-radius: 12px;
+}
+.nsi-answer-label { display: block; margin-bottom: .6rem; font-weight: 700; color: #1e40af; }
+.nsi-answer-input {
+    display: block; width: 100%; min-height: 130px;
+    padding: .8rem 1rem; border: 1px solid #94a3b8;
+    border-radius: 8px; resize: vertical; background: #fff;
+    color: #1e293b; font-family: inherit; font-size: 1rem;
+    line-height: 1.55; opacity: 1; cursor: text;
+}
+.nsi-answer-input:focus-visible { outline: 2px solid #3b82f6; border-color: #3b82f6; outline-offset: 1px; }
+.nsi-answer-toolbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .7rem; margin-top: .65rem; }
+.nsi-answer-status { font-size: .82rem; color: #64748b; }
+@media (max-width: 768px) {
+    .course-grid.nsi-grouped-catalog { padding: 0 .3rem; }
+    .nsi-level-grid { grid-template-columns: 1fr; }
+    .nsi-answer-box { padding: .75rem; }
+}

@@ -1127,3 +1127,28 @@ body {
 /* Respecter la couleur demandée même autour d'un `code` inline. */
 .course-content .md-color code,
 .course-content .table-scroll .md-color code { color: inherit; }
+
+
+/* NSI : cours regroupés et réponses rédigées */
+.course-grid.course-grid-grouped { display: block; padding: 0 var(--spacing-md); }
+.course-level-group { margin-bottom: 2.5rem; }
+.course-level-title { color: #1e3a8a; font-size: 1.4rem; font-weight: 750;
+    padding: .45rem .2rem .8rem; margin: .3rem 0 1rem; border-bottom: 2px solid #bfdbfe; }
+.course-level-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--spacing-lg); }
+.course-card[role="button"]:focus-visible { outline: 3px solid #2563eb; outline-offset: 3px; }
+.nsi-written-answer-box { margin: 1rem 0 1.5rem; padding: 1rem;
+    background: #f8fbff; border: 1px solid #bfdbfe; border-radius: 12px; }
+.nsi-answer-label { display: block; font-weight: 700; color: #1e40af; margin-bottom: .65rem; }
+.nsi-written-answer { display: block; width: 100%; min-height: 130px; resize: vertical;
+    border: 1px solid #94a3b8; border-radius: 8px; padding: .85rem 1rem;
+    background: white; color: #1e293b; font: inherit; line-height: 1.6; }
+.nsi-written-answer:focus-visible { outline: 2px solid #3b82f6; outline-offset: 1px; border-color: #3b82f6; }
+.nsi-answer-footer { display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: .75rem; margin-top: .65rem; }
+.nsi-answer-status { color: #64748b; font-size: .82rem; }
+@media (max-width: 768px) {
+    .course-grid.course-grid-grouped { padding: 0 .25rem; }
+    .course-level-cards { grid-template-columns: 1fr; }
+    .nsi-written-answer-box { padding: .7rem; }
+}

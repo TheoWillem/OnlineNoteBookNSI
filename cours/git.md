@@ -65,7 +65,9 @@ Pour te déplacer dans les dossiers : `pwd` affiche le dossier courant, `ls` aff
 
 **Question :** quelle version de Git est installée sur ton ordinateur ? Recopie le résultat de `git --version`.
 
-**Réponse :** …………………………………………………………………………………
+```reponse:question-redigee-01
+Écris ta réponse ici…
+```
 
 ## 2. Configurer son identité
 
@@ -165,7 +167,9 @@ La commande **crée** la branche et **bascule** dessus. Vérifie avec `git branc
 1. Pourquoi est-il préférable de développer une fonctionnalité sur une branche plutôt que directement sur `main` ?
 2. Si tu dois ensuite ajouter un système de sauvegarde, conserverais-tu la branche de présentation ou en créerais-tu une autre ? Pourquoi ?
 
-**Réponse :** …………………………………………………………………………………
+```reponse:question-redigee-01
+Écris ta réponse ici…
+```
 
 ## 6. Créer un fichier et modifier un fichier existant
 

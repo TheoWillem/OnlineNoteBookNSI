@@ -186,6 +186,40 @@ Stockez de préférence des images SVG légères dans `assets/`, puis insérez-l
 
 Le chemin est relatif à la page Web (`index.html`), et non au fichier Markdown `cours/...`.
 
+### Réponses rédigées
+
+Pour insérer une zone de réponse libre **sans exécution de code**, ajoutez un bloc Markdown avec
+un identifiant unique à l'intérieur du cours :
+
+````markdown
+### Question 1 — Expliquer la différence
+
+Explique la différence entre `git pull` et `git push`.
+
+```reponse:git-difference-pull-push
+Écris ici ton explication en quelques lignes…
+```
+````
+
+Le texte intérieur sert **d'indication dans le champ**. La réponse est vide à l'ouverture ;
+les élèves peuvent la rédiger et la modifier, sans cliquer sur « Enregistrer ».
+La réponse est sauvegardée dans le stockage local du navigateur, sous une clé associée
+au cours et à l'identifiant de question. Le bouton « ↺ Effacer » permet de la réinitialiser.
+
+- Un identifiant différent par question : `reponse:question-01`, `reponse:question-02`, etc.
+- Éviter de changer les identifiants après publication, pour conserver la sauvegarde.
+- Les réponses sont désormais incluses dans **Exporter** / **Importer**.
+- Les fichiers d'export précédents (contenant uniquement `codes`) restent compatibles.
+- Les zones peuvent être placées dans un encadré `:::collapsible` ou directement dans le cours.
+- Aucun compte ni serveur de sauvegarde : le stockage reste propre au navigateur et à l'appareil.
+
+### Regroupement des cours par niveau
+
+L'écran d'accueil regroupe automatiquement les cours par champ `niveau` du `config.json` :
+« Première NSI », « Terminale NSI », « Hors-Programme », etc. Le nom du groupe est repris
+sans modification depuis la configuration. Les cours sans niveau apparaissent dans
+« Autres cours ». L'ordre des groupes suit leur première apparition dans `config.json`.
+
 ## 💾 Sauvegarde, import et export
 
 - Toute modification d'un éditeur est sauvegardée dans le stockage local du navigateur avec la clé `nsi-progress:v1:<id-cours>:<id-cellule>`.

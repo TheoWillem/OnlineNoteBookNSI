@@ -63,6 +63,15 @@ resultat = 42
 Attention à ...
 :::
 
+
+### ✍️ Question rédigée — Comprendre et expliquer
+
+Explique la notion étudiée avec tes mots. Ta réponse se sauvegarde localement.
+
+```reponse:question-redigee-01
+Écris ta réponse ici…
+```
+
 ## 3. Bilan
 
 :::success ✅ Je sais maintenant
