@@ -399,14 +399,14 @@ Une fois ta présentation intégrée, tu ne réutilises pas sa branche pour code
 
 :::success ✅ Je sais faire
 
-- [ ] J'ai installé Git et renseigné mon identité.
-- [ ] J'ai cloné le dépôt du TD.
-- [ ] J'ai créé une branche dédiée à une fonctionnalité, avec un nom explicite.
-- [ ] J'ai ajouté un fichier et modifié un fichier existant.
-- [ ] J'ai sauvegardé temporairement mon travail avec `stash`.
-- [ ] J'ai récupéré les changements de `main` et restauré mon travail.
-- [ ] J'ai résolu un conflit en comprenant les deux versions.
-- [ ] J'ai effectué `add`, `commit` et `push`.
-- [ ] Je sais expliquer la fusion d'une branche et le rôle d'une *pull request*.
+- J'ai installé Git et renseigné mon identité.
+- J'ai cloné le dépôt du TD.
+- J'ai créé une branche dédiée à une fonctionnalité, avec un nom explicite.
+- J'ai ajouté un fichier et modifié un fichier existant.
+- J'ai sauvegardé temporairement mon travail avec `stash`.
+- J'ai récupéré les changements de `main` et restauré mon travail.
+- J'ai résolu un conflit en comprenant les deux versions.
+- J'ai effectué `add`, `commit` et `push`.
+- Je sais expliquer la fusion d'une branche et le rôle d'une *pull request*.
 
 :::
