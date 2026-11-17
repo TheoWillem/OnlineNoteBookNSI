@@ -73,8 +73,8 @@ Pour te déplacer dans les dossiers : `pwd` affiche le dossier courant, `ls` aff
 
 Git doit savoir quel nom et quelle adresse associer à tes commits. Les deux commandes suivantes ne sont normalement à exécuter qu'une fois sur ton ordinateur :
 
-- `git config --global user.name "Prenom Nom"`
 - `git config --global user.email "prenom.nom@exemple.fr"`
+- `git config --global user.name "Prenom Nom"`
 
 Remplace les exemples par tes informations. Si tu souhaites que GitHub reconnaisse tes commits, utilise une adresse associée à ton compte GitHub (tu peux choisir une adresse privée `noreply` fournie par GitHub).
 
